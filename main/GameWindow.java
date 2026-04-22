@@ -10,7 +10,7 @@ public class GameWindow extends JFrame {
     int tickDelay = 10;
     Timer tick;
     DrawingPanel panel;
-    Boxy boxy;
+    Player player;
 
     boolean wPressed, aPressed, sPressed, dPressed;
 
@@ -42,7 +42,7 @@ public class GameWindow extends JFrame {
         // tick.setInitialDelay(1000);
         tick.start();
 
-        boxy = new Boxy();
+        player = new player();
         this.addKeyListener(new KeyHandler());
     }
 
@@ -92,18 +92,19 @@ public class GameWindow extends JFrame {
         public void actionPerformed(ActionEvent e) {
             //update movements/logics
             if (wPressed) {
-                boxy.applyMovementInput(0, -1);
+                //if player is TOUCHING GROUND
+                player.jump();
             }
             if (aPressed) {
-                boxy.applyMovementInput(-1, 0);
+                player.applyVelocity(-1, 0);
             }
             if (sPressed) {
-                boxy.applyMovementInput(0, 1);
+                player.applyVelocity(0, 1);
             }
             if (dPressed) {
-                boxy.applyMovementInput(1, 0);
+                player.applyVelocity(1, 0);
             }
-            boxy.tick();
+            player.tick();
             
             //update graphics every tick
             this.repaint();	
@@ -119,7 +120,7 @@ public class GameWindow extends JFrame {
 
             //code
             g2.setColor(Color.RED);
-            g2.fillRect(boxy.x, boxy.y, boxy.width, boxy.height);
+            g2.fillRect(player.x, player.y, player.width, player.height);
 
         }
     }
