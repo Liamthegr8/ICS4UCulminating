@@ -22,7 +22,7 @@ public class GameWindow extends JFrame {
 		this.setTitle("Gaming Window");
         //More custom stuff
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); //IGNORED DUE TO JPANELPACK
-        this.setResizable(false);
+        this.setResizable(true);
         //this.setUndecorated(true);  //hides the title bar of JFrame
 
         panel = new DrawingPanel();

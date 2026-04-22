@@ -15,8 +15,15 @@ public class Boxy extends Rectangle {
     }
     void tick() {
         //apply friction
+        if(velX<1 && velX>-1){
+            velX=0;
+        }
+        if(velY<1 && velY>-1){
+            velY=0;
+        }
         velX *= (1-friction);
         velY *= (1-friction);
+
 
         this.x += velX;
         this.y += velY;
