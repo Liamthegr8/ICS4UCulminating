@@ -44,6 +44,8 @@ public class GameWindow extends JFrame {
 
         player = new Player(30,30);
         this.addKeyListener(new KeyHandler());
+
+
     }
 
     class KeyHandler extends KeyAdapter {

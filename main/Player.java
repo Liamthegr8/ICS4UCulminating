@@ -33,7 +33,7 @@ public class Player extends Rectangle {
         //update velocity
         velX *= (1-friction);
         velY *= (1-friction);
-        velY -= gravity;
+        velY += gravity;
 
         this.x += velX;
         this.y += velY;
@@ -44,7 +44,7 @@ public class Player extends Rectangle {
     }
 
     void jump() {
-        applyVelocity(0, -20);
+        applyVelocity(0, -5);
     }
     
     void wallJump() {
