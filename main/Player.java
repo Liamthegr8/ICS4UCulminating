@@ -1,3 +1,4 @@
+import java.awt.*;
 public class Player extends Rectangle {
     double velX, velY;
     double gravity;

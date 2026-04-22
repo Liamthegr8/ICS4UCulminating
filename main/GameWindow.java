@@ -42,7 +42,7 @@ public class GameWindow extends JFrame {
         // tick.setInitialDelay(1000);
         tick.start();
 
-        player = new player();
+        player = new Player(30,30);
         this.addKeyListener(new KeyHandler());
     }
 
