@@ -8,5 +8,5 @@ public abstract class Tile extends Rectangle{
         super(x,y,width,height);
     }
 
-    abstract void checkCollision();
+    abstract boolean checkCollision(Tile t, Player player);
 }

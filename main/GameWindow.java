@@ -11,6 +11,9 @@ public class GameWindow extends JFrame {
     Timer tick;
     DrawingPanel panel;
     Player player;
+    Map map;
+    Platform plat1 = new Platform(100, 400, 300, 40);
+    Platform plat2 = new Platform(150, 300, 200, 40);
 
     boolean wPressed, aPressed, sPressed, dPressed;
 
@@ -45,6 +48,14 @@ public class GameWindow extends JFrame {
         player = new Player(30,30);
         this.addKeyListener(new KeyHandler());
 
+        //Tanush Mock Collision Setup
+        // Map map = new Map();
+        // Room r1 = new Room("Room1"); 
+        // Tile t1 = new Platform(0,0,100,100);
+        // Tile t2 = new Platform(1,0,100,100);
+        // r1.addTileAt(t1);
+        // r1.addTileAt(t2);    
+        //map.add  
 
     }
 
@@ -94,21 +105,46 @@ public class GameWindow extends JFrame {
         public void actionPerformed(ActionEvent e) {
             //update movements/logics
             if (wPressed) {
-                //if player is TOUCHING GROUND
-                player.jump();
+                if (player.isGrounded) {
+                    player.jump();
+                }
             }
             if (aPressed) {
                 player.applyVelocity(-1, 0);
             }
-            if (sPressed) {
-                player.applyVelocity(0, 1);
-            }
+            // if (sPressed) {
+            //     player.applyVelocity(0, 1);
+            // }
             if (dPressed) {
                 player.applyVelocity(1, 0);
             }
-            player.tick();
+            
             
             //update graphics every tick
+            if (plat1.checkCollision(plat1, player) && player.y < plat1.y) {
+                player.isGrounded = true;
+                player.y = plat1.y - player.height;
+            }
+            else if (plat2.checkCollision(plat2, player) && player.y < plat2.y) {
+                player.isGrounded = true;
+                player.y = plat2.y - player.height;
+            }
+            else {
+                player.isGrounded = false;
+            }
+
+            
+            //Tanush Mock Collision Setup
+            // Map map = new Map();
+            // Room r1 = new Room("Room1"); 
+            // Tile t1 = new Platform(0,0,100,100);
+            // Tile t2 = new Platform(1,0,100,100);
+            // r1.addTileAt(t1);
+            // r1.addTileAt(t2);  
+
+           // for (int i=0; i<map.mapRooms.size(); )
+
+            player.tick();
             this.repaint();	
         }
 
@@ -123,6 +159,10 @@ public class GameWindow extends JFrame {
             //code
             g2.setColor(Color.RED);
             g2.fillRect(player.x, player.y, player.width, player.height);
+            
+            g2.setColor(Color.BLACK);
+            g2.fillRect(plat1.getRelX(), plat1.getRelY(), plat1.width, plat1.height);
+            g2.fillRect(plat2.getRelX(), plat2.getRelY(), plat2.width, plat2.height);
 
         }
     }

@@ -6,12 +6,15 @@ public class Player extends Rectangle {
     boolean canMove;
     boolean isDead;
     boolean canDash;
+    boolean isGrounded;
+    int maxVelX = 40;
+    int maxVelY = 40;
 
     Player(int width, int height) {
         super(0, 0, width, height);
         velX = 0;
         velY = 0;
-        gravity = 1.2;
+        gravity = 1;
         isDead = false;
         canMove = true;
     }
@@ -21,8 +24,9 @@ public class Player extends Rectangle {
         velX += x;
         velY += y;
     }
+
     void tick() {
-        //apply friction
+        //round super low velocities to 0
         if(velX<1 && velX>-1){
             velX=0;
         }
@@ -33,18 +37,38 @@ public class Player extends Rectangle {
         //update velocity
         velX *= (1-friction);
         velY *= (1-friction);
-        velY += gravity;
 
         this.x += velX;
         this.y += velY;
+
+        if (isGrounded == false) {
+            velY += gravity;
+        }
+        
+        if (isGrounded == true && velY > 0) {
+            velY = 0;
+        }
+        //max speed limits
+        if (velX >= maxVelX) {
+            velX = maxVelX;
+        }
+        if (velX <= -maxVelX) {
+            velX = -maxVelX;
+        }
+        if (velY >= maxVelY) {
+            velY = maxVelY;
+        }
+        if (velX <= -maxVelY) {
+            velX = -maxVelY;
+        }
     }
 
-    void checkCollision() {
+    // void checkCollision() {
         
-    }
+    // }
 
     void jump() {
-        applyVelocity(0, -5);
+        applyVelocity(0, -20);
     }
     
     void wallJump() {

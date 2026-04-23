@@ -1,32 +1,32 @@
 import java.util.ArrayList;
 
 public class Map {
-    ArrayList<ArrayList<Room>> map;
+    ArrayList<ArrayList<Room>> mapRooms;
     Map() {
-        map = new ArrayList<>();
+        mapRooms = new ArrayList<>();
 
-        //GENERATE FIXED TEST MAP
-        for (int i=0; i<3; i++) {
-            map.add(new ArrayList<Integer>());
-        }
+        // //GENERATE FIXED TEST MAP
+        // for (int i=0; i<3; i++) {
+        //     map.add(new ArrayList<Integer>());
+        // }
 
-        ArrayList<Tile> testRoomTiles = new ArrayList<Tile>();
-        testRoomTiles.add(new Tile())
+        // ArrayList<Tile> testRoomTiles = new ArrayList<Tile>();
+        // testRoomTiles.add(new Tile())
 
 
 
-        ArrayList<Room> tiles = new ArrayList<>(List.of(new Tile(), new Tile(), new Tile()));
-        map.get(0).add(new Room("room1", )); // Adds data to row 0, column 0
+        // ArrayList<Room> tiles = new ArrayList<>(List.of(new Tile(), new Tile(), new Tile()));
+        // map.get(0).add(new Room("room1", )); // Adds data to row 0, column 0
 
     }
 
-    addRoomAt(int x, int y) {
-        
+    void addRoomAt(Room room, int x, int y) {
+        // mapRooms.add(room);
     }
-    removeRoomAt(int x, int y) (
+    void removeRoomAt(int x, int y) {
 
-    )
-    updateMiniMap() {
+    }
+    void updateMiniMap() {
     }
 
     
