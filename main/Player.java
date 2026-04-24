@@ -1,67 +1,69 @@
 import java.awt.*;
 public class Player extends Rectangle {
-    double velX, velY;
+    double vx, vy;
     double gravity;
-    final double friction = 0.1;
+    final double friction = 0.07;
     boolean canMove;
     boolean isDead;
     boolean canDash;
     boolean isGrounded;
-    int maxVelX = 40;
-    int maxVelY = 40;
+    boolean isTouchingRightWall;
+    boolean isTouchingLeftWall;
+    int maxvx = 15;
+    int maxvy = 15;
 
     Player(int width, int height) {
         super(0, 0, width, height);
-        velX = 0;
-        velY = 0;
-        gravity = 1;
+        vx = 0;
+        vy = 0;
+        gravity = 1.0;
         isDead = false;
         canMove = true;
     }
 
     //apply velocity
     void applyVelocity(double x, double y) {
-        velX += x;
-        velY += y;
+        vx += x;
+        vy += y;
     }
 
     void tick() {
         //round super low velocities to 0
-        if(velX<1 && velX>-1){
-            velX=0;
+        if(vx<1 && vx>-1){
+            vx=0;
         }
-        if(velY<1 && velY>-1){
-            velY=0;
+        if(vy<1 && vy>-1){
+            vy=0;
         }
         
-        //update velocity
-        velX *= (1-friction);
-        velY *= (1-friction);
+        //update apply friction limits
+        vx *= (1-friction);
+        vy *= (1);
 
         //update position
-        this.x += velX;
-        this.y += velY;
+        this.x += vx;
+        this.y += vy;
 
         //apply gravity
         if (isGrounded == false) {
-            velY += gravity;
-        } else {velY = 0;}
-        // if (isGrounded == true && velY != 0) {
-        //     velY = 0;
+            vy += gravity;
+        } else {vy = 0;}
+        // if (isGrounded == true && vy > 0) {
+        //     vy = 0;
         // }
 
         //max speed limits
-        if (velX >= maxVelX) {
-            velX = maxVelX;
+        if (vx >= maxvx) {
+            vx = maxvx;
         }
-        if (velX <= -maxVelX) {
-            velX = -maxVelX;
+        if (vx <= -maxvx) {
+            vx = -maxvx;
         }
-        if (velY >= maxVelY) {
-            velY = maxVelY;
+        if (vy >= maxvy) {
+            vy = maxvy;
         }
-        if (velX <= -maxVelY) {
-            velX = -maxVelY;
+        if (vx <= -maxvy) {
+            vx = -maxvy;
         }
     }
 
@@ -71,8 +73,8 @@ public class Player extends Rectangle {
 
     void jump() {
         isGrounded = false;
-        velY = 0;
-        applyVelocity(0, -20);     
+        vy = 0;
+        applyVelocity(0, -14);     
     }
     
     void wallJump() {
