@@ -1,1 +1,6 @@
-no errors
+jumping while on corner wall is weird
+
+RESOLVED
+2nd jump is always lower
+moving left right ground collision problems
+bug where can exploit corner to super max jump 

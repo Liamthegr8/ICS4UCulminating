@@ -59,6 +59,7 @@ public class GameWindow extends JFrame {
 
         Room room3 = new Room("Room3");
         room3.addTileAt(new PlatformTile(),2,0);
+        room3.addTileAt(new PlatformTile(),2,1);
         room3.addTileAt(new PlatformTile(),2,2);
 
         map.addRoomAt(room1, 0, 1);

@@ -71,6 +71,7 @@ public class Player extends Rectangle {
 
     void jump() {
         isGrounded = false;
+        velY = 0;
         applyVelocity(0, -20);     
     }
     
