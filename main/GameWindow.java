@@ -200,66 +200,64 @@ public class GameWindow extends JFrame {
                                     //UD Checks
                                     //stop interference with LR walls touching
                                     //has to use player reference for vars as not updated yet (bool=false)
-                                    if (player.isTouchingRightWall) {
-                                        player.x -= 1;
-                                    }
-                                    if (player.isTouchingLeftWall) {
-                                        player.x += 1;
-                                    } 
+                                    // if (player.isTouchingRightWall) {
+                                    //     player.x -= 1;
+                                    // }
+                                    // if (player.isTouchingLeftWall) {
+                                    //     player.x += 1;
+                                    // } 
                                     if (player.intersects(tile)) {
                                         //for the lengths/2 I could have done + velocity instead, this seemed more intuitive FOR NOW, given CURRENT SIZES
 
                                         //check if player is on top of tile
-                                        if (player.y + player.height <= tile.y + Tile.tileSize/2) {
+                                        if (player.y + player.height < tile.y + Tile.tileSize/2) {
                                             isPlayerGrounded = true;
-                                            //set player 1 px deep in blocks
-                                            player.y = tile.y - player.height + 1;
+                                            player.y = tile.y - player.height;
                                         }
+
                                         //check if player is hitting above
-                                        if (tile.y + Tile.tileSize <= player.y + player.height/2) {
-                                            player.vy = 0;
+                                        if (tile.y + Tile.tileSize < player.y + player.height/2) {
                                             player.y = tile.y + Tile.tileSize;
-                                            
-                                        }
-                                        if (!(player.y + player.height <= tile.y + Tile.tileSize/2) && !(tile.y + Tile.tileSize <= player.y + player.height/2)) {
-                                            //Inside Tile
                                             player.vy = 0;
                                         }
+                                        //in middle
+                                        // if (!(player.y + player.height <= tile.y + Tile.tileSize/2) && !(tile.y + Tile.tileSize <= player.y + player.height/2)) {
+                                        //     player.vy = 0;
+                                        // }
                                     }
                                     //set to normal
-                                    if (player.isTouchingRightWall) {
-                                        player.x += 1;
-                                    }
-                                    if (player.isTouchingLeftWall) {
-                                        player.x -= 1;
-                                    }
+                                    // if (player.isTouchingRightWall) {
+                                    //     player.x += 1;
+                                    // }
+                                    // if (player.isTouchingLeftWall) {
+                                    //     player.x -= 1;
+                                    // }
                                     
 
                                     //LR Checks
                                     //stop interference with player 1px in gnd collision
-                                    if (isPlayerGrounded) {
-                                        player.y -=1;
-                                    }
+                                    // if (isPlayerGrounded) {
+                                    //     player.y -=1;
+                                    // }
                                     if (player.intersects(tile)) {
                                         //check right
                                         if (player.x + player.width <= tile.x + Tile.tileSize/2) {
-                                            isPlayerTouchingRightWall = true;
+                                            player.x = tile.x - player.width;
                                             player.vx = 0;
-                                            player.x = tile.x - player.width+1;
-                                            
                                         }
+
                                         //check left
                                         if (tile.x + Tile.tileSize <= player.x + player.width/2) {
-                                            isPlayerTouchingLeftWall = true;
+                                            player.x = tile.x + Tile.tileSize;
                                             player.vx = 0;
-                                            player.x = tile.x + Tile.tileSize-1;
-                                            
-                                        }   
+                                        } 
+                                        //in middle 
+
                                     }
-                                    if (isPlayerGrounded) {
-                                        //set player y position back to normal
-                                        player.y +=1;
-                                    }
+                                    // if (isPlayerGrounded) {
+                                    //     //set player y position back to normal
+                                    //     player.y +=1;
+                                    // }
 
 
                                 }

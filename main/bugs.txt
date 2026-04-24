@@ -1,8 +1,12 @@
 when touch LR walls and diret jump up, it does not fall down if it can clear the jump and just is right on edge of top tile
 left side wall contact is stick, not working as well like right
+collsions broke
+only should be changing positions for debug variables, it will affect 1px edge collisions
+
 
 RESOLVED
 jumping while on corner wall is weird
 2nd jump is always lower
 moving left right ground collision problems
 bug where can exploit corner to super max jump 
+
