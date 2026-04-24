@@ -62,8 +62,8 @@ public class Player extends Rectangle {
         if (vy >= maxvy) {
             vy = maxvy;
         }
-        if (vx <= -maxvy) {
-            vx = -maxvy;
+        if (vy <= -maxvy) {
+            vy = -maxvy;
         }
     }
 
