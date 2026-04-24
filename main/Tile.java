@@ -1,12 +1,12 @@
 import java.awt.Rectangle;
 
-public abstract class Tile extends Rectangle{
+public class Tile{
     boolean killPlayer;
+    static final int tileSize = 50;
 
-
-    Tile(int x, int y, int width, int height) {
-        super(x,y,width,height);
+    Tile() {
     }
 
-    abstract boolean checkCollision(Tile t, Player player);
+ 
 }
+

@@ -1,23 +1,25 @@
 import java.util.*;
 public class Room {
     String roomName;
-    ArrayList<Tile> roomTiles;
+    Tile[][] roomTiles;
+    static final int roomDimensions = 3;
+    int roomSize = roomDimensions*Tile.tileSize;
+
     public Room(String roomName){
         this.roomName = roomName;
-        this.roomTiles = roomTiles;
-
+        this.roomTiles = new Tile[roomDimensions][roomDimensions];
 
     }
 
-    void loadFullRoom(ArrayList<Tile> data) {
+    void loadFullRoom(Tile[][] data) {
         roomTiles = data;
     }
 
-    void addTileAt(Tile tile) {
-        roomTiles.add(tile);
+    void addTileAt(Tile tile, int x, int y) {
+        roomTiles[x][y] = tile;
     }
-    void removeTileAtIndex(int index) {
-        roomTiles.remove(index);
+    void removeTileAt(int x, int y) {
+        roomTiles[x][y] = null;
     }
 
 }

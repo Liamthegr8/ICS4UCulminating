@@ -38,16 +38,18 @@ public class Player extends Rectangle {
         velX *= (1-friction);
         velY *= (1-friction);
 
+        //update position
         this.x += velX;
         this.y += velY;
 
+        //apply gravity
         if (isGrounded == false) {
             velY += gravity;
-        }
-        
-        if (isGrounded == true && velY > 0) {
-            velY = 0;
-        }
+        } else {velY = 0;}
+        // if (isGrounded == true && velY != 0) {
+        //     velY = 0;
+        // }
+
         //max speed limits
         if (velX >= maxVelX) {
             velX = maxVelX;
@@ -68,7 +70,8 @@ public class Player extends Rectangle {
     // }
 
     void jump() {
-        applyVelocity(0, -20);
+        isGrounded = false;
+        applyVelocity(0, -20);     
     }
     
     void wallJump() {
