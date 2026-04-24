@@ -1,2 +1,1 @@
-go weeee can glitch corner to jump really high
-collision inteferences between the 4 sides
+no errors
