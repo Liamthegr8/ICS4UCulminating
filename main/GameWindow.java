@@ -5,7 +5,7 @@ import java.util.*;
 import javax.swing.Timer;
 
 public class GameWindow extends JFrame {
-    int windowX = 700;
+    int windowX = 900;
     int windowY = 500;
     int tickDelay = 10;
     Timer tick;
@@ -17,6 +17,8 @@ public class GameWindow extends JFrame {
     //debugging
     int windowMouseX = 0;
     int windowMouseY = 0;
+    JLabel playerXLabel;
+    JLabel playerYLabel;
     JLabel playervxLabel;
     JLabel playervyLabel;
     JLabel windowXLabel;
@@ -28,7 +30,7 @@ public class GameWindow extends JFrame {
 
 
     public static void main(String[] args) {
-         new GameWindow(); //temp non threaded
+         new GameWindow(); //temp non threaded for testing
 	}
 
     GameWindow() {
@@ -46,6 +48,8 @@ public class GameWindow extends JFrame {
         //debugging elements
         windowXLabel = new JLabel();
         windowYLabel = new JLabel();
+        playerXLabel = new JLabel();
+        playerYLabel = new JLabel();
         playervxLabel = new JLabel();
         playervyLabel = new JLabel();
         isPlayerGroundedLabel = new JLabel();
@@ -53,6 +57,8 @@ public class GameWindow extends JFrame {
         isPlayerWalledLLabel = new JLabel();
         // panel.add(windowXLabel);
         // panel.add(windowYLabel);
+        panel.add(playerXLabel);
+        panel.add(playerYLabel);
         panel.add(playervxLabel);
         panel.add(playervyLabel);
         panel.add(isPlayerWalledRLabel);
@@ -178,126 +184,15 @@ public class GameWindow extends JFrame {
                 player.updateVelocity(1, 0);
             }
 
-            //update player
-            //ai tells me that applying tick before collision causes to lose the player jitter
-
-            // //collision variables
-            // int prevPlayerX = player.x;
-            // int prevPlayerY = player.y;
-            // int prevRight = prevPlayerX + player.width;
-            // int prevLeft = prevPlayerX;
-            // int prevBottom = prevPlayerY + player.height;
-            // int prevTop = prevPlayerY;
-
+            //player handles all internally, that is what i call better code
             player.tick(map);
             
-            // //collisions
-            // //ASSUMES ALL TILES OF ANY TYPE ARE COLLIDABLE
-            // boolean isPlayerGrounded = false;
-            // boolean isPlayerTouchingRightWall = false;
-            // boolean isPlayerTouchingLeftWall = false;
-
-            // for (int i=0; i<map.mapRooms.length; i++) {
-            //     for (int j=0; j<map.mapRooms.length; j++) {
-            //         Room r = map.mapRooms[i][j];
-            //         if (r != null) {
-            //             for (int k=0; k<r.roomTiles.length; k++) {
-            //                 for (int l=0; l<r.roomTiles.length; l++) {
-            //                     Tile t = r.roomTiles[k][l];
-            //                     if (t != null) {
-                                    
-            //                         Rectangle tile = new Rectangle(i*r.roomSize + k*Tile.tileSize, j*r.roomSize + l*Tile.tileSize, Tile.tileSize, Tile.tileSize);
-
-            //                         if (player.intersects(tile)) {
-
-            //                             //check top of tile
-            //                             if (prevBottom <= tile.y) {
-            //                                 isPlayerGrounded = true;
-            //                                 player.vy = 0;
-            //                                 player.y = tile.y - player.height;
-            //                                 //used to set player 1 px deep in blocks
-                                            
-            //                             }
-            //                             //check if hittting ceiling
-            //                             else if (prevTop >= tile.y + Tile.tileSize) {
-            //                                 player.vy = 0;
-            //                                 player.y = tile.y + Tile.tileSize;
-                                            
-            //                             }
-            //                             //if inside?
-                                    
-            //                             //check right
-            //                             else if (prevRight <= tile.x) {
-            //                                 isPlayerTouchingRightWall = true;
-            //                                 player.vx = 0;
-            //                                 player.x = tile.x - player.width;
-                                            
-            //                             }
-            //                             //check left
-            //                             else if (prevLeft >= tile.x + Tile.tileSize) {
-            //                                 isPlayerTouchingLeftWall = true;
-            //                                 player.vx = 0;
-            //                                 player.x = tile.x + Tile.tileSize;
-                                            
-            //                             }   
-            //                         }
-
-            //                         //LR Checks
-            //                         //stop interference with player 1px in gnd collision
-            //                         // if (isPlayerGrounded) {
-            //                         //     player.y -=1;
-            //                         // }
-                                    
-            //                         // if (isPlayerGrounded) {
-            //                         //     //set player y position back to normal
-            //                         //     player.y +=1;
-            //                         // }
-
-                                    
-            //                         //UD Checks
-            //                         //stop interference with LR walls touching
-            //                         //has to use player reference for vars as not updated yet (bool=false)
-            //                         // if (player.isTouchingRightWall) {
-            //                         //     player.x -= 1;
-            //                         // }
-            //                         // if (player.isTouchingLeftWall) {
-            //                         //     player.x += 1;
-            //                         // } 
-                                    
-
-            //                         // if (!player.intersects(tile)) {
-            //                         //     player.y += 1;
-            //                         //     if (player.intersects(tile)) {
-            //                         //         isPlayerGrounded = true;
-            //                         //     }
-            //                         //     player.y -= 1;
-            //                         // }
-            //                         //set to normal
-            //                         // if (player.isTouchingRightWall) {
-            //                         //     player.x += 1;
-            //                         // }
-            //                         // if (player.isTouchingLeftWall) {
-            //                         //     player.x -= 1;
-            //                         // }
-                                    
-
-                                    
-
-
-            //                     }
-            //                 }
-            //             }
-            //         }
-            //     }
-            // }
-            // player.isGrounded = isPlayerGrounded;
-            // // player.isTouchingRightWall = isPlayerTouchingRightWall;
-            // // player.isTouchingLeftWall = isPlayerTouchingLeftWall;
-
 
             //debugging
             windowXLabel.setText("Window MouseX: " + String.valueOf(windowMouseX));
             windowYLabel.setText("Window MouseY: " + String.valueOf(windowMouseY));
+            playerXLabel.setText("Player x: " + String.valueOf(player.x));
+            playerYLabel.setText("Player y: " + String.valueOf(player.y));
             String roundedvx = String.format("%.1f", player.vx);
             String roundedvy = String.format("%.1f", player.vy);
             playervxLabel.setText("Player vx: " + roundedvx);
@@ -349,6 +244,17 @@ public class GameWindow extends JFrame {
                 }
             }
 
+            //Render surroundingTiles
+            ArrayList<TileRef> tiles = player.surroundingTiles;
+            for (int i=0; i<tiles.size(); i++) {
+                TileRef t = tiles.get(i);
+                if (t != null) {
+                    g2.setColor(Color.BLUE);
+                    g2.fillRect(t.x, t.y, Tile.tileSize, Tile.tileSize);
+                    g2.setColor(Color.RED);
+                    g2.drawRect(t.x, t.y, Tile.tileSize, Tile.tileSize);
+                }
+            }
         }
     }
 

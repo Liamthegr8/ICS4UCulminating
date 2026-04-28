@@ -2,6 +2,7 @@ public class PlatformTile extends Tile {
     
     PlatformTile() {
         killPlayer = false;
+        isCollidable = true;
     }
 
     // public boolean checkCollision(Tile p, Player player) {

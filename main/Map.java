@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Map {
     Room[][] mapRooms;
     static final int mapDimensions = 3;

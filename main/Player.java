@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.*;
 
 public class Player extends Rectangle {
-    ArrayList<Tile> surroundingTiles;
+    ArrayList<TileRef> surroundingTiles;
     double vx, vy;
     double gravity;
     final double friction = 0.1;
@@ -14,15 +14,19 @@ public class Player extends Rectangle {
     boolean isTouchingLeftWall;
     int maxvx = 15;
     int maxvy = 15;
+    int collisionRadiusCheck = 100;
 
     Player(int width, int height) {
         super(0, 0, width, height);
-        surroundingTiles = new ArrayList<Tile>();
+        surroundingTiles = new ArrayList<TileRef>();
         vx = 0;
         vy = 0;
         gravity = 1.07;
         isDead = false;
         canMove = true;
+        isGrounded = false;
+        isTouchingRightWall = false;
+        isTouchingLeftWall = false;
     }
 
     //apply velocity
@@ -33,17 +37,14 @@ public class Player extends Rectangle {
 
     void applyVelocity() {
         //apply gravity
-        if (vy != 0) {
-            isGrounded = false;
-        }
-        
-        vy += gravity;
-        // if (isGrounded == false) {
-        //     vy += gravity;
-        // } else {vy = 0;}
-        // if (isGrounded == true && vy > 0) {
-        //     vy = 0;
+        //the 3 lines below moved to outside in logic statement before trymove
+        // if (vy != 0) {
+        //     isGrounded = false;
         // }
+        
+        //regardless if grounded
+        vy += gravity;
+        
         
         //apply friction
         vx *= (1-friction);
@@ -84,10 +85,11 @@ public class Player extends Rectangle {
                             Tile t = r.roomTiles[k][l];
                             if (t != null) {
                                 
-                                //FIXED 100 proximity check
+                                //proximity check
                                 Rectangle tile = new Rectangle(i*r.roomSize + k*Tile.tileSize, j*r.roomSize + l*Tile.tileSize, Tile.tileSize, Tile.tileSize);
-                                if ((Math.abs(this.x-tile.x) < 100) && (Math.abs(this.y-tile.y) < 100)) {
-                                    surroundingTiles.add(t);
+                                //compare centers of objs
+                                if ((Math.abs((this.x+(this.width/2))-(tile.x+(Tile.tileSize/2))) < collisionRadiusCheck) && (Math.abs((this.y+(this.height/2))-(tile.y+(Tile.tileSize/2))) < collisionRadiusCheck)) {
+                                    surroundingTiles.add(new TileRef(t, i*r.roomSize + k*Tile.tileSize, j*r.roomSize + l*Tile.tileSize));
                                 }
                             }
                         }
@@ -96,102 +98,102 @@ public class Player extends Rectangle {
             }
         }
     }
+    
     //scratch griffpatch raycaster ref with edge setback
-    void tryMoveX(int xAmount, Map map) {
+    //is the passing class attribute suroundtiles to func redudant?
+    void tryMoveX(int xAmount, ArrayList<TileRef> surroundingTiles) {
+        
         this.x += xAmount;
 
-        for (int i=0; i<map.mapRooms.length; i++) {
-            for (int j=0; j<map.mapRooms.length; j++) {
-                Room r = map.mapRooms[i][j];
-                if (r != null) {
-                    for (int k=0; k<r.roomTiles.length; k++) {
-                        for (int l=0; l<r.roomTiles.length; l++) {
-                            Tile t = r.roomTiles[k][l];
-                            if (t != null) {
-                                
-                                Rectangle tile = new Rectangle(i*r.roomSize + k*Tile.tileSize, j*r.roomSize + l*Tile.tileSize, Tile.tileSize, Tile.tileSize);
-                                if (this.intersects(tile)) {     
-                                    if (xAmount > 0) {
-                                        //from right
-                                        this.x = tile.x - this.width;
-                                        isTouchingRightWall = true;
-                                        isTouchingLeftWall = false;
-                                    } else if (xAmount < 0) {
-                                        //from left
-                                        this.x = tile.x + tile.width;
-                                        isTouchingRightWall = false;
-                                        isTouchingLeftWall = true;
-                                    }
-                                    this.vx = 0;
-                                }
-                                    
+        for (int i=0; i<surroundingTiles.size(); i++) {
+            
+            TileRef t = surroundingTiles.get(i);
+            if (t != null) {
+                Rectangle tile = new Rectangle(t.x, t.y, Tile.tileSize, Tile.tileSize);
 
-                            }
-                        }
+                if (this.intersects(tile) && t.isCollidable) {     
+                    if (xAmount > 0) {
+                        //from right
+                        this.x = tile.x - this.width;
+                        // isTouchingRightWall = true;
+                        // isTouchingLeftWall = false;
+                    } else if (xAmount < 0) {
+                        //from left
+                        this.x = tile.x + tile.width;
+                        // isTouchingRightWall = false;
+                        // isTouchingLeftWall = true;
                     }
+                    this.vx = 0;
+
+                    // //check touching wall seperately, not dependent on trying to collide, just be next to it
+                    // Rectangle playerShiftedRight = new Rectangle(this.x+5, this.y, this.width, this.height);
+                    // Rectangle playerShiftedLeft = new Rectangle(this.x-5, this.y, this.width, this.height);
+                    // if (playerShiftedRight.intersects(tile)) {
+                    //     //from right
+                    //     isTouchingRightWall = true;
+                    // } else {
+                    //     isTouchingRightWall = false;
+                    // }
+                    // if (playerShiftedLeft.intersects(tile)) {
+                    //     //from left
+                    //     isTouchingLeftWall = true;
+                    // } else {
+                    //     isTouchingLeftWall = false;
+                    // }
                 }
             }
         }
     }
 
-    void tryMoveY(int yAmount, Map map) {
+    void tryMoveY(int yAmount, ArrayList<TileRef> surroundingTiles) {
         this.y += yAmount;
 
-        for (int i=0; i<map.mapRooms.length; i++) {
-            for (int j=0; j<map.mapRooms.length; j++) {
-                Room r = map.mapRooms[i][j];
-                if (r != null) {
-                    for (int k=0; k<r.roomTiles.length; k++) {
-                        for (int l=0; l<r.roomTiles.length; l++) {
-                            Tile t = r.roomTiles[k][l];
-                            if (t != null) {
-                                
-                                Rectangle tile = new Rectangle(i*r.roomSize + k*Tile.tileSize, j*r.roomSize + l*Tile.tileSize, Tile.tileSize, Tile.tileSize);
-                                if (this.intersects(tile)) {  
-                                    if (yAmount > 0) {
-                                        //from top
-                                        this.y = tile.y - this.height;
-                                        isGrounded = true;
-                                        // this.vy = 0;
-                                    } else if (yAmount < 0) {
-                                        //from bottom
-                                        this.y = tile.y + tile.height;
-                                        isGrounded = false;
-                                    }
-                                    this.vy = 0;
-                                }
-                               
-                            }
+        for (int i=0; i<surroundingTiles.size(); i++) {
+            
+            TileRef t = surroundingTiles.get(i);
+            if (t != null) {
+                Rectangle tile = new Rectangle(t.x, t.y, Tile.tileSize, Tile.tileSize);
+
+                if (this.intersects(tile) && t.isCollidable) {     
+                    if (this.intersects(tile)) {  
+                        if (yAmount > 0) {
+                            //from top
+                            this.y = tile.y - this.height;
+                            isGrounded = true;
+                            // this.vy = 0;
+                        } else if (yAmount < 0) {
+                            //from bottom
+                            this.y = tile.y + tile.height;
+                            isGrounded = false;
                         }
+                        this.vy = 0;
                     }
                 }
             }
         }
     }
 
+    
+
     void tick(Map map) {
-        isGrounded = false;
-        isTouchingLeftWall = false;
-        isTouchingRightWall = false;
+        //isGrounded = false;
 
         applyVelocity();
+        getSurroundingTiles(map);
         
-        //update position (considers collisions)
+        //assume grounded, touchingWalls are false until proven
+        //try to move (considers collisions)
         if (vx != 0) {
-            tryMoveX((int)vx, map);
-        }
+            isTouchingLeftWall = false;
+            isTouchingRightWall = false;
+            tryMoveX((int)vx, surroundingTiles);
+        } //else not moving, no new updates basically
         if (vy != 0) {
-            tryMoveY((int)vy, map);
-        }
+            isGrounded = false; //if removed, weeeeeeeeeeeee
+            tryMoveY((int)vy, surroundingTiles);
+        } //else not moving, no new updates basically
 
-        // tryMoveX((int)vx, map);
-        // tryMoveY((int)vy, map);
-        
     }
-
-    // void checkCollision() {
-        
-    // }
 
     void jump() {
         // isGrounded = false;
