@@ -8,6 +8,8 @@ public class GameWindow extends JFrame {
     int windowX = 900;
     int windowY = 500;
     int tickDelay = 10;
+    int camX;
+    int camY;
     Timer tick;
     DrawingPanel panel;
     Player player;
@@ -79,6 +81,8 @@ public class GameWindow extends JFrame {
         // tick.setInitialDelay(1000);
         tick.start();
 
+        camX = 0;
+        camY = 0;
         player = new Player(30,30);
 
         //Events
@@ -165,6 +169,7 @@ public class GameWindow extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             //player movements inputs
+            //can turn into inputActions fuction
             if (wPressed) {
                 if (player.isGrounded) {
                     player.jump();
@@ -186,6 +191,7 @@ public class GameWindow extends JFrame {
 
             //player handles all internally, that is what i call better code
             player.tick(map);
+            updateCamera();
             
 
             //debugging
@@ -203,6 +209,12 @@ public class GameWindow extends JFrame {
             
             //refresh graphics
             this.repaint();	
+        }
+
+        void updateCamera() {
+            //based on window vars
+            camX = -player.x + (windowX/2) - (player.width/2);
+            camY = -player.y + (windowY/2) - (player.height/2);
         }
 
         @Override
@@ -224,7 +236,7 @@ public class GameWindow extends JFrame {
                 g2.setColor(Color.RED);
             }
 
-            g2.fillRect(player.x, player.y, player.width, player.height);
+            g2.fillRect(player.x+camX, player.y+camY, player.width, player.height);
 
             //Tanush Code Render Tiles
             for (int i=0; i<map.mapRooms.length; i++) {
@@ -236,7 +248,7 @@ public class GameWindow extends JFrame {
                                 Tile t = r.roomTiles[k][l];
                                 if (t != null) {
                                     g2.setColor(Color.BLACK);
-                                    g2.drawRect(i*r.roomSize + k*Tile.tileSize, j*r.roomSize + l*Tile.tileSize, Tile.tileSize, Tile.tileSize);
+                                    g2.drawRect(i*r.roomSize + k*Tile.tileSize+camX, j*r.roomSize + l*Tile.tileSize+camY, Tile.tileSize, Tile.tileSize);
                                 }
                             }
                         }
@@ -250,9 +262,9 @@ public class GameWindow extends JFrame {
                 TileRef t = tiles.get(i);
                 if (t != null) {
                     g2.setColor(Color.BLUE);
-                    g2.fillRect(t.x, t.y, Tile.tileSize, Tile.tileSize);
+                    g2.fillRect(t.x+camX, t.y+camY, Tile.tileSize, Tile.tileSize);
                     g2.setColor(Color.RED);
-                    g2.drawRect(t.x, t.y, Tile.tileSize, Tile.tileSize);
+                    g2.drawRect(t.x+camX, t.y+camY, Tile.tileSize, Tile.tileSize);
                 }
             }
         }

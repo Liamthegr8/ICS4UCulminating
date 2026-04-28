@@ -14,7 +14,7 @@ public class Player extends Rectangle {
     boolean isTouchingLeftWall;
     int maxvx = 15;
     int maxvy = 15;
-    int collisionRadiusCheck = 100;
+    int collisionRadiusCheck = width*3;
 
     Player(int width, int height) {
         super(0, 0, width, height);
