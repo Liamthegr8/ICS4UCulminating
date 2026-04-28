@@ -14,7 +14,8 @@ public class GameWindow extends JFrame {
     DrawingPanel panel;
     Player player;
     Map map;
-    boolean wPressed, aPressed, sPressed, dPressed, iPressed, oPressed, pPressed, jPressed, kPressed, lPressed;
+    boolean wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed; //removed pPressed
+    boolean qPressed; //testing buttons
 
     //debugging
     int windowMouseX = 0;
@@ -91,11 +92,9 @@ public class GameWindow extends JFrame {
     private void resetGame() {
         camX = 0;
         camY = 0;
-        player = new Player(30,30);
+        player = new Player(30,30); //resets to constructors
 
         //Tanush Mock Collision Setup
-        //map has 3x3 rooms
-        //room has 10x10 tiles
         map = new Map();
         Room room1 = new Room("Room1");   
         room1.addTileAt(new PlatformTile(),0,5);
@@ -139,10 +138,28 @@ public class GameWindow extends JFrame {
             if (e.getKeyCode() == KeyEvent.VK_D) {
                 dPressed = true;
             }
+            if (e.getKeyCode() == KeyEvent.VK_U) {
+                uPressed = true;
+            }
             if (e.getKeyCode() == KeyEvent.VK_I) {
                 iPressed = true;
             }
-            
+            if (e.getKeyCode() == KeyEvent.VK_O) {
+                oPressed = true;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_J) {
+                jPressed = true;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_K) {
+                kPressed = true;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_L) {
+                lPressed = true;
+            }
+
+            if (e.getKeyCode() == KeyEvent.VK_Q) {
+                qPressed = true;
+            } 
         }
         public void keyReleased(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_W) {
@@ -157,8 +174,27 @@ public class GameWindow extends JFrame {
             if (e.getKeyCode() == KeyEvent.VK_D) {
                 dPressed = false;
             }
+            if (e.getKeyCode() == KeyEvent.VK_U) {
+                uPressed = false;
+            }
             if (e.getKeyCode() == KeyEvent.VK_I) {
                 iPressed = false;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_O) {
+                oPressed = false;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_J) {
+                jPressed = false;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_K) {
+                kPressed = false;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_L) {
+                lPressed = false;
+            }
+
+            if (e.getKeyCode() == KeyEvent.VK_Q) {
+                qPressed = false;
             }
         }
     }
@@ -188,12 +224,9 @@ public class GameWindow extends JFrame {
                 player.updateVelocity(-1, 0);
             }
             if (sPressed) {
+            }
+            if (qPressed) {
                 resetGame();
-                //reset player pos for testing
-                // player.x = 0;
-                // player.y = 0;
-                // player.vx = 0;
-                // player.vy = 0;
             }
             if (dPressed) {
                 player.updateVelocity(1, 0);

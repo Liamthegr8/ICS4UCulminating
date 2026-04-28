@@ -202,8 +202,8 @@ public class Player extends Rectangle {
         applyVelocity();
         getSurroundingTiles(map);
         
-        System.out.println(xx);
-        System.out.println(yy);
+        // System.out.println(xx);
+        // System.out.println(yy);
 
         //assume grounded, touchingWalls are false until proven
         //try to move (considers collisions)
