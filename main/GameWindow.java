@@ -28,6 +28,7 @@ public class GameWindow extends JFrame {
 
 
     public static void main(String[] args) {
+         new GameWindow(); //temp non threaded
 	}
 
     GameWindow() {
@@ -164,7 +165,7 @@ public class GameWindow extends JFrame {
                 }
             }
             if (aPressed) {
-                player.applyVelocity(-1, 0);
+                player.updateVelocity(-1, 0);
             }
             if (sPressed) {
                 //reset player pos for testing
@@ -174,103 +175,125 @@ public class GameWindow extends JFrame {
                 player.vy = 0;
             }
             if (dPressed) {
-                player.applyVelocity(1, 0);
+                player.updateVelocity(1, 0);
             }
 
             //update player
             //ai tells me that applying tick before collision causes to lose the player jitter
-            player.tick();
+
+            // //collision variables
+            // int prevPlayerX = player.x;
+            // int prevPlayerY = player.y;
+            // int prevRight = prevPlayerX + player.width;
+            // int prevLeft = prevPlayerX;
+            // int prevBottom = prevPlayerY + player.height;
+            // int prevTop = prevPlayerY;
+
+            player.tick(map);
             
-            //collisions
-            //ASSUMES ALL TILES OF ANY TYPE ARE COLLIDABLE
-            boolean isPlayerGrounded = false;
-            boolean isPlayerTouchingRightWall = false;
-            boolean isPlayerTouchingLeftWall = false;
+            // //collisions
+            // //ASSUMES ALL TILES OF ANY TYPE ARE COLLIDABLE
+            // boolean isPlayerGrounded = false;
+            // boolean isPlayerTouchingRightWall = false;
+            // boolean isPlayerTouchingLeftWall = false;
 
-            for (int i=0; i<map.mapRooms.length; i++) {
-                for (int j=0; j<map.mapRooms.length; j++) {
-                    Room r = map.mapRooms[i][j];
-                    if (r != null) {
-                        for (int k=0; k<r.roomTiles.length; k++) {
-                            for (int l=0; l<r.roomTiles.length; l++) {
-                                Tile t = r.roomTiles[k][l];
-                                if (t != null) {
-                                    Rectangle tile = new Rectangle(i*r.roomSize + k*Tile.tileSize, j*r.roomSize + l*Tile.tileSize, Tile.tileSize, Tile.tileSize);
+            // for (int i=0; i<map.mapRooms.length; i++) {
+            //     for (int j=0; j<map.mapRooms.length; j++) {
+            //         Room r = map.mapRooms[i][j];
+            //         if (r != null) {
+            //             for (int k=0; k<r.roomTiles.length; k++) {
+            //                 for (int l=0; l<r.roomTiles.length; l++) {
+            //                     Tile t = r.roomTiles[k][l];
+            //                     if (t != null) {
                                     
-                                    //UD Checks
-                                    //stop interference with LR walls touching
-                                    //has to use player reference for vars as not updated yet (bool=false)
-                                    if (player.isTouchingRightWall) {
-                                        player.x -= 1;
-                                    }
-                                    if (player.isTouchingLeftWall) {
-                                        player.x += 1;
-                                    } 
-                                    if (player.intersects(tile)) {
-                                        //for the lengths/2 I could have done + velocity instead, this seemed more intuitive FOR NOW, given CURRENT SIZES
+            //                         Rectangle tile = new Rectangle(i*r.roomSize + k*Tile.tileSize, j*r.roomSize + l*Tile.tileSize, Tile.tileSize, Tile.tileSize);
 
-                                        //check if player is on top of tile
-                                        if (player.y + player.height <= tile.y + Tile.tileSize/2) {
-                                            isPlayerGrounded = true;
-                                            //set player 1 px deep in blocks
-                                            player.y = tile.y - player.height + 1;
-                                        }
-                                        //check if player is hitting above
-                                        if (tile.y + Tile.tileSize <= player.y + player.height/2) {
-                                            player.vy = 0;
-                                            player.y = tile.y + Tile.tileSize;
+            //                         if (player.intersects(tile)) {
+
+            //                             //check top of tile
+            //                             if (prevBottom <= tile.y) {
+            //                                 isPlayerGrounded = true;
+            //                                 player.vy = 0;
+            //                                 player.y = tile.y - player.height;
+            //                                 //used to set player 1 px deep in blocks
                                             
-                                        }
-                                        if (!(player.y + player.height <= tile.y + Tile.tileSize/2) && !(tile.y + Tile.tileSize <= player.y + player.height/2)) {
-                                            //Inside Tile
-                                            player.vy = 0;
-                                        }
-                                    }
-                                    //set to normal
-                                    if (player.isTouchingRightWall) {
-                                        player.x += 1;
-                                    }
-                                    if (player.isTouchingLeftWall) {
-                                        player.x -= 1;
-                                    }
+            //                             }
+            //                             //check if hittting ceiling
+            //                             else if (prevTop >= tile.y + Tile.tileSize) {
+            //                                 player.vy = 0;
+            //                                 player.y = tile.y + Tile.tileSize;
+                                            
+            //                             }
+            //                             //if inside?
+                                    
+            //                             //check right
+            //                             else if (prevRight <= tile.x) {
+            //                                 isPlayerTouchingRightWall = true;
+            //                                 player.vx = 0;
+            //                                 player.x = tile.x - player.width;
+                                            
+            //                             }
+            //                             //check left
+            //                             else if (prevLeft >= tile.x + Tile.tileSize) {
+            //                                 isPlayerTouchingLeftWall = true;
+            //                                 player.vx = 0;
+            //                                 player.x = tile.x + Tile.tileSize;
+                                            
+            //                             }   
+            //                         }
+
+            //                         //LR Checks
+            //                         //stop interference with player 1px in gnd collision
+            //                         // if (isPlayerGrounded) {
+            //                         //     player.y -=1;
+            //                         // }
+                                    
+            //                         // if (isPlayerGrounded) {
+            //                         //     //set player y position back to normal
+            //                         //     player.y +=1;
+            //                         // }
+
+                                    
+            //                         //UD Checks
+            //                         //stop interference with LR walls touching
+            //                         //has to use player reference for vars as not updated yet (bool=false)
+            //                         // if (player.isTouchingRightWall) {
+            //                         //     player.x -= 1;
+            //                         // }
+            //                         // if (player.isTouchingLeftWall) {
+            //                         //     player.x += 1;
+            //                         // } 
                                     
 
-                                    //LR Checks
-                                    //stop interference with player 1px in gnd collision
-                                    if (isPlayerGrounded) {
-                                        player.y -=1;
-                                    }
-                                    if (player.intersects(tile)) {
-                                        //check right
-                                        if (player.x + player.width <= tile.x + Tile.tileSize/2) {
-                                            isPlayerTouchingRightWall = true;
-                                            player.vx = 0;
-                                            player.x = tile.x - player.width+1;
-                                            
-                                        }
-                                        //check left
-                                        if (tile.x + Tile.tileSize <= player.x + player.width/2) {
-                                            isPlayerTouchingLeftWall = true;
-                                            player.vx = 0;
-                                            player.x = tile.x + Tile.tileSize-1;
-                                            
-                                        }   
-                                    }
-                                    if (isPlayerGrounded) {
-                                        //set player y position back to normal
-                                        player.y +=1;
-                                    }
+            //                         // if (!player.intersects(tile)) {
+            //                         //     player.y += 1;
+            //                         //     if (player.intersects(tile)) {
+            //                         //         isPlayerGrounded = true;
+            //                         //     }
+            //                         //     player.y -= 1;
+            //                         // }
+            //                         //set to normal
+            //                         // if (player.isTouchingRightWall) {
+            //                         //     player.x += 1;
+            //                         // }
+            //                         // if (player.isTouchingLeftWall) {
+            //                         //     player.x -= 1;
+            //                         // }
+                                    
+
+                                    
 
 
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            player.isGrounded = isPlayerGrounded;
-            player.isTouchingRightWall = isPlayerTouchingRightWall;
-            player.isTouchingLeftWall = isPlayerTouchingLeftWall;
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
+            // player.isGrounded = isPlayerGrounded;
+            // // player.isTouchingRightWall = isPlayerTouchingRightWall;
+            // // player.isTouchingLeftWall = isPlayerTouchingLeftWall;
+
 
             //debugging
             windowXLabel.setText("Window MouseX: " + String.valueOf(windowMouseX));
