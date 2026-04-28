@@ -14,7 +14,7 @@ public class GameWindow extends JFrame {
     DrawingPanel panel;
     Player player;
     Map map;
-    boolean wPressed, aPressed, sPressed, dPressed;
+    boolean wPressed, aPressed, sPressed, dPressed, iPressed, oPressed, pPressed, jPressed, kPressed, lPressed;
 
     //debugging
     int windowMouseX = 0;
@@ -81,13 +81,17 @@ public class GameWindow extends JFrame {
         // tick.setInitialDelay(1000);
         tick.start();
 
-        camX = 0;
-        camY = 0;
-        player = new Player(30,30);
-
         //Events
         this.addKeyListener(new KeyHandler());
         this.addMouseMotionListener(new MouseMotionHandler());
+
+        resetGame();
+    }
+
+    private void resetGame() {
+        camX = 0;
+        camY = 0;
+        player = new Player(30,30);
 
         //Tanush Mock Collision Setup
         //map has 3x3 rooms
@@ -135,6 +139,10 @@ public class GameWindow extends JFrame {
             if (e.getKeyCode() == KeyEvent.VK_D) {
                 dPressed = true;
             }
+            if (e.getKeyCode() == KeyEvent.VK_I) {
+                iPressed = true;
+            }
+            
         }
         public void keyReleased(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_W) {
@@ -148,6 +156,9 @@ public class GameWindow extends JFrame {
             }
             if (e.getKeyCode() == KeyEvent.VK_D) {
                 dPressed = false;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_I) {
+                iPressed = false;
             }
         }
     }
@@ -171,26 +182,32 @@ public class GameWindow extends JFrame {
             //player movements inputs
             //can turn into inputActions fuction
             if (wPressed) {
-                if (player.isGrounded) {
-                    player.jump();
-                }
+                player.jump();
             }
             if (aPressed) {
                 player.updateVelocity(-1, 0);
             }
             if (sPressed) {
+                resetGame();
                 //reset player pos for testing
-                player.x = 0;
-                player.y = 0;
-                player.vx = 0;
-                player.vy = 0;
+                // player.x = 0;
+                // player.y = 0;
+                // player.vx = 0;
+                // player.vy = 0;
             }
             if (dPressed) {
                 player.updateVelocity(1, 0);
             }
+            if (iPressed) {
+                player.dash(wPressed, aPressed, sPressed, dPressed);
+            }
 
             //player handles all internally, that is what i call better code
             player.tick(map);
+            if (player.isDead) {
+                resetGame();
+            }
+            
             updateCamera();
             
 

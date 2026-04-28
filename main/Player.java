@@ -3,10 +3,12 @@ import java.util.*;
 
 public class Player extends Rectangle {
     ArrayList<TileRef> surroundingTiles;
+    double xx, yy;
     double vx, vy;
     double gravity;
     final double friction = 0.1;
-    boolean canMove;
+    boolean canControl;
+    int playerHealth;
     boolean isDead;
     boolean canDash;
     boolean isGrounded;
@@ -23,16 +25,30 @@ public class Player extends Rectangle {
         vy = 0;
         gravity = 1.07;
         isDead = false;
-        canMove = true;
+        playerHealth = 100;
+        canControl = true;
         isGrounded = false;
         isTouchingRightWall = false;
-        isTouchingLeftWall = false;
+        isTouchingLeftWall = false;    
+    }
+
+    void applyDamage(int dmg) {
+        playerHealth -= dmg;
     }
 
     //apply velocity
-    void updateVelocity(double x, double y) {
-        vx += x;
-        vy += y;
+    void updateVelocity(double vx, double vy) {
+            if (canControl) {
+                this.vx += vx; //IF canControl, then apply these
+                this.vy += vy;
+            }
+    }
+
+    void setVelocity(double vx, double vy) {
+            if (canControl) {
+                this.vx = vx; //IF canControl, then apply these
+                this.vy = vy;
+            }
     }
 
     void applyVelocity() {
@@ -73,6 +89,8 @@ public class Player extends Rectangle {
         }
     }
 
+    
+
     void getSurroundingTiles(Map map) {
         surroundingTiles.clear();
 
@@ -101,9 +119,10 @@ public class Player extends Rectangle {
     
     //scratch griffpatch raycaster ref with edge setback
     //is the passing class attribute suroundtiles to func redudant?
-    void tryMoveX(int xAmount, ArrayList<TileRef> surroundingTiles) {
-        
-        this.x += xAmount;
+    void tryMoveX(double xAmount, ArrayList<TileRef> surroundingTiles) {
+        this.xx = (double)x;
+        this.xx += xAmount;
+        this.x = (int)this.xx;
 
         for (int i=0; i<surroundingTiles.size(); i++) {
             
@@ -126,27 +145,29 @@ public class Player extends Rectangle {
                     this.vx = 0;
 
                     // //check touching wall seperately, not dependent on trying to collide, just be next to it
-                    // Rectangle playerShiftedRight = new Rectangle(this.x+5, this.y, this.width, this.height);
-                    // Rectangle playerShiftedLeft = new Rectangle(this.x-5, this.y, this.width, this.height);
-                    // if (playerShiftedRight.intersects(tile)) {
-                    //     //from right
-                    //     isTouchingRightWall = true;
-                    // } else {
-                    //     isTouchingRightWall = false;
-                    // }
-                    // if (playerShiftedLeft.intersects(tile)) {
-                    //     //from left
-                    //     isTouchingLeftWall = true;
-                    // } else {
-                    //     isTouchingLeftWall = false;
-                    // }
+                    Rectangle playerShiftedRight = new Rectangle(this.x+5, this.y, this.width, this.height);
+                    Rectangle playerShiftedLeft = new Rectangle(this.x-5, this.y, this.width, this.height);
+                    if (playerShiftedRight.intersects(tile)) {
+                        //from right
+                        isTouchingRightWall = true;
+                    } else {
+                        isTouchingRightWall = false;
+                    }
+                    if (playerShiftedLeft.intersects(tile)) {
+                        //from left
+                        isTouchingLeftWall = true;
+                    } else {
+                        isTouchingLeftWall = false;
+                    }
                 }
             }
         }
     }
 
-    void tryMoveY(int yAmount, ArrayList<TileRef> surroundingTiles) {
-        this.y += yAmount;
+    void tryMoveY(double yAmount, ArrayList<TileRef> surroundingTiles) {
+        this.yy = (double)y;
+        this.yy += yAmount;
+        this.y = (int)this.yy;
 
         for (int i=0; i<surroundingTiles.size(); i++) {
             
@@ -181,37 +202,67 @@ public class Player extends Rectangle {
         applyVelocity();
         getSurroundingTiles(map);
         
+        System.out.println(xx);
+        System.out.println(yy);
+
         //assume grounded, touchingWalls are false until proven
         //try to move (considers collisions)
         if (vx != 0) {
             isTouchingLeftWall = false;
             isTouchingRightWall = false;
-            tryMoveX((int)vx, surroundingTiles);
+            tryMoveX(vx, surroundingTiles);
         } //else not moving, no new updates basically
         if (vy != 0) {
             isGrounded = false; //if removed, weeeeeeeeeeeee
-            tryMoveY((int)vy, surroundingTiles);
+            tryMoveY(vy, surroundingTiles);
         } //else not moving, no new updates basically
 
+        if (playerHealth <= 0) {
+            isDead = true;
+        } // else dont force to dead, as we might manually set it dead true
     }
 
     void jump() {
         // isGrounded = false;
         // vy = 0;
-        updateVelocity(0, -50);     
+        if (isGrounded) {
+            updateVelocity(0, -50); 
+        }
+            
     }
     
-
-
-
-
-
-
     void wallJump() {
     }
-    void dash() {
+    void dash(boolean w, boolean a, boolean s, boolean d) {
+        if (isGrounded) {
+            
+        }
+        if (w && !a && !d) {
+            setVelocity(0,15);
+        }
+        if (a && !w && !s) {
+            setVelocity(-15,0);
+        }
+        if (s && !a && !d) {
+            setVelocity(0,-15);
+        }
+        if (d && !w && !s) {
+            setVelocity(15,0);
+        }
+        if (w && a) {
+            setVelocity(-15,15);
+        }
+        if (s && a) {
+            setVelocity(-15,-15);
+        }
+        if (w && d) {
+            setVelocity(15,15);
+        }
+        if (s && d) {
+            setVelocity(15,-15);
+        }
     }
-    void dashPastWall() {
+    void dashPastWall() { // just teleport x and y, and then apply some velocity in that dir
     }
     void parachute() {
     }
