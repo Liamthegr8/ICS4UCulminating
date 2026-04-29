@@ -3,6 +3,7 @@ import java.util.*;
 
 public class Player extends Rectangle {
     ArrayList<TileRef> surroundingTiles;
+    int[] playerLocation;
     double xx, yy;
     double vx, vy;
     double gravity;
@@ -36,7 +37,6 @@ public class Player extends Rectangle {
         playerHealth -= dmg;
     }
 
-    //apply velocity
     void updateVelocity(double vx, double vy) {
             if (canControl) {
                 this.vx += vx; //IF canControl, then apply these
@@ -90,8 +90,8 @@ public class Player extends Rectangle {
     }
 
     
-
-    void getSurroundingTiles(Map map) {
+    //for enhanced collisions
+ void getSurroundingTiles(Map map) {
         surroundingTiles.clear();
 
         for (int i=0; i<map.mapRooms.length; i++) {
@@ -181,6 +181,7 @@ public class Player extends Rectangle {
                             //from top
                             this.y = tile.y - this.height;
                             isGrounded = true;
+                            canDash = true;
                             // this.vy = 0;
                         } else if (yAmount < 0) {
                             //from bottom
@@ -194,14 +195,44 @@ public class Player extends Rectangle {
         }
     }
 
-    
+    int[] getPlayerLocation(Map map) {
+        int[] tempPlayerLocation = new int[4]; //[roomx, roomy, tilex, tiley - within room]
+        for (int i=0; i<map.mapRooms.length; i++) {
+            for (int j=0; j<map.mapRooms.length; j++) {
+                Room r = map.mapRooms[i][j];
+                if (r != null) {
+                    for (int k=0; k<r.roomTiles.length; k++) {
+                        for (int l=0; l<r.roomTiles.length; l++) {
+                            Tile t = r.roomTiles[k][l];
+                            if (t != null) {
+                                
+                                //proximity check
+                                Rectangle tile = new Rectangle(i*r.roomSize + k*Tile.tileSize, j*r.roomSize + l*Tile.tileSize, Tile.tileSize, Tile.tileSize);
+                                // is tile the dominant one that holds player in i
+                                //bug, if between 2 tiles, none is selected
+                                if ((Math.abs((tile.x + Tile.tileSize/2) - (x + width/2)) < Tile.tileSize) && (Math.abs((tile.y + Tile.tileSize/2) - (y + height/2)) < Tile.tileSize)) {
+                                    tempPlayerLocation[0] = i;
+                                    tempPlayerLocation[1] = j;
+                                    tempPlayerLocation[2] = k;
+                                    tempPlayerLocation[3] = l;
+                                    return tempPlayerLocation;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+        
+    }
 
     void tick(Map map) {
         //isGrounded = false;
 
         applyVelocity();
         getSurroundingTiles(map);
-        
+        playerLocation = getPlayerLocation(map);
         // System.out.println(xx);
         // System.out.println(yy);
 
@@ -234,33 +265,34 @@ public class Player extends Rectangle {
     void wallJump() {
     }
     void dash(boolean w, boolean a, boolean s, boolean d) {
-        if (isGrounded) {
-            
-        }
-        if (w && !a && !d) {
-            setVelocity(0,15);
+        if (canDash) {
+            if (w && !a && !d) {
+            setVelocity(0,-15);
         }
         if (a && !w && !s) {
             setVelocity(-15,0);
         }
         if (s && !a && !d) {
-            setVelocity(0,-15);
+            setVelocity(0,15);
         }
         if (d && !w && !s) {
             setVelocity(15,0);
         }
         if (w && a) {
-            setVelocity(-15,15);
-        }
-        if (s && a) {
             setVelocity(-15,-15);
         }
-        if (w && d) {
-            setVelocity(15,15);
+        if (s && a) {
+            setVelocity(-15,15);
         }
-        if (s && d) {
+        if (w && d) {
             setVelocity(15,-15);
         }
+        if (s && d) {
+            setVelocity(15,15);
+        }
+        canDash = false;
+        }
+        
     }
     void dashPastWall() { // just teleport x and y, and then apply some velocity in that dir
     }

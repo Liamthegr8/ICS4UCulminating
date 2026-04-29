@@ -4,6 +4,8 @@ public class Tile {
     static final int tileSize = 50;
 
     Tile() {
+        killPlayer = false;
+        isCollidable = false;
     }
 
  

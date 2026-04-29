@@ -1,7 +1,7 @@
 public class Room {
     String roomName;
     Tile[][] roomTiles;
-    static final int roomDimensions = 10;
+    static final int roomDimensions = 50; //10
     int roomSize = roomDimensions*Tile.tileSize;
 
     public Room(String roomName){

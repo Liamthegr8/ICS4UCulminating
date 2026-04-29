@@ -1,6 +1,6 @@
 public class Map {
     Room[][] mapRooms;
-    static final int mapDimensions = 3;
+    static final int mapDimensions = 20;
     int mapSize = mapDimensions*Room.roomDimensions*Tile.tileSize;
     
     Map() {

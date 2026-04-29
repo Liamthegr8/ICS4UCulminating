@@ -24,6 +24,7 @@ public class GameWindow extends JFrame {
     JLabel playerYLabel;
     JLabel playervxLabel;
     JLabel playervyLabel;
+    JLabel playerLocLabel;
     JLabel windowXLabel;
     JLabel windowYLabel;
     JLabel isPlayerGroundedLabel;
@@ -58,6 +59,7 @@ public class GameWindow extends JFrame {
         isPlayerGroundedLabel = new JLabel();
         isPlayerWalledRLabel = new JLabel();
         isPlayerWalledLLabel = new JLabel();
+        playerLocLabel = new JLabel();
         // panel.add(windowXLabel);
         // panel.add(windowYLabel);
         panel.add(playerXLabel);
@@ -67,6 +69,7 @@ public class GameWindow extends JFrame {
         panel.add(isPlayerWalledRLabel);
         panel.add(isPlayerWalledLLabel);
         panel.add(isPlayerGroundedLabel);
+        panel.add(playerLocLabel);
 
         this.pack(); //important to understand size of window is size of panel
 
@@ -116,7 +119,6 @@ public class GameWindow extends JFrame {
         room1.addTileAt(new PlatformTile(),9,4);
         room1.addTileAt(new PlatformTile(),9,3);
         room1.addTileAt(new PlatformTile(),9,2);
-
 
         map.addRoomAt(room1, 0, 0);
     }
@@ -231,7 +233,7 @@ public class GameWindow extends JFrame {
             if (dPressed) {
                 player.updateVelocity(1, 0);
             }
-            if (iPressed) {
+            if (uPressed) {
                 player.dash(wPressed, aPressed, sPressed, dPressed);
             }
 
@@ -256,7 +258,9 @@ public class GameWindow extends JFrame {
             isPlayerGroundedLabel.setText("Player Grounded: " + String.valueOf(player.isGrounded));
             isPlayerWalledRLabel.setText("Player R Walled: " + String.valueOf(player.isTouchingRightWall));
             isPlayerWalledLLabel.setText("Player L Walled: " + String.valueOf(player.isTouchingLeftWall));
-            
+            if (player.playerLocation != null) {
+            playerLocLabel.setText("Location:" + "[" + player.playerLocation[0] + " , " + player.playerLocation[1] + "]" + "[" + player.playerLocation[2] + " , " + player.playerLocation[3] + "]");
+            }
             //refresh graphics
             this.repaint();	
         }
