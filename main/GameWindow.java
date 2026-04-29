@@ -3,6 +3,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.Timer;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.File;
 
 public class GameWindow extends JFrame {
     int windowX = 900;
@@ -95,7 +98,7 @@ public class GameWindow extends JFrame {
     private void resetGame() {
         camX = 0;
         camY = 0;
-        player = new Player(30,30); //resets to constructors
+        player = new Player(0,-30,30,30); //resets to constructors
 
         //Tanush Mock Collision Setup
         map = new Map();
@@ -124,18 +127,18 @@ public class GameWindow extends JFrame {
         room1.addTileAt(new PlatformTile(0,0, 50, 50));
         room1.addTileAt(new PlatformTile(50,0, 50, 50));
         room1.addTileAt(new PlatformTile(100,0, 50, 50));
-        room1.addTileAt(new PlatformTile(0,50, 50, 50));
-        room1.addTileAt(new PlatformTile(50,50, 50, 50));
-        room1.addTileAt(new PlatformTile(100,50, 50, 50));
-        room1.addTileAt(new PlatformTile(0,100, 50, 50));
-        room1.addTileAt(new PlatformTile(50,100, 50, 50));
-        room1.addTileAt(new PlatformTile(100,100, 50, 50));
         
         room1.addTileAt(new PlatformTile(160,0, 200, 30));
+        room1.addTileAt(new PlatformTile(50, -100, 30, 100));
+        room1.addTileAt(new SpikeTile(250, -25, 15, 15));
+        
+        for (int i=0; i<10; i++) {
+            room1.addTileAt(new SpikeTile(250+ (i*30), -25, 15, 15));
+        }
 
+        room1.addTileAt(new MovingPlatformTile(250, -70, 250, -150, 100, 50, 2));
 
         map.addRoomAt(room1, 0, 0);
-        map.addRoomAt(room1, 1, 0);
     }
 
     class KeyHandler extends KeyAdapter {
@@ -252,13 +255,31 @@ public class GameWindow extends JFrame {
                 player.dash(wPressed, aPressed, sPressed, dPressed);
             }
 
-            //player handles all internally, that is what i call better code
+            
+            //tiles tick
+            for (int i=0; i<map.mapRooms.length; i++) {
+                for (int j=0; j<map.mapRooms.length; j++) {
+                    Room r = map.mapRooms[i][j];
+                    if (r != null) {
+                        for (Tile tile: r.roomTiles) {
+                                Tile t = tile;
+                                if (t != null) {
+                                    t.tick(player);
+                                }
+                        }
+                    }
+                }
+            }
+
+            updateCamera();
+
+            //player tick
             player.tick(map);
+            //check death
             if (player.isDead) {
                 resetGame();
             }
             
-            updateCamera();
             
 
             //debugging
@@ -319,7 +340,16 @@ public class GameWindow extends JFrame {
                                 Tile t = tile;
                                 if (t != null) {
                                     g2.setColor(Color.BLACK);
-                                    g2.drawRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
+                                    if (t.killPlayer) {
+                                        g2.setColor(Color.MAGENTA);
+                                   
+                                    }
+                                    if (t.getScaledImage() == null) {
+                                        g2.drawRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
+                                    }
+                                    else {
+                                    g2.drawImage(t.scaledImage, t.x + t.imageXOffset + camX, t.y + t.imageYOffset + camY, null);
+                                    }
                                 }
                         }
                     }
@@ -332,8 +362,9 @@ public class GameWindow extends JFrame {
                 Tile t = tile;
                 if (t != null) {
                     g2.setColor(Color.BLUE);
-                    g2.fillRect(t.x+camX, t.y+camY, t.width, t.height);
+                    //g2.fillRect(t.x+camX, t.y+camY, t.width, t.height);
                     g2.setColor(Color.RED);
+                    g2.setStroke(new BasicStroke(3));
                     g2.drawRect(t.x+camX, t.y+camY, t.width, t.height);
                 }
             }

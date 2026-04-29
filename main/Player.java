@@ -19,8 +19,8 @@ public class Player extends Rectangle {
     int maxvy = 15;
     int collisionRadiusCheck = width*3;
 
-    Player(int width, int height) {
-        super(0, 0, width, height);
+    Player(int x, int y, int width, int height) {
+        super(x, y, width, height);
         surroundingTiles = new ArrayList<Tile>();
         vx = 0;
         vy = 0;
@@ -34,8 +34,17 @@ public class Player extends Rectangle {
         isTouchingLeftWall = false;    
     }
 
-    void applyDamage(int dmg) {
-        playerHealth -= dmg;
+    // void applyDamage(int dmg) {
+    //     playerHealth -= dmg;
+    // }
+
+    void setCoordinates(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    void changeCoordinates(int x, int y) {
+        this.x += x;
+        this.y += y;
     }
 
     void updateVelocity(double vx, double vy) {
@@ -138,6 +147,9 @@ public class Player extends Rectangle {
                 Rectangle tile = new Rectangle(t.x, t.y, t.width, t.height);
 
                 if (this.intersects(tile) && t.isCollidable) {     
+                    if (t.killPlayer) {
+                        isDead = true;
+                    }
                     if (xAmount > 0) {
                         //from right
                         this.x = tile.x - this.width;
@@ -182,12 +194,20 @@ public class Player extends Rectangle {
             if (t != null) {
                 Rectangle tile = new Rectangle(t.x, t.y, t.width, t.height);
 
-                if (this.intersects(tile) && t.isCollidable) {     
-                    if (this.intersects(tile)) {  
+                if (this.intersects(tile) && t.isCollidable) {  
+                    if (t.killPlayer) {
+                        isDead = true;
+                    }   
                         if (yAmount > 0) {
                             //from top
                             this.y = tile.y - this.height;
                             isGrounded = true;
+                            //movingPlatformTile Script
+                            if (t instanceof MovingPlatformTile) {
+                                x += ((MovingPlatformTile)t).movePlayerX;
+                                y += ((MovingPlatformTile)t).movePlayerY;
+                            }
+                            
                             canDash = true;
                             // this.vy = 0;
                         } else if (yAmount < 0) {
@@ -196,38 +216,37 @@ public class Player extends Rectangle {
                             isGrounded = false;
                         }
                         this.vy = 0;
-                    }
                 }
             }
         }
     }
 
-    // int[] getPlayerLocation(Map map) {
-    //     int[] tempPlayerLocation = new int[2]; //[roomx, roomy]
-    //     for (int i=0; i<map.mapRooms.length; i++) {
-    //         for (int j=0; j<map.mapRooms.length; j++) {
-    //             Room r = map.mapRooms[i][j];
+    int[] getPlayerLocation(Map map) {
+        int[] tempPlayerLocation = new int[2]; //[roomx, roomy]
+        for (int i=0; i<map.mapRooms.length; i++) {
+            for (int j=0; j<map.mapRooms.length; j++) {
+                Room r = map.mapRooms[i][j];
                 
-    //             if (r != null) {
-    //                 Rectangle room = new Rectangle(i*Room.roomWidth, j*Room.roomHeight, Room.roomWidth, Room.roomHeight);
-    //                 if (room.intersects(this)) {
-    //                     tempPlayerLocation[0] = i;
-    //                     tempPlayerLocation[1] = j;
-    //                     return tempPlayerLocation;
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return null;
+                if (r != null) {
+                    Rectangle room = new Rectangle(i*Room.roomWidth, j*Room.roomHeight, Room.roomWidth, Room.roomHeight);
+                    if (room.intersects(this)) {
+                        tempPlayerLocation[0] = i;
+                        tempPlayerLocation[1] = j;
+                        return tempPlayerLocation;
+                    }
+                }
+            }
+        }
+        return null;
         
-    // }
+    }
 
     void tick(Map map) {
         //isGrounded = false;
 
         applyVelocity();
         getSurroundingTiles(map);
-        //playerLocation = getPlayerLocation(map);
+        playerLocation = getPlayerLocation(map);
         // System.out.println(xx);
         // System.out.println(yy);
 
@@ -243,6 +262,7 @@ public class Player extends Rectangle {
             tryMoveY(vy, surroundingTiles);
         } //else not moving, no new updates basically
 
+        //check death
         if (playerHealth <= 0) {
             isDead = true;
         } // else dont force to dead, as we might manually set it dead true

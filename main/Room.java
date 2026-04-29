@@ -22,11 +22,13 @@ public class Room {
 
     void addTileAt(Tile tile) {
         //should check if the tile is within room dimensions only
+        if (true) {
+            
+        }
         roomTiles.add(tile);
     }
-    void removeTileAt(Tile tile) {
-        //equals function no work for this?
-        roomTiles.remove(tile);
+    void removeTileAt(int index) {
+        roomTiles.remove(index);
     }
 
 }
