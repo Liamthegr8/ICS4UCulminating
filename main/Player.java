@@ -28,6 +28,7 @@ public class Player extends Rectangle {
         isDead = false;
         playerHealth = 100;
         canControl = true;
+        canDash = false;
         isGrounded = false;
         isTouchingRightWall = false;
         isTouchingLeftWall = false;    
@@ -101,11 +102,14 @@ public class Player extends Rectangle {
                     for (int k=0; k<r.roomTiles.size(); k++) {
                         Tile t = r.roomTiles.get(k);
                         if (t != null) {
-                                
-                            //proximity check
-                            Rectangle tile = new Rectangle(i*r.roomSize + t.x, j*r.roomSize + t.y, Tile.tileSize, Tile.tileSize);
-                            //compare centers of objs
-                            if ((Math.abs((this.x+(this.width/2))-(tile.x+(Tile.tileSize/2))) < collisionRadiusCheck) && (Math.abs((this.y+(this.height/2))-(tile.y+(Tile.tileSize/2))) < collisionRadiusCheck)) {
+                            
+                            //proximity checks
+                            Rectangle collisionArea = new Rectangle (x+(width/2)-collisionRadiusCheck, y+(height/2)-collisionRadiusCheck, collisionRadiusCheck*2, collisionRadiusCheck*2);
+                            Rectangle tile = new Rectangle(i*Room.roomWidth + t.x, j*Room.roomHeight + t.y, t.width, t.height);
+                            
+                            if (collisionArea.intersects(tile)) {
+                                t.x = i*Room.roomWidth + t.x; //true x location
+                                t.y = j*Room.roomHeight + t.y; //true y location
                                 surroundingTiles.add(t);
                             }
                         }
@@ -120,13 +124,13 @@ public class Player extends Rectangle {
     void tryMoveX(double xAmount, ArrayList<Tile> surroundingTiles) {
         this.xx = (double)x;
         this.xx += xAmount;
-        this.x = (int)this.xx;
+        this.x = (int)Math.round(this.xx);
 
         for (int i=0; i<surroundingTiles.size(); i++) {
             
             Tile t = surroundingTiles.get(i);
             if (t != null) {
-                Rectangle tile = new Rectangle(t.x, t.y, Tile.tileSize, Tile.tileSize);
+                Rectangle tile = new Rectangle(t.x, t.y, t.width, t.height);
 
                 if (this.intersects(tile) && t.isCollidable) {     
                     if (xAmount > 0) {
@@ -165,13 +169,13 @@ public class Player extends Rectangle {
     void tryMoveY(double yAmount, ArrayList<Tile> surroundingTiles) {
         this.yy = (double)y;
         this.yy += yAmount;
-        this.y = (int)this.yy;
+        this.y = (int)Math.round(this.yy);
 
         for (int i=0; i<surroundingTiles.size(); i++) {
             
             Tile t = surroundingTiles.get(i);
             if (t != null) {
-                Rectangle tile = new Rectangle(t.x, t.y, Tile.tileSize, Tile.tileSize);
+                Rectangle tile = new Rectangle(t.x, t.y, t.width, t.height);
 
                 if (this.intersects(tile) && t.isCollidable) {     
                     if (this.intersects(tile)) {  
@@ -193,42 +197,42 @@ public class Player extends Rectangle {
         }
     }
 
-    int[] getPlayerLocation(Map map) {
-        int[] tempPlayerLocation = new int[4]; //[roomx, roomy, tilex, tiley - within room]
-        for (int i=0; i<map.mapRooms.length; i++) {
-            for (int j=0; j<map.mapRooms.length; j++) {
-                Room r = map.mapRooms[i][j];
-                if (r != null) {
-                    for (int k=0; k<r.roomTiles.size(); k++) {
-                        Tile t = r.roomTiles.get(k);
-                        if (t != null) {
+    // int[] getPlayerLocation(Map map) {
+    //     int[] tempPlayerLocation = new int[4]; //[roomx, roomy, tilex, tiley - within room]
+    //     for (int i=0; i<map.mapRooms.length; i++) {
+    //         for (int j=0; j<map.mapRooms.length; j++) {
+    //             Room r = map.mapRooms[i][j];
+    //             if (r != null) {
+    //                 for (int k=0; k<r.roomTiles.size(); k++) {
+    //                     Tile t = r.roomTiles.get(k);
+    //                     if (t != null) {
                                 
-                            //proximity check
-                            Rectangle tile = new Rectangle(i*r.roomSize + t.x, j*r.roomSize + t.y, Tile.tileSize, Tile.tileSize);
-                            // is tile the dominant one that holds player in i
-                            //bug, if between 2 tiles, none is selected
-                            if ((Math.abs((tile.x + Tile.tileSize/2) - (x + width/2)) < Tile.tileSize) && (Math.abs((tile.y + Tile.tileSize/2) - (y + height/2)) < Tile.tileSize)) {
-                                tempPlayerLocation[0] = i;
-                                tempPlayerLocation[1] = j;
-                                tempPlayerLocation[2] = t.x;
-                                tempPlayerLocation[3] = t.y;
-                                return tempPlayerLocation;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return null;
+    //                         //proximity check
+    //                         Rectangle tile = new Rectangle(i*r.roomSize + t.x, j*r.roomSize + t.y, Tile.tileSize, Tile.tileSize);
+    //                         // is tile the dominant one that holds player in i
+    //                         //bug, if between 2 tiles, none is selected
+    //                         if ((Math.abs((tile.x + Tile.tileSize/2) - (x + width/2)) < Tile.tileSize) && (Math.abs((tile.y + Tile.tileSize/2) - (y + height/2)) < Tile.tileSize)) {
+    //                             tempPlayerLocation[0] = i;
+    //                             tempPlayerLocation[1] = j;
+    //                             tempPlayerLocation[2] = t.x;
+    //                             tempPlayerLocation[3] = t.y;
+    //                             return tempPlayerLocation;
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return null;
         
-    }
+    // }
 
     void tick(Map map) {
         //isGrounded = false;
 
         applyVelocity();
         getSurroundingTiles(map);
-        playerLocation = getPlayerLocation(map);
+        // playerLocation = getPlayerLocation(map);
         // System.out.println(xx);
         // System.out.println(yy);
 

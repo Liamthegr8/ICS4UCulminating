@@ -100,25 +100,39 @@ public class GameWindow extends JFrame {
         //Tanush Mock Collision Setup
         map = new Map();
         Room room1 = new Room("Room1");   
-        room1.addTileAt(new PlatformTile(0,250));
-        room1.addTileAt(new PlatformTile(50,250));
-        room1.addTileAt(new PlatformTile(100,250));
-        room1.addTileAt(new PlatformTile(150,250));
-        room1.addTileAt(new PlatformTile(200,250));
-        room1.addTileAt(new PlatformTile(250,250));
-        room1.addTileAt(new PlatformTile(300,250));
-        room1.addTileAt(new PlatformTile(350,250));
-        room1.addTileAt(new PlatformTile(400,250));
-        room1.addTileAt(new PlatformTile(450,250));
+        // room1.addTileAt(new PlatformTile(0,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(50,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(100,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(150,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(200,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(250,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(300,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(350,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(400,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(450,250, 50, 50));
 
-        room1.addTileAt(new PlatformTile(200,200));
-        room1.addTileAt(new PlatformTile(200,150));
+        // room1.addTileAt(new PlatformTile(200,200, 50, 50));
+        // room1.addTileAt(new PlatformTile(200,150, 50, 50));
 
-        room1.addTileAt(new PlatformTile(300,100));
+        // room1.addTileAt(new PlatformTile(300,100, 50, 50));
 
-        room1.addTileAt(new PlatformTile(450,200));
-        room1.addTileAt(new PlatformTile(450,150));
-        room1.addTileAt(new PlatformTile(450,100));
+        // room1.addTileAt(new PlatformTile(450,200, 50, 50));
+        // room1.addTileAt(new PlatformTile(450,150, 50, 50));
+        // room1.addTileAt(new PlatformTile(450,100, 50, 50));
+
+        //create room to test
+        room1.addTileAt(new PlatformTile(0,0, 50, 50));
+        room1.addTileAt(new PlatformTile(50,0, 50, 50));
+        room1.addTileAt(new PlatformTile(100,0, 50, 50));
+        room1.addTileAt(new PlatformTile(0,50, 50, 50));
+        room1.addTileAt(new PlatformTile(50,50, 50, 50));
+        room1.addTileAt(new PlatformTile(100,50, 50, 50));
+        room1.addTileAt(new PlatformTile(0,100, 50, 50));
+        room1.addTileAt(new PlatformTile(50,100, 50, 50));
+        room1.addTileAt(new PlatformTile(100,100, 50, 50));
+        
+        room1.addTileAt(new PlatformTile(160,0, 200, 30));
+
 
         map.addRoomAt(room1, 0, 0);
     }
@@ -259,7 +273,7 @@ public class GameWindow extends JFrame {
             isPlayerWalledRLabel.setText("Player R Walled: " + String.valueOf(player.isTouchingRightWall));
             isPlayerWalledLLabel.setText("Player L Walled: " + String.valueOf(player.isTouchingLeftWall));
             if (player.playerLocation != null) {
-            playerLocLabel.setText("Location:" + "[" + player.playerLocation[0] + " , " + player.playerLocation[1] + "]" + "[" + player.playerLocation[2] + " , " + player.playerLocation[3] + "]");
+            //playerLocLabel.setText("Location:" + "[" + player.playerLocation[0] + " , " + player.playerLocation[1] + "]" + "[" + player.playerLocation[2] + " , " + player.playerLocation[3] + "]");
             }
             //refresh graphics
             this.repaint();	
@@ -301,7 +315,7 @@ public class GameWindow extends JFrame {
                                 Tile t = tile;
                                 if (t != null) {
                                     g2.setColor(Color.BLACK);
-                                    g2.drawRect(i*r.roomSize + (t.x+camX), j*r.roomSize + (t.y+camY), Tile.tileSize, Tile.tileSize);
+                                    g2.drawRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
                                 }
                         }
                     }
@@ -314,9 +328,9 @@ public class GameWindow extends JFrame {
                 Tile t = tile;
                 if (t != null) {
                     g2.setColor(Color.BLUE);
-                    g2.fillRect(t.x+camX, t.y+camY, Tile.tileSize, Tile.tileSize);
+                    g2.fillRect(t.x+camX, t.y+camY, t.width, t.height);
                     g2.setColor(Color.RED);
-                    g2.drawRect(t.x+camX, t.y+camY, Tile.tileSize, Tile.tileSize);
+                    g2.drawRect(t.x+camX, t.y+camY, t.width, t.height);
                 }
             }
         }

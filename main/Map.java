@@ -1,10 +1,12 @@
 public class Map {
     Room[][] mapRooms;
-    static final int mapDimensions = 20;
-    int mapSize = mapDimensions*Room.roomDimensions*Tile.tileSize;
+    static final int mapWidth = 20;
+    static final int mapHeight = 20;
+    //int mapWidthSize = mapWidth*Room.roomWidth;
+    //int mapHeightSize = mapHeight*Room.roomHeight;
     
     Map() {
-        mapRooms = new Room[mapDimensions][mapDimensions];
+        mapRooms = new Room[mapWidth][mapHeight];
     }
 
     void addRoomAt(Room room, int x, int y) {
