@@ -135,6 +135,7 @@ public class GameWindow extends JFrame {
 
 
         map.addRoomAt(room1, 0, 0);
+        map.addRoomAt(room1, 1, 0);
     }
 
     class KeyHandler extends KeyAdapter {
@@ -273,8 +274,11 @@ public class GameWindow extends JFrame {
             isPlayerWalledRLabel.setText("Player R Walled: " + String.valueOf(player.isTouchingRightWall));
             isPlayerWalledLLabel.setText("Player L Walled: " + String.valueOf(player.isTouchingLeftWall));
             if (player.playerLocation != null) {
-            //playerLocLabel.setText("Location:" + "[" + player.playerLocation[0] + " , " + player.playerLocation[1] + "]" + "[" + player.playerLocation[2] + " , " + player.playerLocation[3] + "]");
+                playerLocLabel.setText("Location:" + "[" + player.playerLocation[0] + " , " + player.playerLocation[1] + "]");
+            } else {
+                playerLocLabel.setText("Location: null");
             }
+            
             //refresh graphics
             this.repaint();	
         }

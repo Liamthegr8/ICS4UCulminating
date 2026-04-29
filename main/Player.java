@@ -105,12 +105,16 @@ public class Player extends Rectangle {
                             
                             //proximity checks
                             Rectangle collisionArea = new Rectangle (x+(width/2)-collisionRadiusCheck, y+(height/2)-collisionRadiusCheck, collisionRadiusCheck*2, collisionRadiusCheck*2);
-                            Rectangle tile = new Rectangle(i*Room.roomWidth + t.x, j*Room.roomHeight + t.y, t.width, t.height);
                             
-                            if (collisionArea.intersects(tile)) {
-                                t.x = i*Room.roomWidth + t.x; //true x location
-                                t.y = j*Room.roomHeight + t.y; //true y location
-                                surroundingTiles.add(t);
+                            Tile reaLocationTile = new Tile(t);
+                            reaLocationTile.x += i*Room.roomWidth;
+                            reaLocationTile.y += j*Room.roomHeight;
+
+                            Rectangle tileArea = new Rectangle(reaLocationTile.x, reaLocationTile.y, reaLocationTile.width, reaLocationTile.height);
+
+                            if (collisionArea.intersects(tileArea)) {
+                                // Keep OG tiles in room-local coordinates, use edited copy tile for collision
+                                surroundingTiles.add(reaLocationTile);
                             }
                         }
                     }
@@ -130,6 +134,7 @@ public class Player extends Rectangle {
             
             Tile t = surroundingTiles.get(i);
             if (t != null) {
+                //real x and y required
                 Rectangle tile = new Rectangle(t.x, t.y, t.width, t.height);
 
                 if (this.intersects(tile) && t.isCollidable) {     
@@ -198,27 +203,17 @@ public class Player extends Rectangle {
     }
 
     // int[] getPlayerLocation(Map map) {
-    //     int[] tempPlayerLocation = new int[4]; //[roomx, roomy, tilex, tiley - within room]
+    //     int[] tempPlayerLocation = new int[2]; //[roomx, roomy]
     //     for (int i=0; i<map.mapRooms.length; i++) {
     //         for (int j=0; j<map.mapRooms.length; j++) {
     //             Room r = map.mapRooms[i][j];
+                
     //             if (r != null) {
-    //                 for (int k=0; k<r.roomTiles.size(); k++) {
-    //                     Tile t = r.roomTiles.get(k);
-    //                     if (t != null) {
-                                
-    //                         //proximity check
-    //                         Rectangle tile = new Rectangle(i*r.roomSize + t.x, j*r.roomSize + t.y, Tile.tileSize, Tile.tileSize);
-    //                         // is tile the dominant one that holds player in i
-    //                         //bug, if between 2 tiles, none is selected
-    //                         if ((Math.abs((tile.x + Tile.tileSize/2) - (x + width/2)) < Tile.tileSize) && (Math.abs((tile.y + Tile.tileSize/2) - (y + height/2)) < Tile.tileSize)) {
-    //                             tempPlayerLocation[0] = i;
-    //                             tempPlayerLocation[1] = j;
-    //                             tempPlayerLocation[2] = t.x;
-    //                             tempPlayerLocation[3] = t.y;
-    //                             return tempPlayerLocation;
-    //                         }
-    //                     }
+    //                 Rectangle room = new Rectangle(i*Room.roomWidth, j*Room.roomHeight, Room.roomWidth, Room.roomHeight);
+    //                 if (room.intersects(this)) {
+    //                     tempPlayerLocation[0] = i;
+    //                     tempPlayerLocation[1] = j;
+    //                     return tempPlayerLocation;
     //                 }
     //             }
     //         }
@@ -232,7 +227,7 @@ public class Player extends Rectangle {
 
         applyVelocity();
         getSurroundingTiles(map);
-        // playerLocation = getPlayerLocation(map);
+        //playerLocation = getPlayerLocation(map);
         // System.out.println(xx);
         // System.out.println(yy);
 

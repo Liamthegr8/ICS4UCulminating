@@ -3,8 +3,8 @@ public class Room {
     String roomName;
     ArrayList<Tile> roomTiles;
     //static final int roomDimensions = 50; //10
-    static final int roomWidth = 2500; //roomDimensions*Tile.tileSize;
-    static final int roomHeight = 2500; //roomDimensions*Tile.tileSize;
+    static final int roomWidth = 500; //roomDimensions*Tile.tileSize;
+    static final int roomHeight = 500; //roomDimensions*Tile.tileSize;
 
     public Room(String roomName){
         this.roomName = roomName;

@@ -13,6 +13,13 @@ public class Tile {
         isCollidable = false;
     }
 
- 
+    Tile(Tile tileData) {
+        this.x = tileData.x;
+        this.y = tileData.y;
+        this.width = tileData.width;
+        this.height = tileData.height;
+        this.killPlayer = tileData.killPlayer;
+        this.isCollidable = tileData.isCollidable;
+    }
 }
 
