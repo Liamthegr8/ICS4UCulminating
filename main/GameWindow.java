@@ -100,25 +100,25 @@ public class GameWindow extends JFrame {
         //Tanush Mock Collision Setup
         map = new Map();
         Room room1 = new Room("Room1");   
-        room1.addTileAt(new PlatformTile(),0,5);
-        room1.addTileAt(new PlatformTile(),1,5);
-        room1.addTileAt(new PlatformTile(),2,5);
-        room1.addTileAt(new PlatformTile(),3,5);
-        room1.addTileAt(new PlatformTile(),4,5);
-        room1.addTileAt(new PlatformTile(),5,5);
-        room1.addTileAt(new PlatformTile(),6,5);
-        room1.addTileAt(new PlatformTile(),7,5);
-        room1.addTileAt(new PlatformTile(),8,5);
-        room1.addTileAt(new PlatformTile(),9,5);
+        room1.addTileAt(new PlatformTile(0,250));
+        room1.addTileAt(new PlatformTile(50,250));
+        room1.addTileAt(new PlatformTile(100,250));
+        room1.addTileAt(new PlatformTile(150,250));
+        room1.addTileAt(new PlatformTile(200,250));
+        room1.addTileAt(new PlatformTile(250,250));
+        room1.addTileAt(new PlatformTile(300,250));
+        room1.addTileAt(new PlatformTile(350,250));
+        room1.addTileAt(new PlatformTile(400,250));
+        room1.addTileAt(new PlatformTile(450,250));
 
-        room1.addTileAt(new PlatformTile(),4,4);
-        room1.addTileAt(new PlatformTile(),4,3);
+        room1.addTileAt(new PlatformTile(200,200));
+        room1.addTileAt(new PlatformTile(200,150));
 
-        room1.addTileAt(new PlatformTile(),6,2);
+        room1.addTileAt(new PlatformTile(300,100));
 
-        room1.addTileAt(new PlatformTile(),9,4);
-        room1.addTileAt(new PlatformTile(),9,3);
-        room1.addTileAt(new PlatformTile(),9,2);
+        room1.addTileAt(new PlatformTile(450,200));
+        room1.addTileAt(new PlatformTile(450,150));
+        room1.addTileAt(new PlatformTile(450,100));
 
         map.addRoomAt(room1, 0, 0);
     }
@@ -297,23 +297,21 @@ public class GameWindow extends JFrame {
                 for (int j=0; j<map.mapRooms.length; j++) {
                     Room r = map.mapRooms[i][j];
                     if (r != null) {
-                        for (int k=0; k<r.roomTiles.length; k++) {
-                            for (int l=0; l<r.roomTiles.length; l++) {
-                                Tile t = r.roomTiles[k][l];
+                        for (Tile tile: r.roomTiles) {
+                                Tile t = tile;
                                 if (t != null) {
                                     g2.setColor(Color.BLACK);
-                                    g2.drawRect(i*r.roomSize + k*Tile.tileSize+camX, j*r.roomSize + l*Tile.tileSize+camY, Tile.tileSize, Tile.tileSize);
+                                    g2.drawRect(i*r.roomSize + (t.x+camX), j*r.roomSize + (t.y+camY), Tile.tileSize, Tile.tileSize);
                                 }
-                            }
                         }
                     }
                 }
             }
 
             //Render surroundingTiles
-            ArrayList<TileRef> tiles = player.surroundingTiles;
-            for (int i=0; i<tiles.size(); i++) {
-                TileRef t = tiles.get(i);
+            ArrayList<Tile> tiles = player.surroundingTiles;
+            for (Tile tile: tiles) {
+                Tile t = tile;
                 if (t != null) {
                     g2.setColor(Color.BLUE);
                     g2.fillRect(t.x+camX, t.y+camY, Tile.tileSize, Tile.tileSize);

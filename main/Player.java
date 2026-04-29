@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.*;
 
 public class Player extends Rectangle {
-    ArrayList<TileRef> surroundingTiles;
+    ArrayList<Tile> surroundingTiles;
     int[] playerLocation;
     double xx, yy;
     double vx, vy;
@@ -21,7 +21,7 @@ public class Player extends Rectangle {
 
     Player(int width, int height) {
         super(0, 0, width, height);
-        surroundingTiles = new ArrayList<TileRef>();
+        surroundingTiles = new ArrayList<Tile>();
         vx = 0;
         vy = 0;
         gravity = 1.07;
@@ -98,17 +98,15 @@ public class Player extends Rectangle {
             for (int j=0; j<map.mapRooms.length; j++) {
                 Room r = map.mapRooms[i][j];
                 if (r != null) {
-                    for (int k=0; k<r.roomTiles.length; k++) {
-                        for (int l=0; l<r.roomTiles.length; l++) {
-                            Tile t = r.roomTiles[k][l];
-                            if (t != null) {
+                    for (int k=0; k<r.roomTiles.size(); k++) {
+                        Tile t = r.roomTiles.get(k);
+                        if (t != null) {
                                 
-                                //proximity check
-                                Rectangle tile = new Rectangle(i*r.roomSize + k*Tile.tileSize, j*r.roomSize + l*Tile.tileSize, Tile.tileSize, Tile.tileSize);
-                                //compare centers of objs
-                                if ((Math.abs((this.x+(this.width/2))-(tile.x+(Tile.tileSize/2))) < collisionRadiusCheck) && (Math.abs((this.y+(this.height/2))-(tile.y+(Tile.tileSize/2))) < collisionRadiusCheck)) {
-                                    surroundingTiles.add(new TileRef(t, i*r.roomSize + k*Tile.tileSize, j*r.roomSize + l*Tile.tileSize));
-                                }
+                            //proximity check
+                            Rectangle tile = new Rectangle(i*r.roomSize + t.x, j*r.roomSize + t.y, Tile.tileSize, Tile.tileSize);
+                            //compare centers of objs
+                            if ((Math.abs((this.x+(this.width/2))-(tile.x+(Tile.tileSize/2))) < collisionRadiusCheck) && (Math.abs((this.y+(this.height/2))-(tile.y+(Tile.tileSize/2))) < collisionRadiusCheck)) {
+                                surroundingTiles.add(t);
                             }
                         }
                     }
@@ -119,14 +117,14 @@ public class Player extends Rectangle {
     
     //scratch griffpatch raycaster ref with edge setback
     //is the passing class attribute suroundtiles to func redudant?
-    void tryMoveX(double xAmount, ArrayList<TileRef> surroundingTiles) {
+    void tryMoveX(double xAmount, ArrayList<Tile> surroundingTiles) {
         this.xx = (double)x;
         this.xx += xAmount;
         this.x = (int)this.xx;
 
         for (int i=0; i<surroundingTiles.size(); i++) {
             
-            TileRef t = surroundingTiles.get(i);
+            Tile t = surroundingTiles.get(i);
             if (t != null) {
                 Rectangle tile = new Rectangle(t.x, t.y, Tile.tileSize, Tile.tileSize);
 
@@ -164,14 +162,14 @@ public class Player extends Rectangle {
         }
     }
 
-    void tryMoveY(double yAmount, ArrayList<TileRef> surroundingTiles) {
+    void tryMoveY(double yAmount, ArrayList<Tile> surroundingTiles) {
         this.yy = (double)y;
         this.yy += yAmount;
         this.y = (int)this.yy;
 
         for (int i=0; i<surroundingTiles.size(); i++) {
             
-            TileRef t = surroundingTiles.get(i);
+            Tile t = surroundingTiles.get(i);
             if (t != null) {
                 Rectangle tile = new Rectangle(t.x, t.y, Tile.tileSize, Tile.tileSize);
 
@@ -201,22 +199,20 @@ public class Player extends Rectangle {
             for (int j=0; j<map.mapRooms.length; j++) {
                 Room r = map.mapRooms[i][j];
                 if (r != null) {
-                    for (int k=0; k<r.roomTiles.length; k++) {
-                        for (int l=0; l<r.roomTiles.length; l++) {
-                            Tile t = r.roomTiles[k][l];
-                            if (t != null) {
+                    for (int k=0; k<r.roomTiles.size(); k++) {
+                        Tile t = r.roomTiles.get(k);
+                        if (t != null) {
                                 
-                                //proximity check
-                                Rectangle tile = new Rectangle(i*r.roomSize + k*Tile.tileSize, j*r.roomSize + l*Tile.tileSize, Tile.tileSize, Tile.tileSize);
-                                // is tile the dominant one that holds player in i
-                                //bug, if between 2 tiles, none is selected
-                                if ((Math.abs((tile.x + Tile.tileSize/2) - (x + width/2)) < Tile.tileSize) && (Math.abs((tile.y + Tile.tileSize/2) - (y + height/2)) < Tile.tileSize)) {
-                                    tempPlayerLocation[0] = i;
-                                    tempPlayerLocation[1] = j;
-                                    tempPlayerLocation[2] = k;
-                                    tempPlayerLocation[3] = l;
-                                    return tempPlayerLocation;
-                                }
+                            //proximity check
+                            Rectangle tile = new Rectangle(i*r.roomSize + t.x, j*r.roomSize + t.y, Tile.tileSize, Tile.tileSize);
+                            // is tile the dominant one that holds player in i
+                            //bug, if between 2 tiles, none is selected
+                            if ((Math.abs((tile.x + Tile.tileSize/2) - (x + width/2)) < Tile.tileSize) && (Math.abs((tile.y + Tile.tileSize/2) - (y + height/2)) < Tile.tileSize)) {
+                                tempPlayerLocation[0] = i;
+                                tempPlayerLocation[1] = j;
+                                tempPlayerLocation[2] = t.x;
+                                tempPlayerLocation[3] = t.y;
+                                return tempPlayerLocation;
                             }
                         }
                     }

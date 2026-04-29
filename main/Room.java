@@ -1,15 +1,16 @@
+import java.util.ArrayList;
 public class Room {
     String roomName;
-    Tile[][] roomTiles;
+    ArrayList<Tile> roomTiles;
     static final int roomDimensions = 50; //10
     int roomSize = roomDimensions*Tile.tileSize;
 
     public Room(String roomName){
         this.roomName = roomName;
-        this.roomTiles = new Tile[roomDimensions][roomDimensions];
+        this.roomTiles = new ArrayList<Tile>();
     }
 
-    public Room(String roomName, Tile[][] data){
+    public Room(String roomName, ArrayList<Tile> data){
         this.roomName = roomName;
         this.roomTiles = data;
     }
@@ -18,11 +19,11 @@ public class Room {
     //     roomTiles = data;
     // }
 
-    void addTileAt(Tile tile, int x, int y) {
-        roomTiles[x][y] = tile;
+    void addTileAt(Tile tile) {
+        roomTiles.add(tile);
     }
-    void removeTileAt(int x, int y) {
-        roomTiles[x][y] = null;
+    void removeTileAt(Tile tile) {
+        roomTiles.remove(tile);
     }
 
 }

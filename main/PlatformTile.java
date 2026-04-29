@@ -1,6 +1,7 @@
 public class PlatformTile extends Tile {
     
-    PlatformTile() {
+    PlatformTile(int x, int y) {
+        super(x,y);
         killPlayer = false;
         isCollidable = true;
     }
