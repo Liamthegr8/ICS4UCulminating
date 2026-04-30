@@ -136,7 +136,7 @@ public class GameWindow extends JFrame {
         //     room1.addTileAt(new SpikeTile(250+ (i*30), -25, 15, 15));
         // }
 
-        room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 5));
+        room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 1));
 
         map.addRoomAt(room1, 0, 0);
     }
