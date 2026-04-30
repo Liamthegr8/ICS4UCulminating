@@ -3,21 +3,41 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.Timer;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.File;
 
 public class GameWindow extends JFrame {
-    int windowX = 500;
+    int windowX = 900;
     int windowY = 500;
     int tickDelay = 10;
+    int camX;
+    int camY;
     Timer tick;
     DrawingPanel panel;
     Player player;
     Map map;
-    Platform plat1 = new Platform(100, 400, 300, 40);
-    Platform plat2 = new Platform(150, 300, 200, 40);
+    boolean wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed; //removed pPressed
+    boolean qPressed; //testing buttons
 
-    boolean wPressed, aPressed, sPressed, dPressed;
+    //debugging
+    int windowMouseX = 0;
+    int windowMouseY = 0;
+    JLabel playerXLabel;
+    JLabel playerYLabel;
+    JLabel playervxLabel;
+    JLabel playervyLabel;
+    JLabel playerLocLabel;
+    JLabel windowXLabel;
+    JLabel windowYLabel;
+    JLabel isPlayerGroundedLabel;
+    JLabel isPlayerWalledRLabel;
+    JLabel isPlayerWalledLLabel;
+
+
 
     public static void main(String[] args) {
+         new GameWindow(); //temp non threaded for testing
 	}
 
     GameWindow() {
@@ -31,6 +51,29 @@ public class GameWindow extends JFrame {
         panel = new DrawingPanel();
         this.add(panel);
         // this.setSize(windowX,windowY); //IGNORED DUE TO JPANELPACK
+
+        //debugging elements
+        windowXLabel = new JLabel();
+        windowYLabel = new JLabel();
+        playerXLabel = new JLabel();
+        playerYLabel = new JLabel();
+        playervxLabel = new JLabel();
+        playervyLabel = new JLabel();
+        isPlayerGroundedLabel = new JLabel();
+        isPlayerWalledRLabel = new JLabel();
+        isPlayerWalledLLabel = new JLabel();
+        playerLocLabel = new JLabel();
+        // panel.add(windowXLabel);
+        // panel.add(windowYLabel);
+        panel.add(playerXLabel);
+        panel.add(playerYLabel);
+        panel.add(playervxLabel);
+        panel.add(playervyLabel);
+        panel.add(isPlayerWalledRLabel);
+        panel.add(isPlayerWalledLLabel);
+        panel.add(isPlayerGroundedLabel);
+        panel.add(playerLocLabel);
+
         this.pack(); //important to understand size of window is size of panel
 
         this.setLocationRelativeTo(null);
@@ -45,26 +88,64 @@ public class GameWindow extends JFrame {
         // tick.setInitialDelay(1000);
         tick.start();
 
-        player = new Player(30,30);
+        //Events
         this.addKeyListener(new KeyHandler());
+        this.addMouseMotionListener(new MouseMotionHandler());
+
+        resetGame();
+    }
+
+    private void resetGame() {
+        camX = 0;
+        camY = 0;
+        player = new Player(0,-30,30,30); //resets to constructors
 
         //Tanush Mock Collision Setup
-        // Map map = new Map();
-        // Room r1 = new Room("Room1"); 
-        // Tile t1 = new Platform(0,0,100,100);
-        // Tile t2 = new Platform(1,0,100,100);
-        // r1.addTileAt(t1);
-        // r1.addTileAt(t2);    
-        //map.add  
+        map = new Map();
+        Room room1 = new Room("Room1");   
+        // room1.addTileAt(new PlatformTile(0,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(50,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(100,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(150,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(200,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(250,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(300,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(350,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(400,250, 50, 50));
+        // room1.addTileAt(new PlatformTile(450,250, 50, 50));
 
+        // room1.addTileAt(new PlatformTile(200,200, 50, 50));
+        // room1.addTileAt(new PlatformTile(200,150, 50, 50));
+
+        // room1.addTileAt(new PlatformTile(300,100, 50, 50));
+
+        // room1.addTileAt(new PlatformTile(450,200, 50, 50));
+        // room1.addTileAt(new PlatformTile(450,150, 50, 50));
+        // room1.addTileAt(new PlatformTile(450,100, 50, 50));
+
+        //create room to test
+        room1.addTileAt(new PlatformTile(0,0, 50, 50));
+        room1.addTileAt(new PlatformTile(50,0, 50, 50));
+        room1.addTileAt(new PlatformTile(100,0, 50, 50));
+        
+        room1.addTileAt(new PlatformTile(160,0, 200, 30));
+        room1.addTileAt(new PlatformTile(50, -100, 30, 100));
+        // room1.addTileAt(new SpikeTile(250, -25, 15, 15));
+        
+        // for (int i=0; i<10; i++) {
+        //     room1.addTileAt(new SpikeTile(250+ (i*30), -25, 15, 15));
+        // }
+
+        room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 5));
+
+        map.addRoomAt(room1, 0, 0);
     }
 
     class KeyHandler extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            //code
             //no panel repaint here. otherwise the graphics will update when key pressed instantly. not upon fixed tick delay
-            //is repainted, this can be exploited to speed up time
+            //if repainted, this can be exploited to speed up time
             if (e.getKeyCode() == KeyEvent.VK_W) {
                 wPressed = true;
             }
@@ -77,6 +158,28 @@ public class GameWindow extends JFrame {
             if (e.getKeyCode() == KeyEvent.VK_D) {
                 dPressed = true;
             }
+            if (e.getKeyCode() == KeyEvent.VK_U) {
+                uPressed = true;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_I) {
+                iPressed = true;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_O) {
+                oPressed = true;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_J) {
+                jPressed = true;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_K) {
+                kPressed = true;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_L) {
+                lPressed = true;
+            }
+
+            if (e.getKeyCode() == KeyEvent.VK_Q) {
+                qPressed = true;
+            } 
         }
         public void keyReleased(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_W) {
@@ -91,9 +194,38 @@ public class GameWindow extends JFrame {
             if (e.getKeyCode() == KeyEvent.VK_D) {
                 dPressed = false;
             }
+            if (e.getKeyCode() == KeyEvent.VK_U) {
+                uPressed = false;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_I) {
+                iPressed = false;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_O) {
+                oPressed = false;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_J) {
+                jPressed = false;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_K) {
+                kPressed = false;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_L) {
+                lPressed = false;
+            }
+
+            if (e.getKeyCode() == KeyEvent.VK_Q) {
+                qPressed = false;
+            }
         }
     }
 
+    class MouseMotionHandler extends MouseAdapter {
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            windowMouseX = e.getX()-8;
+            windowMouseY = e.getY()-31;
+        }
+    }
 
     private class DrawingPanel extends JPanel implements ActionListener {
         DrawingPanel() {
@@ -103,49 +235,77 @@ public class GameWindow extends JFrame {
         //GAMELOOP & Timer
         @Override
         public void actionPerformed(ActionEvent e) {
-            //update movements/logics
+            //player movements inputs
+            //can turn into inputActions fuction
             if (wPressed) {
-                if (player.isGrounded) {
-                    player.jump();
-                }
+                player.jump();
             }
             if (aPressed) {
-                player.applyVelocity(-1, 0);
+                player.updateVelocity(-1, 0);
             }
-            // if (sPressed) {
-            //     player.applyVelocity(0, 1);
-            // }
+            if (sPressed) {
+            }
+            if (qPressed) {
+                resetGame();
+            }
             if (dPressed) {
-                player.applyVelocity(1, 0);
+                player.updateVelocity(1, 0);
             }
-            
-            
-            //update graphics every tick
-            if (plat1.checkCollision(plat1, player) && player.y < plat1.y) {
-                player.isGrounded = true;
-                player.y = plat1.y - player.height;
-            }
-            else if (plat2.checkCollision(plat2, player) && player.y < plat2.y) {
-                player.isGrounded = true;
-                player.y = plat2.y - player.height;
-            }
-            else {
-                player.isGrounded = false;
+            if (uPressed) {
+                player.dash(wPressed, aPressed, sPressed, dPressed);
             }
 
+            //player tick
+            player.tick(map);
+            //check death
+            if (player.isDead) {
+                resetGame();
+            }
             
-            //Tanush Mock Collision Setup
-            // Map map = new Map();
-            // Room r1 = new Room("Room1"); 
-            // Tile t1 = new Platform(0,0,100,100);
-            // Tile t2 = new Platform(1,0,100,100);
-            // r1.addTileAt(t1);
-            // r1.addTileAt(t2);  
+            //tiles tick
+            for (int i=0; i<map.mapRooms.length; i++) {
+                for (int j=0; j<map.mapRooms.length; j++) {
+                    Room r = map.mapRooms[i][j];
+                    if (r != null) {
+                        for (Tile tile: r.roomTiles) {
+                                Tile t = tile;
+                                if (t != null) {
+                                    t.tick(player);
+                                }
+                        }
+                    }
+                }
+            }
 
-           // for (int i=0; i<map.mapRooms.size(); )
+            updateCamera();
+              
 
-            player.tick();
+            //debugging
+            windowXLabel.setText("Window MouseX: " + String.valueOf(windowMouseX));
+            windowYLabel.setText("Window MouseY: " + String.valueOf(windowMouseY));
+            playerXLabel.setText("Player x: " + String.valueOf(player.x));
+            playerYLabel.setText("Player y: " + String.valueOf(player.y));
+            String roundedvx = String.format("%.1f", player.vx);
+            String roundedvy = String.format("%.1f", player.vy);
+            playervxLabel.setText("Player vx: " + roundedvx);
+            playervyLabel.setText("Player vy: " + roundedvy);
+            isPlayerGroundedLabel.setText("Player Grounded: " + String.valueOf(player.isGrounded));
+            isPlayerWalledRLabel.setText("Player R Walled: " + String.valueOf(player.isTouchingRightWall));
+            isPlayerWalledLLabel.setText("Player L Walled: " + String.valueOf(player.isTouchingLeftWall));
+            if (player.playerLocation != null) {
+                playerLocLabel.setText("Location:" + "[" + player.playerLocation[0] + " , " + player.playerLocation[1] + "]");
+            } else {
+                playerLocLabel.setText("Location: null");
+            }
+            
+            //refresh graphics
             this.repaint();	
+        }
+
+        void updateCamera() {
+            //based on window vars
+            camX = -player.x + (windowX/2) - (player.width/2);
+            camY = -player.y + (windowY/2) - (player.height/2);
         }
 
         @Override
@@ -157,13 +317,55 @@ public class GameWindow extends JFrame {
 		    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             //code
-            g2.setColor(Color.RED);
-            g2.fillRect(player.x, player.y, player.width, player.height);
-            
-            g2.setColor(Color.BLACK);
-            g2.fillRect(plat1.getRelX(), plat1.getRelY(), plat1.width, plat1.height);
-            g2.fillRect(plat2.getRelX(), plat2.getRelY(), plat2.width, plat2.height);
+            if (player.isTouchingRightWall) {
+                g2.setColor(Color.YELLOW);
+            } else if (player.isTouchingLeftWall) {
+                g2.setColor(Color.ORANGE);
+            } else if (player.isGrounded) {
+                g2.setColor(Color.GREEN);
+            } else {
+                g2.setColor(Color.RED);
+            }
 
+            g2.fillRect(player.x+camX, player.y+camY, player.width, player.height);
+
+            //Tanush Code Render Tiles
+            for (int i=0; i<map.mapRooms.length; i++) {
+                for (int j=0; j<map.mapRooms.length; j++) {
+                    Room r = map.mapRooms[i][j];
+                    if (r != null) {
+                        for (Tile tile: r.roomTiles) {
+                                Tile t = tile;
+                                if (t != null) {
+                                    g2.setColor(Color.BLACK);
+                                    if (t.killPlayer) {
+                                        g2.setColor(Color.MAGENTA);
+                                   
+                                    }
+                                    if (t.getScaledImage() == null) {
+                                        g2.drawRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
+                                    }
+                                    else {
+                                    g2.drawImage(t.scaledImage, t.x + t.imageXOffset + camX, t.y + t.imageYOffset + camY, null);
+                                    }
+                                }
+                        }
+                    }
+                }
+            }
+
+            //Render surroundingTiles
+            ArrayList<Tile> tiles = player.surroundingTiles;
+            for (Tile tile: tiles) {
+                Tile t = tile;
+                if (t != null) {
+                    g2.setColor(Color.BLUE);
+                    //g2.fillRect(t.x+camX, t.y+camY, t.width, t.height);
+                    g2.setColor(Color.RED);
+                    g2.setStroke(new BasicStroke(3));
+                    g2.drawRect(t.x+camX, t.y+camY, t.width, t.height);
+                }
+            }
         }
     }
 

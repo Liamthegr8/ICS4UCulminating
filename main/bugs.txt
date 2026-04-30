@@ -1,0 +1,14 @@
+right side touching worse than left side (the debug var, collisions are ok)
+
+RESOLVED
+when touch LR walls and diret jump up, it does not fall down if it can clear the jump and just is right on edge of top tile
+left side wall contact is stick, not working as well like right
+jumping while on corner wall is weird
+2nd jump is always lower
+moving left right ground collision problems
+bug where can exploit corner to super max jump 
+
+
+
+Notes (for ourselves):
+(EXTRA) consider only drawing items on screen, reduces looping for graphics later on 

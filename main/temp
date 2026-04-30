@@ -1,0 +1,25 @@
+void getSurroundingTiles(Map map) {
+        surroundingTiles.clear();
+
+        for (Room[] i: map.mapRooms) {
+            for (Room j: i) {
+                Room r = j;
+                if (r != null) {
+                    for (Tile[] k: r.roomTiles) {
+                        for (Tile l: k) {
+                            Tile t = l;
+                            if (t != null) {
+                                
+                                //proximity check
+                                Rectangle tile = new Rectangle(i*r.roomSize + k*Tile.tileSize, j*r.roomSize + l*Tile.tileSize, Tile.tileSize, Tile.tileSize);
+                                //compare centers of objs
+                                if ((Math.abs((this.x+(this.width/2))-(tile.x+(Tile.tileSize/2))) < collisionRadiusCheck) && (Math.abs((this.y+(this.height/2))-(tile.y+(Tile.tileSize/2))) < collisionRadiusCheck)) {
+                                    surroundingTiles.add(new TileRef(t, i*r.roomSize + k*Tile.tileSize, j*r.roomSize + l*Tile.tileSize));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
