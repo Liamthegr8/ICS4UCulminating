@@ -16,7 +16,7 @@ public class SpikeTile extends Tile{
         super(x,y, width, height, null);
         isCollidable = true;
         killPlayer = true;
-        texture = loadImage("main\\resources\\Spike.png");
+        texture = loadImage("Spike.png");
     }
 
     @Override

@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
+import java.net.URL;
 
 public class Tile {
     boolean killPlayer;
@@ -12,6 +13,7 @@ public class Tile {
     int x,y,width,height;
     BufferedImage texture;
     Image scaledImage;
+    URL url;
     int imageXOffset, imageYOffset;
 
     Tile(int x, int y,int width,int height, String customTexturePath) {
@@ -39,14 +41,19 @@ public class Tile {
         this.isCollidable = tileData.isCollidable;
     }
 
-    static BufferedImage loadImage(String filename) {
+    BufferedImage loadImage(String filename) {
+        url = this.getClass().getResource("/assets/" + filename);
         BufferedImage img = null;
-        try{
-            img = ImageIO.read(new File(filename));
-        } catch (IOException e) {
-            System.out.println(e.toString());
-            JOptionPane.showMessageDialog(null, "An image failed to load: " + filename, "Error", JOptionPane.ERROR_MESSAGE);
-        }
+       if (url != null) {
+	try {
+		img = ImageIO.read(url);
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+} else {
+	JOptionPane.showMessageDialog(null, "An image failed to load: " + filename , "ERROR", JOptionPane.ERROR_MESSAGE);
+}
+
         //DEBUG
         //if (img == null) System.out.println("null");
         //else System.out.printf("w=%d, h=%d%n",img.getWidth(), img.getHeight());

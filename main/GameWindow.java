@@ -129,8 +129,9 @@ public class GameWindow extends JFrame {
         room1.addTileAt(new PlatformTile(150,-100, 50, 100,null));
         room1.addTileAt(new PlatformTile(200,-150, 50, 150,null));
         room1.addTileAt(new PlatformTile(400,-150, 100, 150,null));
+        room1.addTileAt(new SpikeTile(300, 0, 50, 50));
         
-        room2.addTileAt(new MovingPlatformTile(200, 0, 200, 400, 100, 50, 1));
+        room1.addTileAt(new MovingPlatformTile(200, 0, 200, 400, 100, 50, 1));
 
         //room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 1));
 
