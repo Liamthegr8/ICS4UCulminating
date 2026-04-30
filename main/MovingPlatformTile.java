@@ -6,7 +6,7 @@ public class MovingPlatformTile extends Tile{
     boolean moveForward;
     boolean playerOnTile;
     MovingPlatformTile(int iniX, int iniY, int endX, int endY, int width, int height, int moveSpeed) {
-        super(iniX, iniY, width, height);
+        super(iniX, iniY, width, height, null);
         this.iniX = iniX;
         this.iniY = iniY;
         this.endX = endX;

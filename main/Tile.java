@@ -14,7 +14,7 @@ public class Tile {
     Image scaledImage;
     int imageXOffset, imageYOffset;
 
-    Tile(int x, int y,int width,int height) {
+    Tile(int x, int y,int width,int height, String customTexturePath) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -23,6 +23,11 @@ public class Tile {
         isCollidable = false;
         imageXOffset = 0;
         imageYOffset = 0;
+
+        if (customTexturePath != null) {
+            texture = loadImage(customTexturePath);
+            getScaledImage();
+        }
     }
 
     Tile(Tile tileData) { //this is specifically for getsurroundingtiles collisions

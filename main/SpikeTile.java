@@ -13,7 +13,7 @@ public class SpikeTile extends Tile{
         //spikeWidth = width;
         //spikeHeight = height;
         //super(x + (int) ((int)width * 0.3), y + (int) ((int)width * 0.4), (int) ((int)width * 0.4), (int) ((int)height * 0.6));
-        super(x,y, width, height);
+        super(x,y, width, height, null);
         isCollidable = true;
         killPlayer = true;
         texture = loadImage("main\\resources\\Spike.png");

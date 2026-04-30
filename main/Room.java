@@ -22,10 +22,14 @@ public class Room {
 
     void addTileAt(Tile tile) {
         //should check if the tile is within room dimensions only
-        if (true) {
-            
-        }
         roomTiles.add(tile);
+        
+        // if (tile.x >= 0 && tile.x + tile.width <= roomWidth && tile.y >= 0 && tile.y + tile.height <= roomHeight) {
+            
+        // } else {
+        //     System.out.println("Tile out of room bounds");
+        //     return;
+        // }    
     }
     void removeTileAt(int index) {
         roomTiles.remove(index);
