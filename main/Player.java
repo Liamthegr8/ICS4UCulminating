@@ -202,13 +202,16 @@ public class Player extends Rectangle {
                             //from top
                             this.y = tile.y - this.height;
                             isGrounded = true;
-                            //movingPlatformTile Script
-                            if (t instanceof MovingPlatformTile) {
-                                x += ((MovingPlatformTile)t).movePlayerX;
-                                y += ((MovingPlatformTile)t).movePlayerY;
-                            }
-                            
                             canDash = true;
+
+                            //movingPlatformTile Script
+                            /* if (surroundingTiles.get(i) instanceof MovingPlatformTile) {
+                                x += t.getMovePlayerX();
+                                y += t.getMovePlayerY();
+                            }
+                            */
+                            
+                            
                             // this.vy = 0;
                         } else if (yAmount < 0) {
                             //from bottom
@@ -250,6 +253,10 @@ public class Player extends Rectangle {
         // System.out.println(xx);
         // System.out.println(yy);
 
+        if (vy != 0) {
+            isGrounded = false; //if removed, weeeeeeeeeeeee
+            tryMoveY(vy, surroundingTiles);
+        } //else not moving, no new updates basically
         //assume grounded, touchingWalls are false until proven
         //try to move (considers collisions)
         if (vx != 0) {
@@ -257,10 +264,7 @@ public class Player extends Rectangle {
             isTouchingRightWall = false;
             tryMoveX(vx, surroundingTiles);
         } //else not moving, no new updates basically
-        if (vy != 0) {
-            isGrounded = false; //if removed, weeeeeeeeeeeee
-            tryMoveY(vy, surroundingTiles);
-        } //else not moving, no new updates basically
+        
 
         //check death
         if (playerHealth <= 0) {

@@ -130,13 +130,13 @@ public class GameWindow extends JFrame {
         
         room1.addTileAt(new PlatformTile(160,0, 200, 30));
         room1.addTileAt(new PlatformTile(50, -100, 30, 100));
-        room1.addTileAt(new SpikeTile(250, -25, 15, 15));
+        // room1.addTileAt(new SpikeTile(250, -25, 15, 15));
         
-        for (int i=0; i<10; i++) {
-            room1.addTileAt(new SpikeTile(250+ (i*30), -25, 15, 15));
-        }
+        // for (int i=0; i<10; i++) {
+        //     room1.addTileAt(new SpikeTile(250+ (i*30), -25, 15, 15));
+        // }
 
-        room1.addTileAt(new MovingPlatformTile(250, -70, 250, -150, 100, 50, 2));
+        room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 5));
 
         map.addRoomAt(room1, 0, 0);
     }
@@ -255,6 +255,12 @@ public class GameWindow extends JFrame {
                 player.dash(wPressed, aPressed, sPressed, dPressed);
             }
 
+            //player tick
+            player.tick(map);
+            //check death
+            if (player.isDead) {
+                resetGame();
+            }
             
             //tiles tick
             for (int i=0; i<map.mapRooms.length; i++) {
@@ -272,15 +278,7 @@ public class GameWindow extends JFrame {
             }
 
             updateCamera();
-
-            //player tick
-            player.tick(map);
-            //check death
-            if (player.isDead) {
-                resetGame();
-            }
-            
-            
+              
 
             //debugging
             windowXLabel.setText("Window MouseX: " + String.valueOf(windowMouseX));
