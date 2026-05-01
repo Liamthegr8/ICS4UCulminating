@@ -108,13 +108,16 @@ public class GameWindow extends JFrame {
         //create room to test
         room1.setLeaveRoomColor(0, Color.BLUE); 
         room1.setEnterRoomColor(0, Color.MAGENTA);
+        room2.setLeaveRoomColor(0, Color.MAGENTA); 
+        room2.setEnterRoomColor(0,Color.BLUE);
         room1.addTileAt(new PlatformTile(0,450, 500, 50,-1));
         room1.addTileAt(new PlatformTile(150,350, 50, 100,-1));
         room1.addTileAt(new PlatformTile(200,300, 50, 150,0));
         room1.addTileAt(new PlatformTile(400,300, 100, 150,1));
-        room1.addTileAt(new SpikeTile(300, 400, 50, 50));
+        room1.addTileAt(new SpikeTile(300, 400, 50, 50, 0));
+        room2.addTileAt(new SpikeTile(0,450,500,49,0));
         
-        room2.addTileAt(new MovingPlatformTile(250, 0,  100, 50, -1, 200, 400, 1));
+        room2.addTileAt(new MovingPlatformTile(125, 0,  100, 50, -1, 325, 200, 1));
 
         //room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 1));
 
@@ -218,7 +221,7 @@ public class GameWindow extends JFrame {
         public void actionPerformed(ActionEvent e) {
             //player movements inputs
             //can turn into inputActions fuction
-            if (wPressed) {
+            if (uPressed) {
                 player.jump();
             }
             if (aPressed) {
@@ -232,7 +235,7 @@ public class GameWindow extends JFrame {
             if (dPressed) {
                 player.updateVelocity(1, 0);
             }
-            if (uPressed) {
+            if (iPressed) {
                 player.dash(wPressed, aPressed, sPressed, dPressed);
             }
 

@@ -9,13 +9,13 @@ public class SpikeTile extends Tile{
     //int spikeWidth, spikeHeight;
     double scaleFactor = 2.3;
 
-    SpikeTile(int x, int y, int width, int height) {
-        super(x,y, width, height, -2);
+    SpikeTile(int x, int y, int width, int height, int assignedColorRoomIndex) {
+        super(x,y, width, height, assignedColorRoomIndex);
         isCollidable = true;
         killPlayer = true;
     }
 
-    @Override
+    /*@Override
     Image getScaledImage() { //UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED
         if (texture == null) {
             return null;
@@ -25,5 +25,5 @@ public class SpikeTile extends Tile{
         imageYOffset = -(int)(height*scaleFactor - height);
         return scaledImage;
     }
-
+   */
 }

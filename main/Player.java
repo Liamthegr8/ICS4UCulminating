@@ -7,7 +7,7 @@ public class Player extends Rectangle {
     double xx, yy;
     double vx, vy;
     double gravity;
-    final double friction = 0.1;
+    final double friction = 0.2;
     boolean canControl;
     int playerHealth;
     boolean isDead;
@@ -15,8 +15,8 @@ public class Player extends Rectangle {
     boolean isGrounded;
     boolean isTouchingRightWall;
     boolean isTouchingLeftWall;
-    int maxvx = 15;
-    int maxvy = 15;
+    int maxvx = 40;
+    int maxvy = 40;
     int collisionRadiusCheck = width*3;
 
     Player(int x, int y, int width, int height) {
@@ -24,7 +24,7 @@ public class Player extends Rectangle {
         surroundingTiles = new ArrayList<Tile>();
         vx = 0;
         vy = 0;
-        gravity = 1.07;
+        gravity = 0.9;
         isDead = false;
         playerHealth = 100;
         canControl = true;
@@ -254,13 +254,13 @@ public class Player extends Rectangle {
         // System.out.println(xx);
         // System.out.println(yy);
 
-        if (vy != 0) {
+        if (true) {
             isGrounded = false; //if removed, weeeeeeeeeeeee
             tryMoveY(vy, surroundingTiles);
         } //else not moving, no new updates basically
         //assume grounded, touchingWalls are false until proven
         //try to move (considers collisions)
-        if (vx != 0) {
+        if (true) {
             isTouchingLeftWall = false;
             isTouchingRightWall = false;
             tryMoveX(vx, surroundingTiles);
@@ -277,7 +277,7 @@ public class Player extends Rectangle {
         // isGrounded = false;
         // vy = 0;
         if (isGrounded) {
-            updateVelocity(0, -50); 
+            updateVelocity(0, -15); 
         }
             
     }
