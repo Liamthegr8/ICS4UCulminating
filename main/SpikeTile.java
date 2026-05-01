@@ -9,8 +9,8 @@ public class SpikeTile extends Tile{
     //int spikeWidth, spikeHeight;
     double scaleFactor = 2.3;
 
-    SpikeTile(int x, int y, int width, int height, int assignedColorRoomIndex) {
-        super(x,y, width, height, assignedColorRoomIndex);
+    SpikeTile(int x, int y, int width, int height, int assignedMapColorIndex) {
+        super(x,y, width, height, assignedMapColorIndex);
         isCollidable = true;
         killPlayer = true;
     }

@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.io.*;
 import java.net.URL;
+import java.util.Random;
 
 public class Tile {
     boolean killPlayer;
@@ -15,9 +16,12 @@ public class Tile {
     Image scaledImage;
     URL url;
     int imageXOffset, imageYOffset;
-    int assignedRoomColorIndex;
+    int assignedMapColorIndex;
+    int tileID;
 
-    Tile(int x, int y,int width,int height, int assignedRoomColorIndex) {
+    Tile(int x, int y,int width,int height, int assignedMapColorIndex) { //current tileID randomized, only manually set in 2nd contsructor
+        Random r = new Random();
+        this.tileID = r.nextInt(10000);
         this.x = x;
         this.y = y;
         this.width = width;
@@ -26,7 +30,7 @@ public class Tile {
         isCollidable = false;
         imageXOffset = 0;
         imageYOffset = 0;
-        this.assignedRoomColorIndex = assignedRoomColorIndex;
+        this.assignedMapColorIndex = assignedMapColorIndex;
 
         // if (customTexturePath != null) {
         //     texture = loadImage(customTexturePath);
@@ -35,8 +39,9 @@ public class Tile {
     }
 
     Tile(Tile tileData) { //this is specifically for getsurroundingtiles collisions
-        this.x = tileData.x;
-        this.y = tileData.y;
+        this.tileID = tileData.tileID;
+        this.x = tileData.x; //could be real or relative
+        this.y = tileData.y; //could be real or relative
         this.width = tileData.width;
         this.height = tileData.height;
         this.killPlayer = tileData.killPlayer;
@@ -70,10 +75,12 @@ public class Tile {
         return scaledImage;
     }
 
-    void tick(Player player) {}
+    void tick(Player player, int i, int j) {}
 
-    void copyTile() {} //not created for now
+    // void copyTile(Tile tileData) { //use 2nd constructor
+    //} 
 
-    void importTile() {} //just create a new tile for now. constructor 2
+    // static void importTile(Tile tileData) { //JUST create a new tile for now using constructor 2
+    //     new Tile(tileData);
+    // } 
 }
-

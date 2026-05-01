@@ -1,9 +1,13 @@
+import java.awt.*;
+
 public class Map {
     Room[][] mapRooms;
     static final int mapWidth = 20;
     static final int mapHeight = 20;
     //int mapWidthSize = mapWidth*Room.roomWidth;
     //int mapHeightSize = mapHeight*Room.roomHeight;
+    static int assignedColorsLength = 10;
+    Color[] assignedTileColors = new Color[assignedColorsLength]; //max 10 for testing
     
     Map() {
         mapRooms = new Room[mapWidth][mapHeight];
@@ -19,7 +23,13 @@ public class Map {
     void updateMiniMap() {
     }
 
-    
+    void setMapTileColor(int index, Color color) {
+        if (index >= 0 && index < assignedTileColors.length) { //stop errors
+            assignedTileColors[index] = color;
+        } else {
+            System.out.println("color2 variable out of bounds");
+        }
+    }
 
 }
 

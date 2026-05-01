@@ -2,33 +2,27 @@ import java.util.ArrayList;
 import java.awt.*;
 
 public class Room {
-    String roomName;
+    String roomID;
     ArrayList<Tile> roomTiles;
     //static final int roomDimensions = 50; //10
     static final int roomWidth = 500; //roomDimensions*Tile.tileSize;
     static final int roomHeight = 500; //roomDimensions*Tile.tileSize;
-    Color[] assignedTileColors = new Color[10]; //max 10 for testing
-    Color[] enterRoomTransitionTileColors = new Color[assignedTileColors.length];
-    Color[] leaveRoomTransitionTileColors = new Color[assignedTileColors.length];
+    Color[] enterRoomTransitionTileColors = new Color[Map.assignedColorsLength];
     int colorTransitionSpeed = 10;
-    // add colorsVaraiblesOnRoomEnter?
 
-    public Room(String roomName){
-        this.roomName = roomName;
+    public Room(String roomID){
+        this.roomID = roomID;
         this.roomTiles = new ArrayList<Tile>();
 
-        //populate to black
-        for (int i=0; i<assignedTileColors.length; i++) {
-            assignedTileColors[i] = Color.BLACK;
-        }
+        // //populate to black
+        // for (int i=0; i<assignedTileColors.length; i++) {
+        //     assignedTileColors[i] = Color.BLACK;
+        // }
     }
 
-    public Room(String roomName, ArrayList<Tile> data){
+    public Room(String roomID, ArrayList<Tile> data){
+        this.roomID = roomID;
         this.roomTiles = data;
-        //populate to black
-        for (int i=0; i<assignedTileColors.length; i++) {
-            assignedTileColors[i] = Color.BLACK;
-        }
     }
 
     // void loadFullRoom(Tile[][] data) {
@@ -50,27 +44,21 @@ public class Room {
         roomTiles.remove(index);
     }
 
-    void setEnterRoomColor(int index, Color color) {
-        if (index >= 0 && index < assignedTileColors.length) { //stop errors
+    void setEnterRoomTransitionColor(int index, Color color) {
+        if (index >= 0 && index < enterRoomTransitionTileColors.length) { //stop errors
             enterRoomTransitionTileColors[index] = color;
         } else {
             System.out.println("color variable out of bounds");
         }
     }
 
-    void setLeaveRoomColor(int index, Color color) {
-        if (index >= 0 && index < assignedTileColors.length) { //stop errors
-            leaveRoomTransitionTileColors[index] = color;
-        } else {
-            System.out.println("color2 variable out of bounds");
-        }
-    }
-
     //void tick, check if their I and J aligns with player location, if so apply the changetilescolor
-    void tick(Player player, int xIndex, int yIndex) {
+    void tick(Map map, Player player, int xIndex, int yIndex) {
         if (player.playerLocation != null && xIndex == player.playerLocation[0] && yIndex == player.playerLocation[1]) {
-            for (int i=0; i<assignedTileColors.length; i++) {
-                assignedTileColors[i] = enterRoomTransitionTileColors[i];
+            for (int i=0; i<Map.assignedColorsLength; i++) {
+                if (enterRoomTransitionTileColors[i] != null) {
+                    map.assignedTileColors[i] = enterRoomTransitionTileColors[i];
+                }
             }
             // for (int i=0; i<assignedTileColors.length; i++) {
             //     if (assignedTileColors[i] != null && enterRoomTransitionTileColors[i] != null) {
@@ -126,10 +114,6 @@ public class Room {
             //         }
             //     }
             // }
-        } else {
-            for (int i=0; i<assignedTileColors.length; i++) {
-                assignedTileColors[i] = leaveRoomTransitionTileColors[i];
-            }
         }
     }
 

@@ -5,8 +5,8 @@ public class MovingPlatformTile extends Tile{
     int moveSpeed;
     boolean moveForward;
     boolean playerOnTile;
-    MovingPlatformTile(int iniX, int iniY,  int width, int height, int assignedColorRoomIndex, int endX, int endY, int moveSpeed) {
-        super(iniX, iniY, width, height, assignedColorRoomIndex);
+    MovingPlatformTile(int iniX, int iniY,  int width, int height, int assignedMapColorIndex, int endX, int endY, int moveSpeed) {
+        super(iniX, iniY, width, height, assignedMapColorIndex);
         this.iniX = iniX;
         this.iniY = iniY;
         this.endX = endX;
@@ -18,22 +18,20 @@ public class MovingPlatformTile extends Tile{
     }
     
     @Override
-    void tick(Player player) {
-        Rectangle platformBounds = new Rectangle(x-1, y-1, width+2, height+2);
+    void tick(Player player, int roomX, int roomY) {
+        Rectangle platformBounds = new Rectangle(roomX*Room.roomWidth + x-1, roomY*Room.roomHeight + y-4, width+2, 5);
         //determine if on top, bottom or side
         // perform action (move player with platform)
-        if (platformBounds.intersects(player.getBounds())) {
+        if (platformBounds.intersects(player.getBounds()) == true) {
             playerOnTile = true;
         }
-        else {
-            playerOnTile = false;
-        }
+        else playerOnTile = false;
         
         if (moveForward) {
             if (x < endX) {
                 x += moveSpeed;
                 if (hitEndpoint()) moveForward = false;
-                if (playerOnTile) player.x += moveSpeed;
+                if (playerOnTile) player.x += moveSpeed; 
             }
             if (x > endX) {
                 x -= moveSpeed;

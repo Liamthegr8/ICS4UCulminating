@@ -102,14 +102,18 @@ public class GameWindow extends JFrame {
 
         //Tanush Mock Collision Setup
         map = new Map();
+        map.setMapTileColor(0, Color.BLUE);
+        map.setMapTileColor(1, Color.RED);
+
         Room room1 = new Room("Room1");
         Room room2 = new Room("Room2");   
 
         //create room to test
-        room1.setLeaveRoomColor(0, Color.BLUE); 
-        room1.setEnterRoomColor(0, Color.MAGENTA);
-        room2.setLeaveRoomColor(0, Color.MAGENTA); 
-        room2.setEnterRoomColor(0,Color.BLUE);
+        room1.setEnterRoomTransitionColor(0, Color.RED);
+        room1.setEnterRoomTransitionColor(0, Color.GREEN);
+        room1.setEnterRoomTransitionColor(0, Color.GRAY);
+        room1.setEnterRoomTransitionColor(0, Color.MAGENTA); 
+
         room1.addTileAt(new PlatformTile(0,450, 500, 50,-1));
         room1.addTileAt(new PlatformTile(150,350, 50, 100,-1));
         room1.addTileAt(new PlatformTile(200,300, 50, 150,0));
@@ -117,7 +121,7 @@ public class GameWindow extends JFrame {
         room1.addTileAt(new SpikeTile(300, 400, 50, 50, 0));
         room2.addTileAt(new SpikeTile(0,450,500,49,0));
         
-        room2.addTileAt(new MovingPlatformTile(125, 0,  100, 50, -1, 325, 200, 1));
+        room2.addTileAt(new MovingPlatformTile(100, 400,  100, 50, 0, 200, 400, 1));
 
         //room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 1));
 
@@ -239,37 +243,35 @@ public class GameWindow extends JFrame {
                 player.dash(wPressed, aPressed, sPressed, dPressed);
             }
 
-            //player tick
-            player.tick(map);
-            //check death
-            if (player.isDead) {
-                resetGame();
-            }
             //insert death on player out of bounds below: (future)
             
-            //room tick
-            for (int i=0; i<map.mapRooms.length; i++) {
-                for (int j=0; j<map.mapRooms.length; j++) {
-                    Room r = map.mapRooms[i][j];
-                    if (r != null) {
-                        r.tick(player, i, j);
-                    }
-                }
-            }
-
-
-
             //tiles tick
             for (int i=0; i<map.mapRooms.length; i++) {
                 for (int j=0; j<map.mapRooms.length; j++) {
                     Room r = map.mapRooms[i][j];
                     if (r != null) {
                         for (Tile tile: r.roomTiles) {
-                                Tile t = tile;
-                                if (t != null) {
-                                    t.tick(player);
+                                if (tile != null) {
+                                    tile.tick(player, i, j);
                                 }
                         }
+                    }
+                }
+            }
+
+            //player tick
+            player.tick(map);
+            //check death
+            if (player.isDead) {
+                resetGame();
+            }
+
+            //room tick
+            for (int i=0; i<map.mapRooms.length; i++) {
+                for (int j=0; j<map.mapRooms.length; j++) {
+                    Room r = map.mapRooms[i][j];
+                    if (r != null) {
+                        r.tick(map, player, i, j);
                     }
                 }
             }
@@ -325,12 +327,12 @@ public class GameWindow extends JFrame {
                                     g2.setColor(Color.BLACK);
                                     g2.setStroke(new BasicStroke(1));
 
-                                    if (t.assignedRoomColorIndex >= 0 && t.assignedRoomColorIndex<r.assignedTileColors.length && r.assignedTileColors[t.assignedRoomColorIndex] != null) {    
-                                        Color tileColor = r.assignedTileColors[t.assignedRoomColorIndex];
+                                    if (t.assignedMapColorIndex >= 0 && t.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[t.assignedMapColorIndex] != null) {    
+                                        Color tileColor = map.assignedTileColors[t.assignedMapColorIndex];
                                         g2.setColor(tileColor);
                                         g2.fillRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);  
                                     } else {
-                                        if (t.assignedRoomColorIndex == -2) { //for transparent tiles
+                                        if (t.assignedMapColorIndex == -2) { //for transparent tiles
                                             //no fill or draw
                                         } else { //assumes -1 - black
                                             g2.setColor(Color.BLACK);
