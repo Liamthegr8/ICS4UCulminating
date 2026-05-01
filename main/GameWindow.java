@@ -106,13 +106,19 @@ public class GameWindow extends JFrame {
         map.setMapTileColor(1, Color.RED);
 
         Room room1 = new Room("Room1");
-        Room room2 = new Room("Room2");   
+        Room room2 = new Room("Room2");
+        FileHandle x = new FileHandle();
+        Room room3= x.roomStringToRoomObject("abc", x.findRoom("abc"));
+        room3.setEnterRoomTransitionColor(0, Color.MAGENTA);
+        room3.setEnterRoomTransitionColor(1, Color.GRAY); 
 
         //create room to test
-        room1.setEnterRoomTransitionColor(0, Color.RED);
-        room1.setEnterRoomTransitionColor(0, Color.GREEN);
-        room1.setEnterRoomTransitionColor(0, Color.GRAY);
-        room1.setEnterRoomTransitionColor(0, Color.MAGENTA); 
+        room1.setEnterRoomTransitionColor(3, Color.RED);
+        room1.setEnterRoomTransitionColor(2, Color.GREEN);
+        room1.setEnterRoomTransitionColor(1, Color.GRAY);
+        room1.setEnterRoomTransitionColor(0, Color.MAGENTA);
+        room2.setEnterRoomTransitionColor(0, Color.RED);
+        room2.setEnterRoomTransitionColor(1, Color.GRAY); 
 
         room1.addTileAt(new PlatformTile(0,450, 500, 50,-1));
         room1.addTileAt(new PlatformTile(150,350, 50, 100,-1));
@@ -121,12 +127,13 @@ public class GameWindow extends JFrame {
         room1.addTileAt(new SpikeTile(300, 400, 50, 50, 0));
         room2.addTileAt(new SpikeTile(0,450,500,49,0));
         
-        room2.addTileAt(new MovingPlatformTile(100, 400,  100, 50, 0, 200, 400, 1));
+        room2.addTileAt(new MovingPlatformTile(100, 400,  100, 50, 1, 200, 400, 1));
 
         //room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 1));
 
         map.addRoomAt(room1, 0, 1);
         map.addRoomAt(room2, 1, 1);
+        map.addRoomAt(room3, 2, 1);
     }
 
     class KeyHandler extends KeyAdapter {
