@@ -6,6 +6,6 @@ public class PlatformTile extends Tile {
         super(x, y, width, height, texture);
         killPlayer = false;
         isCollidable = true;
-        //texture = loadImage("main\\resources\\Block.png");
+        //texture = loadImage("main\\resources\\Block.png"); //outdated
     }
 }

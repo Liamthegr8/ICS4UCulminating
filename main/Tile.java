@@ -64,7 +64,7 @@ public class Tile {
         if (texture == null) {
             return null;
         }
-        scaledImage = texture.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        scaledImage = texture.getScaledInstance(width, height, Image.SCALE_DEFAULT);
         return scaledImage;
     }
 

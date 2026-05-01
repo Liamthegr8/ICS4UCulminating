@@ -24,7 +24,7 @@ public class SpikeTile extends Tile{
         if (texture == null) {
             return null;
         }
-        scaledImage = texture.getScaledInstance((int)(width*scaleFactor), (int)(height*scaleFactor), Image.SCALE_SMOOTH);
+        scaledImage = texture.getScaledInstance((int)(width*scaleFactor), (int)(height*scaleFactor), Image.SCALE_DEFAULT);
         imageXOffset = -(int)((width*scaleFactor - width)/2);
         imageYOffset = -(int)(height*scaleFactor - height);
         return scaledImage;

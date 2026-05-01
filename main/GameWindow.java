@@ -98,7 +98,7 @@ public class GameWindow extends JFrame {
     private void resetGame() {
         camX = 0;
         camY = 0;
-        player = new Player(0,490,30,30); //resets to constructors
+        player = new Player(0,500,30,30); //resets to constructors
 
         //Tanush Mock Collision Setup
         map = new Map();
@@ -125,13 +125,13 @@ public class GameWindow extends JFrame {
         // room1.addTileAt(new PlatformTile(450,100, 50, 50));
 
         //create room to test
-        room1.addTileAt(new PlatformTile(0,0, 500, 50,null));
-        room1.addTileAt(new PlatformTile(150,-100, 50, 100,null));
-        room1.addTileAt(new PlatformTile(200,-150, 50, 150,null));
-        room1.addTileAt(new PlatformTile(400,-150, 100, 150,null));
-        room1.addTileAt(new SpikeTile(300, 0, 50, 50));
+        room1.addTileAt(new PlatformTile(0,500, 500, 50,null));
+        room1.addTileAt(new PlatformTile(150,400, 50, 100,null));
+        room1.addTileAt(new PlatformTile(200,350, 50, 150,null));
+        room1.addTileAt(new PlatformTile(400,350, 100, 150,"Spike.png"));
+        //room1.addTileAt(new SpikeTile(300, 0, 50, 50));
         
-        room1.addTileAt(new MovingPlatformTile(200, 0, 200, 400, 100, 50, 1));
+        room2.addTileAt(new MovingPlatformTile(200, 0, 200, 400, 100, 50, 1));
 
         //room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 1));
 
@@ -315,44 +315,18 @@ public class GameWindow extends JFrame {
             //Turn on antialiasing
 		    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            //code
-            if (player.isTouchingRightWall) {
-                g2.setColor(Color.YELLOW);
-            } else if (player.isTouchingLeftWall) {
-                g2.setColor(Color.ORANGE);
-            } else if (player.isGrounded) {
-                g2.setColor(Color.GREEN);
-            } else {
-                g2.setColor(Color.RED);
-            }
-
-            g2.fillRect(player.x+camX, player.y+camY, player.width, player.height);
-
-            //Tanush Code Render Tiles
+            //DEBUG
+            //Render Map bounds
             for (int i=0; i<map.mapRooms.length; i++) {
                 for (int j=0; j<map.mapRooms.length; j++) {
                     Room r = map.mapRooms[i][j];
                     if (r != null) {
-                        for (Tile tile: r.roomTiles) {
-                                Tile t = tile;
-                                if (t != null) {
-                                    g2.setColor(Color.BLACK);
-                                    if (t.killPlayer) {
-                                        g2.setColor(Color.MAGENTA);
-                                   
-                                    }
-                                    if (t.getScaledImage() == null) {
-                                        g2.drawRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
-                                    }
-                                    else {
-                                    g2.drawImage(t.scaledImage, t.x + t.imageXOffset + camX, t.y + t.imageYOffset + camY, null);
-                                    }
-                                }
-                        }
+                        g2.setColor(Color.GRAY);
+                        g2.setStroke(new BasicStroke(5));
+                        g2.drawRect(i*Room.roomWidth + camX, j*Room.roomHeight + camY, Room.roomWidth, Room.roomHeight);
                     }
                 }
             }
-
             //Render surroundingTiles
             ArrayList<Tile> tiles = player.surroundingTiles;
             for (Tile tile: tiles) {
@@ -365,6 +339,55 @@ public class GameWindow extends JFrame {
                     g2.drawRect(t.x+camX, t.y+camY, t.width, t.height);
                 }
             }
+
+            //Render currentRoom
+            if (player.playerLocation != null) {
+                g2.setColor(Color.CYAN);
+                g2.setStroke(new BasicStroke(3));
+                g2.drawRect(player.playerLocation[0]*Room.roomWidth + camX, player.playerLocation[1]*Room.roomHeight + camY, Room.roomWidth, Room.roomHeight);
+            }
+
+            //Tanush Code Render Tiles
+            for (int i=0; i<map.mapRooms.length; i++) {
+                for (int j=0; j<map.mapRooms.length; j++) {
+                    Room r = map.mapRooms[i][j];
+                    if (r != null) {
+                        for (Tile tile: r.roomTiles) {
+                                Tile t = tile;
+                                if (t != null) {
+                                    g2.setColor(Color.BLACK);
+                                    g2.setStroke(new BasicStroke(1));
+                                    if (t.killPlayer) {
+                                        g2.setColor(Color.MAGENTA);
+                                   
+                                    }
+                                    if (t.getScaledImage() == null) {
+                                        g2.drawRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
+                                    }
+                                    else {
+                                    g2.drawImage(t.scaledImage, i*Room.roomWidth + t.x + t.imageXOffset + camX, j*Room.roomHeight + t.y + t.imageYOffset + camY, null);
+                                    }
+                                }
+                        }
+                    }
+                }
+            }
+
+            
+
+            //Player
+            if (player.isTouchingRightWall) {
+                g2.setColor(Color.YELLOW);
+            } else if (player.isTouchingLeftWall) {
+                g2.setColor(Color.ORANGE);
+            } else if (player.isGrounded) {
+                g2.setColor(Color.GREEN);
+            } else {
+                g2.setColor(Color.RED);
+            }
+            g2.fillRect(player.x+camX, player.y+camY, player.width, player.height);
+
+            
         }
     }
 

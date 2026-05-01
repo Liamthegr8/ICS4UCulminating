@@ -224,32 +224,32 @@ public class Player extends Rectangle {
         }
     }
 
-    // int[] getPlayerLocation(Map map) {
-    //     int[] tempPlayerLocation = new int[2]; //[roomx, roomy]
-    //     for (int i=0; i<map.mapRooms.length; i++) {
-    //         for (int j=0; j<map.mapRooms.length; j++) {
-    //             Room r = map.mapRooms[i][j];
+    int[] getPlayerLocation(Map map) {
+        int[] tempPlayerLocation = new int[2]; //[roomx, roomy]
+        for (int i=0; i<map.mapRooms.length; i++) {
+            for (int j=0; j<map.mapRooms.length; j++) {
+                Room r = map.mapRooms[i][j];
                 
-    //             if (r != null) {
-    //                 Rectangle room = new Rectangle(i*Room.roomWidth, j*Room.roomHeight, Room.roomWidth, Room.roomHeight);
-    //                 if (room.intersects(this)) {
-    //                     tempPlayerLocation[0] = i;
-    //                     tempPlayerLocation[1] = j;
-    //                     return tempPlayerLocation;
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return null;
+                if (r != null) {
+                    Rectangle room = new Rectangle(i*Room.roomWidth, j*Room.roomHeight, Room.roomWidth, Room.roomHeight);
+                    if (room.intersects(this)) {
+                        tempPlayerLocation[0] = i;
+                        tempPlayerLocation[1] = j;
+                        return tempPlayerLocation;
+                    }
+                }
+            }
+        }
+        return null;
         
-    // }
+    }
 
     void tick(Map map) {
         //isGrounded = false;
 
         applyVelocity();
         getSurroundingTiles(map);
-        //playerLocation = getPlayerLocation(map);
+        playerLocation = getPlayerLocation(map);
         // System.out.println(xx);
         // System.out.println(yy);
 
