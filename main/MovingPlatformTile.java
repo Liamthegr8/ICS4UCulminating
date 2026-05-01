@@ -5,8 +5,8 @@ public class MovingPlatformTile extends Tile{
     int moveSpeed;
     boolean moveForward;
     boolean playerOnTile;
-    MovingPlatformTile(int iniX, int iniY, int endX, int endY, int width, int height, int moveSpeed) {
-        super(iniX, iniY, width, height, null);
+    MovingPlatformTile(int iniX, int iniY,  int width, int height, int assignedColorRoomIndex, int endX, int endY, int moveSpeed) {
+        super(iniX, iniY, width, height, assignedColorRoomIndex);
         this.iniX = iniX;
         this.iniY = iniY;
         this.endX = endX;

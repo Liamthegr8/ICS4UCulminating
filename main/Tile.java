@@ -15,8 +15,9 @@ public class Tile {
     Image scaledImage;
     URL url;
     int imageXOffset, imageYOffset;
+    int assignedRoomColorIndex;
 
-    Tile(int x, int y,int width,int height, String customTexturePath) {
+    Tile(int x, int y,int width,int height, int assignedRoomColorIndex) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -25,11 +26,12 @@ public class Tile {
         isCollidable = false;
         imageXOffset = 0;
         imageYOffset = 0;
+        this.assignedRoomColorIndex = assignedRoomColorIndex;
 
-        if (customTexturePath != null) {
-            texture = loadImage(customTexturePath);
-            getScaledImage();
-        }
+        // if (customTexturePath != null) {
+        //     texture = loadImage(customTexturePath);
+        //     getScaledImage();
+        // }
     }
 
     Tile(Tile tileData) { //this is specifically for getsurroundingtiles collisions
@@ -41,7 +43,7 @@ public class Tile {
         this.isCollidable = tileData.isCollidable;
     }
 
-    BufferedImage loadImage(String filename) {
+    BufferedImage loadImage(String filename) { //UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED
         url = this.getClass().getResource("/assets/" + filename);
         BufferedImage img = null;
        if (url != null) {
@@ -50,9 +52,9 @@ public class Tile {
 	} catch (IOException e) {
 		e.printStackTrace();
 	}
-} else {
-	JOptionPane.showMessageDialog(null, "An image failed to load: " + filename , "ERROR", JOptionPane.ERROR_MESSAGE);
-}
+    } else {
+        JOptionPane.showMessageDialog(null, "An image failed to load: " + filename , "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
 
         //DEBUG
         //if (img == null) System.out.println("null");
@@ -60,7 +62,7 @@ public class Tile {
         return img;
     }
 
-    Image getScaledImage() {
+    Image getScaledImage() { //UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED
         if (texture == null) {
             return null;
         }
@@ -70,8 +72,8 @@ public class Tile {
 
     void tick(Player player) {}
 
-    void copyTile() {}
+    void copyTile() {} //not created for now
 
-    void importTile() {}
+    void importTile() {} //just create a new tile for now. constructor 2
 }
 

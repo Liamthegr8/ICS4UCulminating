@@ -10,17 +10,13 @@ public class SpikeTile extends Tile{
     double scaleFactor = 2.3;
 
     SpikeTile(int x, int y, int width, int height) {
-        //spikeWidth = width;
-        //spikeHeight = height;
-        //super(x + (int) ((int)width * 0.3), y + (int) ((int)width * 0.4), (int) ((int)width * 0.4), (int) ((int)height * 0.6));
-        super(x,y, width, height, null);
+        super(x,y, width, height, -2);
         isCollidable = true;
         killPlayer = true;
-        texture = loadImage("Spike.png");
     }
 
     @Override
-    Image getScaledImage() {
+    Image getScaledImage() { //UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED
         if (texture == null) {
             return null;
         }

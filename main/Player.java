@@ -31,7 +31,8 @@ public class Player extends Rectangle {
         canDash = false;
         isGrounded = false;
         isTouchingRightWall = false;
-        isTouchingLeftWall = false;    
+        isTouchingLeftWall = false;
+        playerLocation = null;    
     }
 
     // void applyDamage(int dmg) {
