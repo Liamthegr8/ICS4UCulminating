@@ -1,4 +1,5 @@
 import java.io.*;
+import java.awt.*;
 public class FileHandle{
     String words;
     String line;
@@ -9,16 +10,20 @@ public class FileHandle{
     FileHandle() {
         
     }
+    public Room findRoom(String roomName){
+        return roomStringToRoomObject(roomName, findRoomString(roomName));
+    }
 
-    public String findRoom(String roomName) {
+
+    public String findRoomString(String roomName) {
         try {
-            room = new File("C:/Users/limth/Documents/GitHub/ICS4UCulminating/main/assets/roomData.txt");
+            room = new File("main\\assets\\roomData.txt");
             readStream = new FileReader(room);
 	        in = new BufferedReader(readStream);
             
             while((line = in.readLine()) != null){
                String name = line.substring(line.indexOf('(')+1,line.indexOf(')'));
-               System.out.println(name);
+               //System.out.println(name);
                if(name.contentEquals(roomName)){
                     return line.substring(line.indexOf(')')+1);
                }
@@ -44,26 +49,22 @@ public class FileHandle{
                     tileParamLength++;
                 }
                 String tileParam= roomData.substring(index+4,index+5+tileParamLength);
-                System.out.println(tileParam);
+                //System.out.println(tileParam);
                 switch (tileID){
-                    case 1: 
-                               System.out.println("i am a wall");
-                               System.out.println("my parameters are:"); 
-                               System.out.println(tileParameter(tileParam, 1));
-                               System.out.println(tileParameter(tileParam, 2));
-                               System.out.println(tileParameter(tileParam, 3));
-                               System.out.println(tileParameter(tileParam, 4));
+                    case 0:
+                                room.setEnterRoomTransitionColor(tileParameter(tileParam, 1),new Color(tileParameter(tileParam, 2),tileParameter(tileParam, 3),tileParameter(tileParam, 4)));
+                                break;
+                                
+                    case 1:
                                room.addTileAt(new PlatformTile(tileParameter(tileParam, 1), tileParameter(tileParam, 2), tileParameter(tileParam, 3), tileParameter(tileParam, 4), tileParameter(tileParam, 5)));
                                break;
                     case 2: 
-                               System.out.println("i am a spike");
-                               System.out.println("my parameters are:"); 
-                               System.out.println(tileParameter(tileParam, 1));
-                               System.out.println(tileParameter(tileParam, 2));
-                               System.out.println(tileParameter(tileParam, 3));
-                               System.out.println(tileParameter(tileParam, 4));
                                room.addTileAt(new SpikeTile(tileParameter(tileParam, 1), tileParameter(tileParam, 2), tileParameter(tileParam, 3), tileParameter(tileParam, 4), tileParameter(tileParam, 5)));
                                break;
+                    case 3:
+                               room.addTileAt(new MovingPlatformTile(tileParameter(tileParam, 1), tileParameter(tileParam, 2), tileParameter(tileParam, 3), tileParameter(tileParam, 4), tileParameter(tileParam, 5), tileParameter(tileParam, 6), tileParameter(tileParam, 7), tileParameter(tileParam, 8)));
+                               break; 
+
 
                 }
             }
@@ -87,4 +88,5 @@ public class FileHandle{
         return Integer.parseInt(tileString.substring(start,end));
         
     }
+
 }
