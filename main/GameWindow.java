@@ -20,7 +20,7 @@ public class GameWindow extends JFrame {
     boolean wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed; //removed pPressed
     boolean qPressed; //testing buttons
 
-    //debugging
+    //debugging(Labels for various statistics)
     int windowMouseX = 0;
     int windowMouseY = 0;
     JLabel playerXLabel;
@@ -37,8 +37,11 @@ public class GameWindow extends JFrame {
 
 
     public static void main(String[] args) {
-         new GameWindow(); //temp non threaded for testing
-	}
+        //Main String, setting up gamewindow
+        //temp non threaded for testing
+            new GameWindow();
+            }
+          
 
     GameWindow() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,6 +85,7 @@ public class GameWindow extends JFrame {
         gameSetup();
     }
 
+    //Game setup code
     private void gameSetup() {
         //Set up timer
         tick = new Timer(tickDelay, panel);
@@ -95,6 +99,7 @@ public class GameWindow extends JFrame {
         resetGame();
     }
 
+    //Resets player, camera, and map data upon player death
     private void resetGame() {
         camX = 0;
         camY = 0;
@@ -124,11 +129,13 @@ public class GameWindow extends JFrame {
         map.addRoomAt(room3, 2, 1);
     }
 
-    class KeyHandler extends KeyAdapter {
+    //private keyhandler class to recognize keypresses
+    private class KeyHandler extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             //no panel repaint here. otherwise the graphics will update when key pressed instantly. not upon fixed tick delay
             //if repainted, this can be exploited to speed up time
+            //Checks if any of the viable buttons are pressed
             if (e.getKeyCode() == KeyEvent.VK_W) {
                 wPressed = true;
             }
@@ -164,6 +171,7 @@ public class GameWindow extends JFrame {
                 qPressed = true;
             } 
         }
+        //makes sure that buttons that are no longer being held aren't still being seen as held
         public void keyReleased(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_W) {
                 wPressed = false;
@@ -202,6 +210,7 @@ public class GameWindow extends JFrame {
         }
     }
 
+    //Mouse tracking class, unlikely to be used
     class MouseMotionHandler extends MouseAdapter {
         @Override
         public void mouseMoved(MouseEvent e) {
@@ -210,6 +219,7 @@ public class GameWindow extends JFrame {
         }
     }
 
+    //Private class responsible for the creation of the JPanel
     private class DrawingPanel extends JPanel implements ActionListener {
         DrawingPanel() {
             this.setPreferredSize(new Dimension(windowX,windowY));

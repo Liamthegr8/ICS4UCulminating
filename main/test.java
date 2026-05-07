@@ -8,7 +8,7 @@ public class test {
         System.out.println(test1);
         System.out.println(test2);
         System.out.println("GRAND TEST");
-        x.roomStringToRoomObject("abc", x.findRoom("abc"));
+        //x.roomStringToRoomObject("abc", x.findRoom("abc"));
         
     }
 }

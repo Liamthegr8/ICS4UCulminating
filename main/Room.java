@@ -60,6 +60,10 @@ public class Room {
                     map.assignedTileColors[i] = enterRoomTransitionTileColors[i];
                 }
             }
+
+
+            // What the fuck is this?????????
+
             // for (int i=0; i<assignedTileColors.length; i++) {
             //     if (assignedTileColors[i] != null && enterRoomTransitionTileColors[i] != null) {
             //         Color targetColor = enterRoomTransitionTileColors[i];

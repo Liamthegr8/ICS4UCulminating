@@ -8,6 +8,7 @@ public class Player extends Rectangle {
     double vx, vy;
     double gravity;
     final double friction = 0.2;
+    //checks to see if the player is able to control the player character(Depricated, was intended for room transitions)
     boolean canControl;
     int playerHealth;
     boolean isDead;
@@ -225,6 +226,7 @@ public class Player extends Rectangle {
         }
     }
 
+    //Checks where player is on map
     int[] getPlayerLocation(Map map) {
         int[] tempPlayerLocation = new int[2]; //[roomx, roomy]
         for (int i=0; i<map.mapRooms.length; i++) {

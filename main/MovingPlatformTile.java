@@ -18,6 +18,7 @@ public class MovingPlatformTile extends Tile{
     }
     
     @Override
+    //Moves the moving platform :D
     void tick(Player player, int roomX, int roomY) {
         Rectangle platformBounds = new Rectangle(roomX*Room.roomWidth + x-1, roomY*Room.roomHeight + y-4, width+2, 5);
         //determine if on top, bottom or side

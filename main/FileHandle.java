@@ -10,11 +10,13 @@ public class FileHandle{
     FileHandle() {
         
     }
+
+    //Findes a room from txt file with room name
     public Room findRoom(String roomName){
         return roomStringToRoomObject(roomName, findRoomString(roomName));
     }
 
-
+    //Given room name, finds room data as a string
     public String findRoomString(String roomName) {
         try {
             room = new File("main\\assets\\roomData.txt");
@@ -38,6 +40,8 @@ public class FileHandle{
 		}
         return null;
     }
+
+    //Turns the returned room data string into a room object
     public Room roomStringToRoomObject(String roomName, String roomData){
         int index=0;
         Room room = new Room(roomName);
@@ -72,8 +76,10 @@ public class FileHandle{
         }
         return room;
     }
+
     //tilestring is your line of text inside the <> for your tile
     //param index is which parameter do you want for your tile
+    //Checks the parameters for the tile within the room
     public int tileParameter(String tileString, int paramIndex){
         int end =-1;
         int start =0;
