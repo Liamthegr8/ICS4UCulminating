@@ -9,6 +9,7 @@ public class Player extends Rectangle {
     double gravity;
     final double friction = 0.2;
     //checks to see if the player is able to control the player character(Depricated, was intended for room transitions)
+    //repurposed for dashes
     boolean canControl;
     int playerHealth;
     boolean isDead;
@@ -19,6 +20,15 @@ public class Player extends Rectangle {
     int maxvx = 40;
     int maxvy = 40;
     int collisionRadiusCheck = width*3;
+    int noGravityTime=0;
+    int dashTime=2;
+    double dashSpeed=30;
+    double dashSpeedDiag=(dashSpeed * Math.sqrt(0.5));
+    //true is right false is left
+    boolean directionFaced=true;
+    final double airFriction = 0.05;
+    int noControlTime=0;
+
 
     Player(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -48,7 +58,8 @@ public class Player extends Rectangle {
         this.x += x;
         this.y += y;
     }
-
+    //changed so that now always update veloctity
+    //but you cant change velocity if you cant control
     void updateVelocity(double vx, double vy) {
             if (canControl) {
                 this.vx += vx; //IF canControl, then apply these
@@ -62,6 +73,11 @@ public class Player extends Rectangle {
                 this.vy = vy;
             }
     }
+    //works evev if player cant control
+    void setDashVelocity(double vx, double vy){
+        this.vx = vx; 
+        this.vy = vy;
+    }
 
     void applyVelocity() {
         //apply gravity
@@ -70,14 +86,18 @@ public class Player extends Rectangle {
         //     isGrounded = false;
         // }
         
-        //regardless if grounded
-        vy += gravity;
+        //appliesGravity
+        //noGravityTime ticks down one every tick until it equals to 0
+        if(noGravityTime==0){
+            vy += gravity;
+        }
         
         
-        //apply friction
-        vx *= (1-friction);
-        vy *= (1);
-        
+        //apply friction only if player can control(not it dash)
+        if(canControl){
+            vx *= (1-friction);
+            vy *= (1);
+        }
         //round super low velocities to 0
         if(vx<0.1 && vx>-0.1){
             vx=0;
@@ -289,30 +309,38 @@ public class Player extends Rectangle {
     void dash(boolean w, boolean a, boolean s, boolean d) {
         if (canDash) {
             if (w && !a && !d) {
-            setVelocity(0,-15);
+            setVelocity(0,-dashSpeed);
         }
-        if (a && !w && !s) {
-            setVelocity(-15,0);
+        else if (a && !w && !s && !d) {
+            setVelocity(-dashSpeed,0);
         }
-        if (s && !a && !d) {
-            setVelocity(0,15);
+        else if (s && !a && !d) {
+            setVelocity(0,dashSpeed);
         }
-        if (d && !w && !s) {
-            setVelocity(15,0);
+        else if (d && !w && !s && !a) {
+            setVelocity(dashSpeed,0);
         }
-        if (w && a) {
-            setVelocity(-15,-15);
+        else if (w && a) {
+            setVelocity(-dashSpeedDiag,-dashSpeedDiag);
         }
-        if (s && a) {
-            setVelocity(-15,15);
+        else if (s && a) {
+            setVelocity(-dashSpeedDiag,dashSpeedDiag);
         }
-        if (w && d) {
-            setVelocity(15,-15);
+        else if (w && d) {
+            setVelocity(dashSpeedDiag,-dashSpeedDiag);
         }
-        if (s && d) {
-            setVelocity(15,15);
+        else if (s && d) {
+            setVelocity(dashSpeedDiag,dashSpeedDiag);
+        }
+        else if(directionFaced){
+            setVelocity(dashSpeedDiag,0);
+        }
+        else{
+            setVelocity(-dashSpeedDiag,0);
         }
         canDash = false;
+        noGravityTime = dashTime;
+        noControlTime = dashTime;
         }
         
     }

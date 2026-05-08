@@ -142,12 +142,16 @@ public class GameWindow extends JFrame {
             }
             if (e.getKeyCode() == KeyEvent.VK_A) {
                 aPressed = true;
+                //this needs to be here as it needs to be able to be updated even if a or d is being held so it always updates to most recently pressed
+                player.directionFaced=false;
             }
             if (e.getKeyCode() == KeyEvent.VK_S) {
                 sPressed = true;
             }
             if (e.getKeyCode() == KeyEvent.VK_D) {
                 dPressed = true;
+                //this needs to be here as it needs to be able to be updated even if a or d is being held so it always updates to most recently pressed
+                player.directionFaced=true;
             }
             if (e.getKeyCode() == KeyEvent.VK_U) {
                 uPressed = true;
@@ -229,6 +233,16 @@ public class GameWindow extends JFrame {
         //GAMELOOP & Timer
         @Override
         public void actionPerformed(ActionEvent e) {
+            //ticks down cooldowns
+            //nogravity
+            if(player.noGravityTime > 0) player.noGravityTime--;
+            //nocontrol
+            if(player.noControlTime>0){
+                player.canControl=false;
+                player.noControlTime--;
+            }else{
+                player.canControl=true;
+            }
             //player movements inputs
             //can turn into inputActions fuction
             if (uPressed) {
@@ -236,6 +250,7 @@ public class GameWindow extends JFrame {
             }
             if (aPressed) {
                 player.updateVelocity(-1, 0);
+                
             }
             if (sPressed) {
             }
