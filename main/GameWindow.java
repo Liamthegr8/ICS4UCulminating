@@ -104,7 +104,7 @@ public class GameWindow extends JFrame {
     private void resetGame() {
         camX = 0;
         camY = 0;
-        player = new Player(0,500,30,30); //resets to constructors
+        player = new Player(0,500,10,20); //resets to constructors
 
         //Tanush Mock Collision Setup
         map = new Map();
@@ -113,21 +113,32 @@ public class GameWindow extends JFrame {
 
         FileHandle x = new FileHandle();
         Room room1 = x.findRoom("RoomTest1");
-        Room room2 = new Room("Room2");
+        //Room room2 = new Room("Room2");
+        Room room2 = x.findRoom("RoomTest2");
         Room room3= x.findRoom("RoomTest3");
+        Room room4= x.findRoom("RoomTest4");
+        Room hole= x.findRoom("FloorOpenTest");
+        Room Runway= x.findRoom("Runway");
 
         //create room to test
-        room2.setEnterRoomTransitionColor(0, Color.RED);
-        room2.setEnterRoomTransitionColor(1, Color.GRAY); 
-        room2.addTileAt(new SpikeTile(0,450,500,49,0));
+        //room2.setEnterRoomTransitionColor(0, Color.RED);
+        //room2.setEnterRoomTransitionColor(1, Color.GRAY); 
+        //room2.addTileAt(new SpikeTile(0,450,500,49,0));
         
-        room2.addTileAt(new MovingPlatformTile(100, 400,  100, 50, 1, 200, 400, 1));
+        //room2.addTileAt(new MovingPlatformTile(100, 400,  100, 50, 1, 200, 400, 1));
 
         //room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 1));
 
         map.addRoomAt(room1, 0, 1);
         map.addRoomAt(room2, 1, 1);
         map.addRoomAt(room3, 2, 1);
+        map.addRoomAt(room4, 3, 1);
+        map.addRoomAt(room3, 4, 1);
+        map.addRoomAt(room3, 5, 1);
+        map.addRoomAt(hole, 3, 0);
+        map.addRoomAt(Runway, 4, 0);
+        map.addRoomAt(Runway, 5, 0);
+        map.addRoomAt(Runway, 2, 0);
     }
 
     //private keyhandler class to recognize keypresses
