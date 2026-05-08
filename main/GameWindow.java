@@ -249,7 +249,12 @@ public class GameWindow extends JFrame {
                 player.jump();
             }
             if (aPressed) {
-                player.updateVelocity(-1, 0);
+                if(player.isGrounded){
+                    player.updateVelocity(-10*player.friction, 0);
+                }else{
+                    player.updateVelocity(-10*player.airFriction, 0);
+                }
+                
                 
             }
             if (sPressed) {
@@ -258,7 +263,11 @@ public class GameWindow extends JFrame {
                 resetGame();
             }
             if (dPressed) {
-                player.updateVelocity(1, 0);
+                if(player.isGrounded){
+                    player.updateVelocity(10*player.friction, 0);
+                }else{
+                    player.updateVelocity(10*player.airFriction, 0);
+                }
             }
             if (iPressed) {
                 player.dash(wPressed, aPressed, sPressed, dPressed);
@@ -409,7 +418,9 @@ public class GameWindow extends JFrame {
             }
 
             //Player
-            if (player.isTouchingRightWall) {
+            if (!player.canControl){
+                g2.setColor(Color.blue);
+            } else if (player.isTouchingRightWall) {
                 g2.setColor(Color.YELLOW);
             } else if (player.isTouchingLeftWall) {
                 g2.setColor(Color.ORANGE);

@@ -21,8 +21,8 @@ public class Player extends Rectangle {
     int maxvy = 40;
     int collisionRadiusCheck = width*3;
     int noGravityTime=0;
-    int dashTime=2;
-    double dashSpeed=30;
+    int dashTime=5;
+    double dashSpeed=20;
     double dashSpeedDiag=(dashSpeed * Math.sqrt(0.5));
     //true is right false is left
     boolean directionFaced=true;
@@ -95,8 +95,15 @@ public class Player extends Rectangle {
         
         //apply friction only if player can control(not it dash)
         if(canControl){
-            vx *= (1-friction);
-            vy *= (1);
+            if(isGrounded){
+                vx *= (1-friction);
+                vy *= (1-airFriction);
+            }else{
+                vy *= (1-airFriction);
+                vx *= (1-airFriction);
+            }
+            
+            
         }
         //round super low velocities to 0
         if(vx<0.1 && vx>-0.1){
@@ -107,6 +114,7 @@ public class Player extends Rectangle {
         }
         
         //max speed limits
+        /** 
         if (vx >= maxvx) {
             vx = maxvx;
         }
@@ -119,6 +127,8 @@ public class Player extends Rectangle {
         if (vy <= -maxvy) {
             vy = -maxvy;
         }
+            */
+
     }
 
     
@@ -299,6 +309,10 @@ public class Player extends Rectangle {
         // isGrounded = false;
         // vy = 0;
         if (isGrounded) {
+            noControlTime = 0;
+            noGravityTime = 0;
+            canControl = true;
+
             updateVelocity(0, -15); 
         }
             
