@@ -60,64 +60,6 @@ public class Room {
                     map.assignedTileColors[i] = enterRoomTransitionTileColors[i];
                 }
             }
-
-
-            // What the fuck is this?????????
-
-            // for (int i=0; i<assignedTileColors.length; i++) {
-            //     if (assignedTileColors[i] != null && enterRoomTransitionTileColors[i] != null) {
-            //         Color targetColor = enterRoomTransitionTileColors[i];
-            //         Color currentColor = assignedTileColors[i];
-            //         // boolean increaseRed = false;
-            //         // boolean increaseGreen = false;
-            //         // boolean increaseBlue = false;
-            //         if (currentColor.getRed() == targetColor.getRed()) {
-            //             //already done red shift
-            //         } else if (currentColor.getRed() < targetColor.getRed()) {
-            //             currentColor = new Color(currentColor.getRed() + colorTransitionSpeed, currentColor.getGreen(), currentColor.getBlue());
-            //             //check overdo
-            //             if (currentColor.getRed() > targetColor.getRed()) {
-            //                 currentColor = new Color(targetColor.getRed(), currentColor.getGreen(), currentColor.getBlue());
-            //             }
-            //         } else {
-            //             currentColor = new Color(currentColor.getRed() - colorTransitionSpeed, currentColor.getGreen(), currentColor.getBlue());
-            //             //check overdo
-            //             if (currentColor.getRed() < targetColor.getRed()) {
-            //                 currentColor = new Color(targetColor.getRed(), currentColor.getGreen(), currentColor.getBlue());
-            //             }
-            //         }
-            //         if (currentColor.getGreen() == targetColor.getGreen()) {
-            //             //already done green shift
-            //         } else if (currentColor.getGreen() < targetColor.getGreen()) {
-            //             currentColor = new Color(currentColor.getRed(), currentColor.getGreen() + colorTransitionSpeed, currentColor.getBlue());
-            //             //check overdo
-            //             if (currentColor.getGreen() > targetColor.getGreen()) {
-            //                 currentColor = new Color(currentColor.getRed(), targetColor.getGreen(), currentColor.getBlue());
-            //             }
-            //         } else {
-            //             currentColor = new Color(currentColor.getRed(), currentColor.getGreen() - colorTransitionSpeed, currentColor.getBlue());
-            //             //check overdo
-            //             if (currentColor.getGreen() < targetColor.getGreen()) {
-            //                 currentColor = new Color(currentColor.getRed(), targetColor.getGreen(), currentColor.getBlue());
-            //             }
-            //         }
-            //         if (currentColor.getBlue() == targetColor.getBlue()) {
-            //             //already done blue shift
-            //         } else if (currentColor.getBlue() < targetColor.getBlue()) {
-            //             currentColor = new Color(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue() + colorTransitionSpeed);
-            //             //check overdo
-            //             if (currentColor.getBlue() > targetColor.getBlue()) {
-            //                 currentColor = new Color(currentColor.getRed(), currentColor.getGreen(), targetColor.getBlue());
-            //             }
-            //         } else {
-            //             currentColor = new Color(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue() - colorTransitionSpeed);
-            //             //check overdo
-            //             if (currentColor.getBlue() < targetColor.getBlue()) {
-            //                 currentColor = new Color(currentColor.getRed(), currentColor.getGreen(), targetColor.getBlue());
-            //             }
-            //         }
-            //     }
-            // }
         }
     }
 

@@ -40,7 +40,7 @@ public class GameWindow extends JFrame {
         //Main String, setting up gamewindow
         //temp non threaded for testing
             new GameWindow();
-            }
+    }
           
 
     GameWindow() {
@@ -95,6 +95,7 @@ public class GameWindow extends JFrame {
         //Events
         this.addKeyListener(new KeyHandler());
         this.addMouseMotionListener(new MouseMotionHandler());
+        //this.addMouseListener(new MouseMotionHandler());
 
         resetGame();
     }

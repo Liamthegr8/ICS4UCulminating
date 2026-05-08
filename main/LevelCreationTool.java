@@ -25,10 +25,22 @@ public class LevelCreationTool extends JFrame {
     //debugging
     int windowMouseX = 0;
     int windowMouseY = 0;
+    boolean leftMouseClicked = false;
+    boolean rightMouseClicked = false;
+    boolean leftMouseHeld = false;
+    boolean rightMouseHeld = false;
 
     JLabel mouseXLabel = new JLabel();
     JLabel mouseYLabel = new JLabel();
     
+    //creation tool
+    Scanner sc = new Scanner(System.in);
+    int rectStartX = -100;
+    int rectStartY = -100;
+    int rectEndX = -100;
+    int rectEndY = -100;
+    String digInput = "00"; //2 digit
+    int digCounter = 0; //to track 00 
 
 
     public static void main(String[] args) {
@@ -39,18 +51,15 @@ public class LevelCreationTool extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Level Creation Tool");
         //More custom stuff
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH); //IGNORED DUE TO JPANELPACK
         this.setResizable(true);
-        //this.setUndecorated(true);  //hides the title bar of JFrame
+        //this.setUndecorated(true);
 
         panel = new DrawingPanel();
         panel.add(mouseXLabel);
         panel.add(mouseYLabel);
 
         this.add(panel);
-        // this.setSize(windowX,windowY); //IGNORED DUE TO JPANELPACK
-
-        this.pack(); //important to understand size of window is size of panel
+        this.pack();
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -61,20 +70,17 @@ public class LevelCreationTool extends JFrame {
     private void gameSetup() {
         //Set up timer
         tick = new Timer(tickDelay, panel);
-        // tick.setInitialDelay(1000);
         tick.start();
 
         //Events
         this.addKeyListener(new KeyHandler());
         this.addMouseMotionListener(new MouseMotionHandler());
+        this.addMouseListener(new MouseMotionHandler());
 
         resetGame();
     }
 
     private void resetGame() {
-        // player = new Player(0,500,30,30); //resets to constructors
-
-        //Tanush Mock Collision Setup
         map = new Map();
         map.setMapTileColor(0, Color.BLUE);
         map.setMapTileColor(1, Color.RED);
@@ -84,7 +90,7 @@ public class LevelCreationTool extends JFrame {
         // roomData.addTileAt(new SpikeTile(0,450,500,49,0));
         // roomData.addTileAt(new MovingPlatformTile(100, 400,  100, 50, 1, 200, 400, 1));
 
-        map.addRoomAt(roomData, 0, 0); //refresh on edits
+        map.addRoomAt(roomData, 0, 0);
     }
 
     public void saveToFile() {
@@ -103,10 +109,55 @@ public class LevelCreationTool extends JFrame {
     }
 
     class KeyHandler extends KeyAdapter {
+        // @Override
+        // public void keyTyped(KeyEvent e) {
+        //     switch(e.getKeyChar()) {
+        //         case '0':
+        //             digInput = digInput.substring(1) + "0";
+        //             digCounter--;
+        //             break;
+        //         case '1':
+        //             digInput = digInput.substring(1) + "1";
+        //             digCounter++;
+        //             break;
+        //         case '2':
+        //             digInput = digInput.substring(1) + "2";
+        //             digCounter++;
+        //             break;
+        //         case '3':
+        //             digInput = digInput.substring(1) + "3";
+        //             digCounter++;
+        //             break;
+        //         case '4':
+        //             digInput = digInput.substring(1) + "4";
+        //             digCounter++;
+        //             break;
+        //         case '5':
+        //             digInput = digInput.substring(1) + "5";
+        //             digCounter++;
+        //             break;
+        //         case '6':
+        //             digInput = digInput.substring(1) + "6";
+        //             digCounter++;
+        //             break;
+        //         case '7':
+        //             digInput = digInput.substring(1) + "7";
+        //             digCounter++;
+        //             break;
+        //         case '8':
+        //             digInput = digInput.substring(1) + "8";
+        //             digCounter++;
+        //             break;
+        //         case '9':
+        //             digInput = digInput.substring(1) + "9";
+        //             digCounter++;
+        //             break;
+        //     }
+        //     System.out.println(digInput);
+        //     System.out.println(digCounter);
+        // }
         @Override
         public void keyPressed(KeyEvent e) {
-            //no panel repaint here. otherwise the graphics will update when key pressed instantly. not upon fixed tick delay
-            //if repainted, this can be exploited to speed up time
             if (e.getKeyCode() == KeyEvent.VK_W) {
                 wPressed = true;
             }
@@ -142,6 +193,7 @@ public class LevelCreationTool extends JFrame {
                 qPressed = true;
             } 
         }
+        @Override
         public void keyReleased(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_W) {
                 wPressed = false;
@@ -186,7 +238,40 @@ public class LevelCreationTool extends JFrame {
             windowMouseX = e.getX()-8;
             windowMouseY = e.getY()-31;
         }
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            windowMouseX = e.getX()-8;
+            windowMouseY = e.getY()-31;
+        }
         //mouseclick and release
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            //add tile at mouse location
+            if (SwingUtilities.isLeftMouseButton(e)) {
+                leftMouseClicked = true;
+            }
+            if (SwingUtilities.isRightMouseButton(e)) {
+                rightMouseClicked = true;
+            }
+        }
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if (SwingUtilities.isLeftMouseButton(e)) {
+                leftMouseHeld = true;
+            }
+            if (SwingUtilities.isRightMouseButton(e)) {
+                rightMouseHeld = true;
+            }
+        }
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            if (SwingUtilities.isLeftMouseButton(e)) {
+                leftMouseHeld = false;
+            }
+            if (SwingUtilities.isRightMouseButton(e)) {
+                rightMouseHeld = false;
+            }
+        }
     }
 
     private class DrawingPanel extends JPanel implements ActionListener {
@@ -197,10 +282,36 @@ public class LevelCreationTool extends JFrame {
         //GAMELOOP & Timer
         @Override
         public void actionPerformed(ActionEvent e) {
-            //player movements inputs
-            //can turn into inputActions fuction
             if (qPressed) {
                 resetGame();
+            }
+
+            if (leftMouseHeld) {
+                if (rectStartX < 0) { //start box corner
+                    rectStartX = windowMouseX;
+                    rectStartY = windowMouseY;
+                    System.out.println(windowMouseX + " " + windowMouseY);
+                } else { //end box corner
+                    rectEndX = windowMouseX;
+                    rectEndY = windowMouseY;
+                    System.out.println(windowMouseX + " " + windowMouseY);
+                }
+            } else { // once released mouse
+                if (rectStartX >= 0 && rectEndX >= 0) { //check if box was drawn previously
+                    //create tile with rect coords
+                    int x = rectStartX;
+                    int y = rectStartY;
+                    int width = rectEndX - rectStartX;
+                    int height = rectEndY - rectStartY;
+                    
+                    System.out.println("Enter mapColorIndex:");
+                    int assignedMapColorIndex = sc.nextInt();
+                    roomData.addTileAt(new PlatformTile(x, y, width, height, assignedMapColorIndex));
+                }
+                rectStartX = -100;
+                rectStartY = -100;
+                rectEndX = -100;
+                rectEndY = -100;
             }
             
             
@@ -213,6 +324,8 @@ public class LevelCreationTool extends JFrame {
             
             //refresh graphics
             this.repaint();
+            leftMouseClicked = false;
+            rightMouseClicked = false;
 
             //tiles tick - not run due to CONCERN OF MOVING PLATFORMS
             // for (int i=0; i<map.mapRooms.length; i++) {
@@ -245,52 +358,55 @@ public class LevelCreationTool extends JFrame {
                     Room r = map.mapRooms[i][j];
                     if (r != null) {
                         for (Tile tile: r.roomTiles) {
-                                Tile t = tile;
-                                if (t != null) {
-                                    g2.setColor(Color.BLACK);
-                                    g2.setStroke(new BasicStroke(1));
+                            Tile t = tile;
+                            if (t != null) {
+                                g2.setColor(Color.BLACK);
+                                g2.setStroke(new BasicStroke(1));
 
-                                    if (t.assignedMapColorIndex >= 0 && t.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[t.assignedMapColorIndex] != null) {    
-                                        Color tileColor = map.assignedTileColors[t.assignedMapColorIndex];
-                                        g2.setColor(tileColor);
+                                if (t.assignedMapColorIndex >= 0 && t.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[t.assignedMapColorIndex] != null) {    
+                                    Color tileColor = map.assignedTileColors[t.assignedMapColorIndex];
+                                    g2.setColor(tileColor);
+                                    g2.fillRect(i*Room.roomWidth + (t.x), j*Room.roomHeight + (t.y), t.width, t.height);  
+                                } else {
+                                    if (t.assignedMapColorIndex == -2) { //for transparent tiles
+                                        //no fill or draw
+                                    } else { //assumes -1 - black
+                                        g2.setColor(Color.BLACK);
                                         g2.fillRect(i*Room.roomWidth + (t.x), j*Room.roomHeight + (t.y), t.width, t.height);  
-                                    } else {
-                                        if (t.assignedMapColorIndex == -2) { //for transparent tiles
-                                            //no fill or draw
-                                        } else { //assumes -1 - black
-                                            g2.setColor(Color.BLACK);
-                                            g2.fillRect(i*Room.roomWidth + (t.x), j*Room.roomHeight + (t.y), t.width, t.height);  
-                                        }
                                     }
-                                    
-                                    
-                                    
-                                    //Images
-                                    // if (t.getScaledImage() == null) {
-                                    //     g2.drawRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
-                                    // }
-                                    // else {
-                                    // g2.drawImage(t.scaledImage, i*Room.roomWidth + t.x + t.imageXOffset + camX, j*Room.roomHeight + t.y + t.imageYOffset + camY, null);
-                                    // }
                                 }
+                        
+                                //Images
+                                // if (t.getScaledImage() == null) {
+                                //     g2.drawRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
+                                // }
+                                // else {
+                                // g2.drawImage(t.scaledImage, i*Room.roomWidth + t.x + t.imageXOffset + camX, j*Room.roomHeight + t.y + t.imageYOffset + camY, null);
+                                // }
+                            }
                         }
                     }
                 }
             }
 
+            //what is mouse selecting
+            g2.setColor(Color.MAGENTA);
+            g2.fillRect(rectStartX, rectStartY, rectEndX-rectStartX, rectEndY-rectStartY);
+
+
             //DEBUG
             //Render Map bounds
-            for (int i=0; i<map.mapRooms.length; i++) {
-                for (int j=0; j<map.mapRooms.length; j++) {
-                    Room r = map.mapRooms[i][j];
-                    if (r != null) {
-                        g2.setColor(Color.GRAY);
-                        g2.setStroke(new BasicStroke(5));
-                        g2.drawRect(i*Room.roomWidth, j*Room.roomHeight, Room.roomWidth, Room.roomHeight);
-                    }
-                }
-            }   }
-            }
-
+            // for (int i=0; i<map.mapRooms.length; i++) {
+            //     // for (int j=0; j<map.mapRooms.length; j++) {
+            //     //     Room r = map.mapRooms[i][j];
+            //     //     // if (r != null) {
+            //     //     //     g2.setColor(Color.GRAY);
+            //     //     //     g2.setStroke(new BasicStroke(5));
+            //     //     //     g2.drawRect(i*Room.roomWidth, j*Room.roomHeight, Room.roomWidth, Room.roomHeight);
+            //     //     // }
+            //     // }
+            // }   
+        }
+    }
 }  
    
