@@ -21,12 +21,15 @@ public class Player extends Rectangle {
     int maxvy = 40;
     int collisionRadiusCheck = width*3;
     int noGravityTime=0;
-    int dashTime=5;
-    double dashSpeed=20;
+    int dashTime=10;
+    double dashSpeed=25;
     double dashSpeedDiag=(dashSpeed * Math.sqrt(0.5));
+    double dashx=0;
+    double dashy=0;
     //true is right false is left
     boolean directionFaced=true;
-    final double airFriction = 0.05;
+    boolean isDash=false;
+    final double airFriction = 0.04;
     int noControlTime=0;
 
 
@@ -74,9 +77,9 @@ public class Player extends Rectangle {
             }
     }
     //works evev if player cant control
-    void setDashVelocity(double vx, double vy){
-        this.vx = vx; 
-        this.vy = vy;
+    void setDashVelocity(double VX, double VY){
+        vx = VX; 
+        vy = VY;
     }
 
     void applyVelocity() {
@@ -218,14 +221,14 @@ public class Player extends Rectangle {
     void tryMoveY(double yAmount, ArrayList<Tile> surroundingTiles) {
         this.yy = (double)y;
         this.yy += yAmount;
+        System.out.println(yAmount);
         this.y = (int)Math.round(this.yy);
 
         for (int i=0; i<surroundingTiles.size(); i++) {
-            
             Tile t = surroundingTiles.get(i);
             if (t != null) {
                 Rectangle tile = new Rectangle(t.x, t.y, t.width, t.height);
-
+                Rectangle testground = new Rectangle(t.x, t.y-1, t.width, t.height);
                 if (this.intersects(tile) && t.isCollidable) {  
                     if (t.killPlayer) {
                         isDead = true;
@@ -250,8 +253,13 @@ public class Player extends Rectangle {
                             this.y = tile.y + tile.height;
                             isGrounded = false;
                         }
+
                         this.vy = 0;
+                }else if (this.intersects(testground) && t.isCollidable) {
+                    isGrounded =true;
                 }
+
+                
             }
         }
     }
@@ -285,6 +293,27 @@ public class Player extends Rectangle {
         playerLocation = getPlayerLocation(map);
         // System.out.println(xx);
         // System.out.println(yy);
+        if(isDash){
+
+            setDashVelocity(dashx, dashy);
+
+            if(noGravityTime > 0)  {
+                noGravityTime--;
+            }
+
+            //nocontrol
+            if(noControlTime>0){
+                canControl=false;
+                noControlTime--;
+            }else{
+                isDash=false;
+                setDashVelocity(0, 0);
+            }
+        }else{
+            noControlTime=0;
+            noGravityTime=0;
+            canControl=true;
+        }
 
         if (true) {
             isGrounded = false; //if removed, weeeeeeeeeeeee
@@ -309,11 +338,10 @@ public class Player extends Rectangle {
         // isGrounded = false;
         // vy = 0;
         if (isGrounded) {
-            noControlTime = 0;
-            noGravityTime = 0;
-            canControl = true;
-
-            updateVelocity(0, -15); 
+            isDash = false;
+            System.out.println(vx);
+            setVelocity(vx, -25); 
+            System.out.println(vx);
         }
             
     }
@@ -321,41 +349,64 @@ public class Player extends Rectangle {
     void wallJump() {
     }
     void dash(boolean w, boolean a, boolean s, boolean d) {
-        if (canDash) {
-            if (w && !a && !d) {
-            setVelocity(0,-dashSpeed);
-        }
-        else if (a && !w && !s && !d) {
-            setVelocity(-dashSpeed,0);
-        }
-        else if (s && !a && !d) {
-            setVelocity(0,dashSpeed);
-        }
-        else if (d && !w && !s && !a) {
-            setVelocity(dashSpeed,0);
-        }
-        else if (w && a) {
-            setVelocity(-dashSpeedDiag,-dashSpeedDiag);
-        }
-        else if (s && a) {
-            setVelocity(-dashSpeedDiag,dashSpeedDiag);
-        }
-        else if (w && d) {
-            setVelocity(dashSpeedDiag,-dashSpeedDiag);
-        }
-        else if (s && d) {
-            setVelocity(dashSpeedDiag,dashSpeedDiag);
-        }
-        else if(directionFaced){
-            setVelocity(dashSpeedDiag,0);
-        }
-        else{
-            setVelocity(-dashSpeedDiag,0);
-        }
+        
+    if (canDash) {
         canDash = false;
         noGravityTime = dashTime;
         noControlTime = dashTime;
+        isDash=true;
+            if (w && !a && !d) {
+           // setVelocity(0,-dashSpeed);
+            dashx = 0.00;
+            dashy = -dashSpeed;
         }
+        else if (a && !w && !s && !d) {
+            setVelocity(-dashSpeed,0);
+            dashx = -dashSpeed;
+            dashy = 0;
+        }
+        else if (s && !a && !d) {
+            //setVelocity(0,dashSpeed);
+            dashx = 0.0;
+            dashy = dashSpeed;
+        }
+        else if (d && !w && !s && !a) {
+            //setVelocity(dashSpeed,0);
+            dashx = dashSpeed;
+            dashy = 0;
+        }
+        else if (w && a) {
+            //setVelocity(-dashSpeedDiag,-dashSpeedDiag);
+            dashx = -dashSpeedDiag;
+            dashy = -dashSpeedDiag;
+        }
+        else if (s && a) {
+            //setVelocity(-dashSpeedDiag,dashSpeedDiag);
+            dashx = -dashSpeedDiag;
+            dashy = dashSpeedDiag;
+        }
+        else if (w && d) {
+            //setVelocity(dashSpeedDiag,-dashSpeedDiag);
+            dashx = dashSpeedDiag;
+            dashy = -dashSpeedDiag;
+        }
+        else if (s && d) {
+            //setVelocity(dashSpeedDiag,dashSpeedDiag);
+            dashx = dashSpeedDiag;
+            dashy = dashSpeedDiag;
+        }
+        else if(directionFaced){
+            //setVelocity(dashSpeedDiag,0);
+            dashx = dashSpeed;
+            dashy = 0;
+        }
+        else{
+            //setVelocity(-dashSpeedDiag,0);
+            dashx = -dashSpeed;
+            dashy = 0;
+        }    
+    }
+    
         
     }
     void dashPastWall() { // just teleport x and y, and then apply some velocity in that dir

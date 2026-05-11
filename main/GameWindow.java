@@ -19,6 +19,7 @@ public class GameWindow extends JFrame {
     Map map;
     boolean wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed; //removed pPressed
     boolean qPressed; //testing buttons
+    boolean antiHoldDash;
 
     //debugging(Labels for various statistics)
     int windowMouseX = 0;
@@ -104,7 +105,7 @@ public class GameWindow extends JFrame {
     private void resetGame() {
         camX = 0;
         camY = 0;
-        player = new Player(0,500,10,20); //resets to constructors
+        player = new Player(0,500,18,30); //resets to constructors
 
         //Tanush Mock Collision Setup
         map = new Map();
@@ -168,7 +169,9 @@ public class GameWindow extends JFrame {
                 uPressed = true;
             }
             if (e.getKeyCode() == KeyEvent.VK_I) {
-                iPressed = true;
+                if(antiHoldDash){
+                    iPressed = true;
+                }
             }
             if (e.getKeyCode() == KeyEvent.VK_O) {
                 oPressed = true;
@@ -206,6 +209,7 @@ public class GameWindow extends JFrame {
             }
             if (e.getKeyCode() == KeyEvent.VK_I) {
                 iPressed = false;
+                antiHoldDash = true;
             }
             if (e.getKeyCode() == KeyEvent.VK_O) {
                 oPressed = false;
@@ -246,14 +250,7 @@ public class GameWindow extends JFrame {
         public void actionPerformed(ActionEvent e) {
             //ticks down cooldowns
             //nogravity
-            if(player.noGravityTime > 0) player.noGravityTime--;
-            //nocontrol
-            if(player.noControlTime>0){
-                player.canControl=false;
-                player.noControlTime--;
-            }else{
-                player.canControl=true;
-            }
+            
             //player movements inputs
             //can turn into inputActions fuction
             if (uPressed) {
@@ -282,6 +279,8 @@ public class GameWindow extends JFrame {
             }
             if (iPressed) {
                 player.dash(wPressed, aPressed, sPressed, dPressed);
+                iPressed=false;
+                antiHoldDash = false;
             }
 
             //insert death on player out of bounds below: (future)
