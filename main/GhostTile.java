@@ -7,7 +7,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.Random;
 
-public abstract class Tile {
+public class GhostTile extends Tile{
     boolean killPlayer;
     boolean isCollidable;
     //static final int tileSize = 50;
@@ -19,7 +19,8 @@ public abstract class Tile {
     int assignedMapColorIndex;
     int tileID;
 
-    Tile(int x, int y,int width,int height, int assignedMapColorIndex) { //current tileID randomized, only manually set in 2nd contsructor
+    GhostTile(int x, int y,int width,int height, int assignedMapColorIndex) { //current tileID randomized, only manually set in 2nd contsructor
+        super(x,y,width,height,assignedMapColorIndex);
         Random r = new Random();
         this.tileID = r.nextInt(10000);
         this.x = x;
@@ -38,7 +39,8 @@ public abstract class Tile {
         // }
     }
 
-    Tile(Tile tileData) { //this is specifically for getsurroundingtiles collisions
+    GhostTile(Tile tileData) { //this is specifically for getsurroundingtiles collisions
+        super(tileData);
         this.tileID = tileData.tileID;
         this.x = tileData.x; //could be real or relative
         this.y = tileData.y; //could be real or relative
@@ -84,5 +86,7 @@ public abstract class Tile {
     //     new Tile(tileData);
     // } 
 
-    public abstract int[] returnParams();
+    public int[] returnParams() {
+        return null;
+    }
 }

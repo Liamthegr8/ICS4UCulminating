@@ -147,7 +147,7 @@ public class Player extends Rectangle {
                             //proximity checks
                             Rectangle collisionArea = new Rectangle (x+(width/2)-collisionRadiusCheck, y+(height/2)-collisionRadiusCheck, collisionRadiusCheck*2, collisionRadiusCheck*2);
                             
-                            Tile reaLocationTile = new Tile(t);
+                            Tile reaLocationTile = new GhostTile(t);
                             reaLocationTile.x += i*Room.roomWidth;
                             reaLocationTile.y += j*Room.roomHeight;
 

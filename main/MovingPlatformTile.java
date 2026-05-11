@@ -91,4 +91,17 @@ public class MovingPlatformTile extends Tile{
             return false;
         }
     }
+
+    public int[] returnParams() {
+        int[] params = new int[8];
+        params[0] = 03;
+        params[1] = iniX;
+        params[2] = iniY;
+        params[3] = width;
+        params[4] = height;
+        params[5] = assignedMapColorIndex;
+        params[6] = endX;
+        params[7] = endY;
+        return params;
+    }
 }

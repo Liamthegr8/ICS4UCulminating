@@ -26,4 +26,15 @@ public class SpikeTile extends Tile{
         return scaledImage;
     }
    */
+
+    public int[] returnParams() {
+        int[] params = new int[6];
+        params[0] = 02;
+        params[1] = x;
+        params[2] = y;
+        params[3] = width;
+        params[4] = height;
+        params[5] = assignedMapColorIndex;
+        return params;
+    }
 }

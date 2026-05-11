@@ -42,6 +42,9 @@ public class LevelCreationTool extends JFrame {
     String digInput = "00"; //2 digit
     int digCounter = 0; //to track 00 
 
+    String roomName;
+    FileHandle x = new FileHandle();
+
 
     public static void main(String[] args) {
          new LevelCreationTool();
@@ -63,6 +66,9 @@ public class LevelCreationTool extends JFrame {
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+
+        roomData = x.findRoom("RoomTest1");
+        roomName = "RoomTest1";
         
         gameSetup();
     }
@@ -85,23 +91,45 @@ public class LevelCreationTool extends JFrame {
         map.setMapTileColor(0, Color.BLUE);
         map.setMapTileColor(1, Color.RED);
 
-        roomData = new Room("NONAME");
+        //roomData = new Room("NONAME");
         
         // roomData.addTileAt(new SpikeTile(0,450,500,49,0));
         // roomData.addTileAt(new MovingPlatformTile(100, 400,  100, 50, 1, 200, 400, 1));
 
-        map.addRoomAt(roomData, 0, 0);
+        //map.addRoomAt(roomData, 0, 0);
     }
 
     public void saveToFile() {
         File file = new File("main\\assets\\levelCreator.txt");
+        System.out.println("method runs");
         try {
             FileWriter out = new FileWriter(file);
             BufferedWriter write = new BufferedWriter(out);
+            System.out.println("Writers created");
+            write.write("(");
+            write.write(roomName);
+            write.write(")");
+            System.out.println("roomname written");
             for (Tile t: roomData.roomTiles) {
-                write.write();
-                write.newLine();
+                System.out.println("yes");
+                int[] param = t.returnParams();
+                write.write("_");
+                write.write(String.valueOf(param[0]));
+                write.write("<");
+                System.out.println("tile start");
+                for (int i = 1; i < param.length; i++) {
+                    write.write(String.valueOf(param[i]));
+                    if (i != (param.length - 1)) {
+                        write.write(",");
+                        System.out.println("tile written");
+                    }
+                }
+                write.write(">");
             }
+            write.write(";");
+            write.newLine();
+            write.close();
+            out.close();
         }
         catch (IOException e) {
             System.out.println("error");
@@ -187,6 +215,7 @@ public class LevelCreationTool extends JFrame {
             }
             if (e.getKeyCode() == KeyEvent.VK_L) {
                 lPressed = true;
+                saveToFile();
             }
 
             if (e.getKeyCode() == KeyEvent.VK_Q) {
