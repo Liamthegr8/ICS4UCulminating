@@ -39,8 +39,9 @@ public class LevelCreationTool extends JFrame {
     int rectStartY = -100;
     int rectEndX = -100;
     int rectEndY = -100;
-    String digInput = "00"; //2 digit
-    int digCounter = 0; //to track 00 
+    // String digInput = "00"; //2 digit
+    // int digCounter = 0; //to track 00 
+    int digSelected = -1;
 
 
     public static void main(String[] args) {
@@ -93,22 +94,59 @@ public class LevelCreationTool extends JFrame {
         map.addRoomAt(roomData, 0, 0);
     }
 
-    public void saveToFile() {
-        File file = new File("main\\assets\\levelCreator.txt");
-        try {
-            FileWriter out = new FileWriter(file);
-            BufferedWriter write = new BufferedWriter(out);
-            for (Tile t: roomData.roomTiles) {
-                write.write();
-                write.newLine();
-            }
-        }
-        catch (IOException e) {
-            System.out.println("error");
-        }
-    }
+    // public void saveToFile() {
+    //     File file = new File("main\\assets\\levelCreator.txt");
+    //     try {
+    //         FileWriter out = new FileWriter(file);
+    //         BufferedWriter write = new BufferedWriter(out);
+    //         for (Tile t: roomData.roomTiles) {
+    //             write.write();
+    //             write.newLine();
+    //         }
+    //     }
+    //     catch (IOException e) {
+    //         System.out.println("error");
+    //     }
+    // }
 
     class KeyHandler extends KeyAdapter {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            switch(e.getKeyChar()) {
+                case '0':
+                    digSelected = 0;
+                    break;
+                case '1':
+                    digSelected = 1;
+                    break;
+                case '2':
+                    digSelected = 2;
+                    break;
+                case '3':
+                    digSelected = 3;
+                    break;
+                case '4':
+                    digSelected = 4;
+                    break;
+                case '5':
+                    digSelected = 5;
+                    break;
+                case '6':
+                    digSelected = 6;
+                    break;
+                case '7':
+                    digSelected = 7;
+                    break;
+                case '8':
+                    digSelected = 8;
+                    break;
+                case '9':
+                    digSelected = 9;
+                    break;
+            }
+            System.out.println(digSelected);
+        }
+        
         // @Override
         // public void keyTyped(KeyEvent e) {
         //     switch(e.getKeyChar()) {
@@ -290,19 +328,44 @@ public class LevelCreationTool extends JFrame {
                 if (rectStartX < 0) { //start box corner
                     rectStartX = windowMouseX;
                     rectStartY = windowMouseY;
-                    System.out.println(windowMouseX + " " + windowMouseY);
+                    //System.out.println(windowMouseX + " " + windowMouseY);
                 } else { //end box corner
                     rectEndX = windowMouseX;
                     rectEndY = windowMouseY;
-                    System.out.println(windowMouseX + " " + windowMouseY);
+                    //System.out.println(windowMouseX + " " + windowMouseY);
                 }
             } else { // once released mouse
                 if (rectStartX >= 0 && rectEndX >= 0) { //check if box was drawn previously
                     //create tile with rect coords
-                    int x = rectStartX;
-                    int y = rectStartY;
-                    int width = rectEndX - rectStartX;
-                    int height = rectEndY - rectStartY;
+                    int x = 0;
+                    int y = 0;
+                    int width = 0;
+                    int height = 0;
+
+                    if (rectEndX-rectStartX>0 && rectEndY-rectStartY>0) { //++
+                        x = rectStartX;
+                        y = rectStartY;
+                        width = rectEndX-rectStartX;
+                        height = rectEndY-rectStartY;
+                    }
+                    else if (rectEndX-rectStartX>0 && rectEndY-rectStartY<0) { //+-
+                        x = rectStartX;
+                        y = rectEndY;
+                        width = rectEndX-rectStartX;
+                        height = rectStartY-rectEndY;
+                    }
+                    else if (rectEndX-rectStartX<0 && rectEndY-rectStartY<0) { //--
+                        x = rectEndX;
+                        y = rectEndY;
+                        width = rectStartX-rectEndX;
+                        height = rectStartY-rectEndY;
+                    }
+                    else if (rectEndX-rectStartX<0 && rectEndY-rectStartY>0) { //-+
+                        x = rectEndX;
+                        y = rectStartY;
+                        width = rectStartX-rectEndX;
+                        height = rectEndY-rectStartY;
+                    }
                     
                     System.out.println("Enter mapColorIndex:");
                     int assignedMapColorIndex = sc.nextInt();
@@ -391,7 +454,25 @@ public class LevelCreationTool extends JFrame {
 
             //what is mouse selecting
             g2.setColor(Color.MAGENTA);
-            g2.fillRect(rectStartX, rectStartY, rectEndX-rectStartX, rectEndY-rectStartY);
+            System.out.println(rectEndX-rectStartX);
+            System.out.println();
+            System.out.println(rectEndY-rectStartY);
+            System.out.println();
+            
+            if (rectStartX>=0) {
+                if (rectEndX-rectStartX>0 && rectEndY-rectStartY>0) { //++
+                    g2.fillRect(rectStartX, rectStartY, rectEndX-rectStartX, rectEndY-rectStartY);
+                }
+                else if (rectEndX-rectStartX>0 && rectEndY-rectStartY<0) { //+-
+                    g2.fillRect(rectStartX, rectEndY, rectEndX-rectStartX, rectStartY-rectEndY);
+                }
+                else if (rectEndX-rectStartX<0 && rectEndY-rectStartY<0) { //--
+                    g2.fillRect(rectEndX, rectEndY, rectStartX-rectEndX, rectStartY-rectEndY);
+                }
+                else if (rectEndX-rectStartX<0 && rectEndY-rectStartY>0) { //-+
+                    g2.fillRect(rectEndX, rectStartY, rectStartX-rectEndX, rectEndY-rectStartY);
+                }  
+            }
 
 
             //DEBUG
