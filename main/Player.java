@@ -31,6 +31,9 @@ public class Player extends Rectangle {
     boolean isDash=false;
     final double airFriction = 0.04;
     int noControlTime=0;
+    int coyoteTime=0;
+    int wallCoyoteTime=0;
+    int bufferTime = 0;
 
 
     Player(int x, int y, int width, int height) {
@@ -237,6 +240,7 @@ public class Player extends Rectangle {
                             //from top
                             this.y = tile.y - this.height;
                             isGrounded = true;
+                            coyoteTime = 10;
                             canDash = true;
 
                             //movingPlatformTile Script
@@ -257,6 +261,7 @@ public class Player extends Rectangle {
                         this.vy = 0;
                 }else if (this.intersects(testground) && t.isCollidable) {
                     isGrounded =true;
+                    coyoteTime=100;
                 }
 
                 
@@ -287,8 +292,10 @@ public class Player extends Rectangle {
 
     void tick(Map map) {
         //isGrounded = false;
-
-        applyVelocity();
+        coyoteTime--;
+        if(bufferTime>0){
+            jump();
+        }
         getSurroundingTiles(map);
         playerLocation = getPlayerLocation(map);
         // System.out.println(xx);
@@ -332,17 +339,22 @@ public class Player extends Rectangle {
         if (playerHealth <= 0) {
             isDead = true;
         } // else dont force to dead, as we might manually set it dead true
+        applyVelocity();
     }
 
     void jump() {
         // isGrounded = false;
         // vy = 0;
-        if (isGrounded) {
+        bufferTime--;
+        if (coyoteTime>0) {
             isDash = false;
-            System.out.println(vx);
+            //System.out.println(vx);
             setVelocity(vx, -25); 
-            System.out.println(vx);
+            //System.out.println(vx);
+            coyoteTime=0;
+            bufferTime=0;
         }
+        
             
     }
     

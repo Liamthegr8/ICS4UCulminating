@@ -254,7 +254,7 @@ public class GameWindow extends JFrame {
             //player movements inputs
             //can turn into inputActions fuction
             if (uPressed) {
-                player.jump();
+                player.bufferTime = 10;
             }
             if (aPressed) {
                 if(player.isGrounded){
