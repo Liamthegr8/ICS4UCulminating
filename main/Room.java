@@ -29,6 +29,10 @@ public class Room {
     //     roomTiles = data;
     // }
 
+    /*
+    *add a tile to the room
+    *@param tile   the tile that is to be added
+    **/
     void addTileAt(Tile tile) {
         //should check if the tile is within room dimensions only
         
@@ -40,10 +44,18 @@ public class Room {
             return;
         }    
     }
+    /*
+    *remove specific tile from room
+    **/
     void removeTileAt(int index) {
         roomTiles.remove(index);
     }
 
+    /*
+    *define what color a set amount of blocks are to posses upon entering the room 
+    *@param index   a number used to assign the color to specific blocks (a reference number/location for the color)
+    *@param color   the color value
+    **/
     void setEnterRoomTransitionColor(int index, Color color) {
         if (index >= 0 && index < enterRoomTransitionTileColors.length) { //stop errors
             enterRoomTransitionTileColors[index] = color;
@@ -52,7 +64,13 @@ public class Room {
         }
     }
 
-    //void tick, check if their I and J aligns with player location, if so apply the changetilescolor
+    /*
+    *change the colors when player enters the room
+    *@param map   reference to main map
+    *@param player   reference to player
+    *@param xIndex   x location of room within Map
+    *@param yIndex   y location of room within Map
+    **/
     void tick(Map map, Player player, int xIndex, int yIndex) {
         if (player.playerLocation != null && xIndex == player.playerLocation[0] && yIndex == player.playerLocation[1]) {
             for (int i=0; i<Map.assignedColorsLength; i++) {

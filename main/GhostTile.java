@@ -18,8 +18,9 @@ public class GhostTile extends Tile{
     int imageXOffset, imageYOffset;
     int assignedMapColorIndex;
     int tileID;
-
-    GhostTile(int x, int y,int width,int height, int assignedMapColorIndex) { //current tileID randomized, only manually set in 2nd contsructor
+    
+    //current tileID randomized, only manually set in 2nd contsructor
+    GhostTile(int x, int y,int width,int height, int assignedMapColorIndex) { 
         super(x,y,width,height,assignedMapColorIndex);
         Random r = new Random();
         this.tileID = r.nextInt(10000);
@@ -38,8 +39,9 @@ public class GhostTile extends Tile{
         //     getScaledImage();
         // }
     }
-
-    GhostTile(Tile tileData) { //this is specifically for getsurroundingtiles collisions
+    
+    //this is specifically for getsurroundingtiles collisions
+    GhostTile(Tile tileData) { 
         super(tileData);
         this.tileID = tileData.tileID;
         this.x = tileData.x; //could be real or relative
@@ -50,6 +52,7 @@ public class GhostTile extends Tile{
         this.isCollidable = tileData.isCollidable;
     }
 
+    
     BufferedImage loadImage(String filename) { //UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED
         url = this.getClass().getResource("/assets/" + filename);
         BufferedImage img = null;

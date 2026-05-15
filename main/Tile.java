@@ -48,6 +48,11 @@ public abstract class Tile {
         this.isCollidable = tileData.isCollidable;
     }
 
+    /*
+    *load image from url and return found image
+    *@param filename   the name of the file with its relative location to main on pc
+    *@return    the image loaded and succesfuly
+    **/
     BufferedImage loadImage(String filename) { //UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED
         url = this.getClass().getResource("/assets/" + filename);
         BufferedImage img = null;
@@ -67,6 +72,10 @@ public abstract class Tile {
         return img;
     }
 
+    /*
+    *scale image to specific size based on object's parameters(variables)
+    *@return    the image succesfuly scaled
+    **/
     Image getScaledImage() { //UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED
         if (texture == null) {
             return null;

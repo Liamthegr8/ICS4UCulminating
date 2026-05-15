@@ -4,24 +4,15 @@ import java.util.*;
 public class Player extends Rectangle {
     ArrayList<Tile> surroundingTiles;
     int[] playerLocation;
-    double xx, yy;
-    double vx, vy;
-    double gravity;
-    final double friction = 0.2;
+    double xx, yy, vx, vy, gravity;
     //checks to see if the player is able to control the player character(Depricated, was intended for room transitions)
     //repurposed for dashes
-    boolean canControl;
-    int playerHealth;
-    boolean isDead;
-    boolean canDash;
-    boolean isGrounded;
-    boolean isTouchingRightWall;
-    boolean isTouchingLeftWall;
+    boolean canControl, isDead, canDash, isGrounded, isTouchingRightWall, isTouchingLeftWall;
+    int playerHealth, lastSurfaceTouched;
     int maxvx = 40;
     int maxvy = 40;
     int collisionRadiusCheck = width*3;
-    int noGravityTime=0;
-    int dashTime=10;
+
     double dashSpeed=25;
     double dashSpeedDiag=(dashSpeed * Math.sqrt(0.5));
     double dashx=0;
@@ -29,10 +20,13 @@ public class Player extends Rectangle {
     //true is right false is left
     boolean directionFaced=true;
     boolean isDash=false;
-    final double airFriction = 0.04;
+    final double airFriction = 0.03;
+    final double friction = 0.2;
     int noControlTime=0;
+    int noGravityTime=0;
+    int dashTime=10;
+
     int coyoteTime=0;
-    int wallCoyoteTime=0;
     int bufferTime = 0;
 
 
@@ -41,7 +35,7 @@ public class Player extends Rectangle {
         surroundingTiles = new ArrayList<Tile>();
         vx = 0;
         vy = 0;
-        gravity = 0.9;
+        gravity = 1;
         isDead = false;
         playerHealth = 100;
         canControl = true;
@@ -56,16 +50,30 @@ public class Player extends Rectangle {
     //     playerHealth -= dmg;
     // }
 
+    /*
+    *set players global coordinates
+    *@param x   x coordinate
+    *@param y   y coordinate 
+    */
     void setCoordinates(int x, int y) {
         this.x = x;
         this.y = y;
     }
+    /*
+    *change players global coordinates
+    *@param x   x coordinate
+    *@param y   y coordinate 
+    */
     void changeCoordinates(int x, int y) {
         this.x += x;
         this.y += y;
     }
-    //changed so that now always update veloctity
-    //but you cant change velocity if you cant control
+    
+    /*
+    *update player's velocity
+    *@param vx   horizontal velocity
+    *@param vy   vertical velocity
+    */
     void updateVelocity(double vx, double vy) {
             if (canControl) {
                 this.vx += vx; //IF canControl, then apply these
@@ -73,18 +81,30 @@ public class Player extends Rectangle {
             }
     }
 
+    /*
+    *set player's velocity
+    *@param vx   horizontal velocity
+    *@param vy   vertical velocity
+    */
     void setVelocity(double vx, double vy) {
             if (canControl) {
                 this.vx = vx; //IF canControl, then apply these
                 this.vy = vy;
             }
     }
-    //works evev if player cant control
+    /*
+    *set player's velocity on NO conditions
+    *@param vx   horizontal velocity
+    *@param vy   vertical velocity
+    */
     void setDashVelocity(double VX, double VY){
         vx = VX; 
         vy = VY;
     }
 
+    /*
+    *handle gravity and velocity
+    */
     void applyVelocity() {
         //apply gravity
         //the 3 lines below moved to outside in logic statement before trymove
@@ -138,8 +158,11 @@ public class Player extends Rectangle {
     }
 
     
-    //for enhanced collisions
- void getSurroundingTiles(Map map) {
+    /*
+    *return tiles around the player within certain radius
+    *@param map   reference of map
+    */
+    void getSurroundingTiles(Map map) {
         surroundingTiles.clear();
 
         for (int i=0; i<map.mapRooms.length; i++) {
@@ -172,6 +195,10 @@ public class Player extends Rectangle {
     
     //scratch griffpatch raycaster ref with edge setback
     //is the passing class attribute suroundtiles to func redudant?
+
+    //ADD COMMENTS 
+
+    
     void tryMoveX(double xAmount, ArrayList<Tile> surroundingTiles) {
         this.xx = (double)x;
         this.xx += xAmount;
@@ -207,12 +234,16 @@ public class Player extends Rectangle {
                     if (playerShiftedRight.intersects(tile)) {
                         //from right
                         isTouchingRightWall = true;
+                        lastSurfaceTouched = 3;
+                        coyoteTime = 20;
                     } else {
                         isTouchingRightWall = false;
                     }
                     if (playerShiftedLeft.intersects(tile)) {
                         //from left
                         isTouchingLeftWall = true;
+                        lastSurfaceTouched = 2;
+                        coyoteTime = 20;
                     } else {
                         isTouchingLeftWall = false;
                     }
@@ -240,7 +271,8 @@ public class Player extends Rectangle {
                             //from top
                             this.y = tile.y - this.height;
                             isGrounded = true;
-                            coyoteTime = 10;
+                            lastSurfaceTouched = 1;
+                            coyoteTime = 20;
                             canDash = true;
 
                             //movingPlatformTile Script
@@ -261,7 +293,7 @@ public class Player extends Rectangle {
                         this.vy = 0;
                 }else if (this.intersects(testground) && t.isCollidable) {
                     isGrounded =true;
-                    coyoteTime=100;
+                    coyoteTime=20;
                 }
 
                 
@@ -292,6 +324,7 @@ public class Player extends Rectangle {
 
     void tick(Map map) {
         //isGrounded = false;
+        System.out.println(coyoteTime);
         coyoteTime--;
         if(bufferTime>0){
             jump();
@@ -342,24 +375,43 @@ public class Player extends Rectangle {
         applyVelocity();
     }
 
+    //ability methods
+
     void jump() {
         // isGrounded = false;
         // vy = 0;
         bufferTime--;
         if (coyoteTime>0) {
-            isDash = false;
-            //System.out.println(vx);
-            setVelocity(vx, -25); 
-            //System.out.println(vx);
-            coyoteTime=0;
-            bufferTime=0;
+            if(lastSurfaceTouched == 1) {
+                isDash = false;
+                //System.out.println(vx);
+                setVelocity(vx, -20); 
+                //System.out.println(vx);
+                coyoteTime=0;
+                bufferTime=0;
+            }
+            else if(lastSurfaceTouched == 2) {
+                isDash = false;
+                //System.out.println(vx);
+                setVelocity(5, -25); 
+                //System.out.println(vx);
+                coyoteTime=0;
+                bufferTime=0;
+            }
+            else if(lastSurfaceTouched == 3) {
+                isDash = false;
+                //System.out.println(vx);
+                setVelocity(-5, -25); 
+                //System.out.println(vx);
+                coyoteTime=0;
+                bufferTime=0;
+            }
+            
         }
         
             
     }
     
-    void wallJump() {
-    }
     void dash(boolean w, boolean a, boolean s, boolean d) {
         
     if (canDash) {

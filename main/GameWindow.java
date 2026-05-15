@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import java.io.File;
 
 public class GameWindow extends JFrame {
+    //setup JFrame variables
     int windowX = 900;
     int windowY = 500;
     int tickDelay = 10;
@@ -17,11 +18,11 @@ public class GameWindow extends JFrame {
     DrawingPanel panel;
     Player player;
     Map map;
-    boolean wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed; //removed pPressed
-    boolean qPressed; //testing buttons
+    boolean wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed;
+    boolean qPressed; //testing buttons - may be removed better
     boolean antiHoldDash;
 
-    //debugging(Labels for various statistics)
+    //debugging (labels for various statistics)
     int windowMouseX = 0;
     int windowMouseY = 0;
     JLabel playerXLabel;
@@ -37,13 +38,13 @@ public class GameWindow extends JFrame {
 
 
 
+    /*
+    *temp non anonymous function that allows user to run main game Window directly from here instead of Game.java
+    **/
     public static void main(String[] args) {
-        //Main String, setting up gamewindow
-        //temp non threaded for testing
             new GameWindow();
     }
           
-
     GameWindow() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("WINDOW NAME HERE");
@@ -86,7 +87,9 @@ public class GameWindow extends JFrame {
         gameSetup();
     }
 
-    //Game setup code
+    /*
+    *setup initial game (first time window runs)
+    **/
     private void gameSetup() {
         //Set up timer
         tick = new Timer(tickDelay, panel);
@@ -101,7 +104,9 @@ public class GameWindow extends JFrame {
         resetGame();
     }
 
-    //Resets player, camera, and map data upon player death
+    /*
+    *resets main game variables upon e.g. death or by command, also allows for map to regenerate
+    **/
     private void resetGame() {
         camX = 0;
         camY = 0;
@@ -142,7 +147,9 @@ public class GameWindow extends JFrame {
         map.addRoomAt(Runway, 2, 0);
     }
 
-    //private keyhandler class to recognize keypresses
+    /*
+    *recognize and implement keyboard functions
+    **/
     private class KeyHandler extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
@@ -230,7 +237,9 @@ public class GameWindow extends JFrame {
         }
     }
 
-    //Mouse tracking class, unlikely to be used
+    /*
+    *recognize and implement mouse cliks or mouse movement functions
+    **/
     class MouseMotionHandler extends MouseAdapter {
         @Override
         public void mouseMoved(MouseEvent e) {
@@ -245,7 +254,9 @@ public class GameWindow extends JFrame {
             this.setPreferredSize(new Dimension(windowX,windowY));
         }
 
-        //GAMELOOP & Timer
+        /*
+        *gameloop and main game timer, handles tiles, room, player TICK methods
+        **/
         @Override
         public void actionPerformed(ActionEvent e) {
             //ticks down cooldowns
@@ -340,12 +351,18 @@ public class GameWindow extends JFrame {
             this.repaint();	
         }
 
+        /*
+        *update camera variable to track player, non dynamic fixed transitions
+        **/
         void updateCamera() {
             //based on window vars
             camX = -player.x + (windowX/2) - (player.width/2);
             camY = -player.y + (windowY/2) - (player.height/2);
         }
 
+        /*
+        *render the game's graphics
+        **/
         @Override
         public void paintComponent(Graphics g) {
             //Advanced Graphics

@@ -27,6 +27,10 @@ public class SpikeTile extends Tile{
     }
    */
 
+    /*
+    *return all data of object in a form of integer array
+    *@return    int array that contains all the object's relevant information
+    **/
     public int[] returnParams() {
         int[] params = new int[6];
         params[0] = 02;
