@@ -255,7 +255,7 @@ public class Player extends Rectangle {
     void tryMoveY(double yAmount, ArrayList<Tile> surroundingTiles) {
         this.yy = (double)y;
         this.yy += yAmount;
-        System.out.println(yAmount);
+        //System.out.println(yAmount);
         this.y = (int)Math.round(this.yy);
 
         for (int i=0; i<surroundingTiles.size(); i++) {
@@ -324,8 +324,8 @@ public class Player extends Rectangle {
 
     void tick(Map map) {
         //isGrounded = false;
-        System.out.println(coyoteTime);
-        coyoteTime--;
+        //System.out.println(coyoteTime);
+        if (coyoteTime>0){coyoteTime--;}
         if(bufferTime>0){
             jump();
         }
@@ -406,6 +406,7 @@ public class Player extends Rectangle {
                 coyoteTime=0;
                 bufferTime=0;
             }
+            
             
         }
         

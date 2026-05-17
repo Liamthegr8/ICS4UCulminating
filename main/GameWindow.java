@@ -20,7 +20,8 @@ public class GameWindow extends JFrame {
     Map map;
     boolean wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed;
     boolean qPressed; //testing buttons - may be removed better
-    boolean antiHoldDash;
+    boolean antiHoldDash =true;
+    boolean antiHoldJump =true;
 
     //debugging (labels for various statistics)
     int windowMouseX = 0;
@@ -173,7 +174,9 @@ public class GameWindow extends JFrame {
                 player.directionFaced=true;
             }
             if (e.getKeyCode() == KeyEvent.VK_U) {
+                if (antiHoldJump){
                 uPressed = true;
+                }
             }
             if (e.getKeyCode() == KeyEvent.VK_I) {
                 if(antiHoldDash){
@@ -213,6 +216,7 @@ public class GameWindow extends JFrame {
             }
             if (e.getKeyCode() == KeyEvent.VK_U) {
                 uPressed = false;
+                antiHoldJump = true;
             }
             if (e.getKeyCode() == KeyEvent.VK_I) {
                 iPressed = false;
@@ -266,6 +270,8 @@ public class GameWindow extends JFrame {
             //can turn into inputActions fuction
             if (uPressed) {
                 player.bufferTime = 10;
+                antiHoldJump = false;
+                uPressed = false;
             }
             if (aPressed) {
                 if(player.isGrounded){
