@@ -385,7 +385,7 @@ public class Player extends Rectangle {
             if(lastSurfaceTouched == 1) {
                 isDash = false;
                 //System.out.println(vx);
-                setVelocity(vx, -20); 
+                setDashVelocity(vx, -20+vy); 
                 //System.out.println(vx);
                 coyoteTime=0;
                 bufferTime=0;
@@ -393,7 +393,7 @@ public class Player extends Rectangle {
             else if(lastSurfaceTouched == 2) {
                 isDash = false;
                 //System.out.println(vx);
-                setVelocity(5, -25); 
+                setDashVelocity(5, -25+vy); 
                 //System.out.println(vx);
                 coyoteTime=0;
                 bufferTime=0;
@@ -401,7 +401,7 @@ public class Player extends Rectangle {
             else if(lastSurfaceTouched == 3) {
                 isDash = false;
                 //System.out.println(vx);
-                setVelocity(-5, -25); 
+                setDashVelocity(-5, -25+vy); 
                 //System.out.println(vx);
                 coyoteTime=0;
                 bufferTime=0;
@@ -420,6 +420,7 @@ public class Player extends Rectangle {
         noGravityTime = dashTime;
         noControlTime = dashTime;
         isDash=true;
+        coyoteTime = 0;
             if (w && !a && !d) {
            // setVelocity(0,-dashSpeed);
             dashx = 0.00;
