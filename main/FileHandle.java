@@ -67,7 +67,10 @@ public class FileHandle{
                                break;
                     case 3:
                                room.addTileAt(new MovingPlatformTile(tileParameter(tileParam, 1), tileParameter(tileParam, 2), tileParameter(tileParam, 3), tileParameter(tileParam, 4), tileParameter(tileParam, 5), tileParameter(tileParam, 6), tileParameter(tileParam, 7), tileParameter(tileParam, 8)));
-                               break; 
+                               break;
+                    case 99:
+                                room.addTileAt(new WinTile(tileParameter(tileParam, 1), tileParameter(tileParam, 2), tileParameter(tileParam, 3), tileParameter(tileParam, 4), tileParameter(tileParam, 5)));
+
 
 
                 }

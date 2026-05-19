@@ -126,6 +126,7 @@ public class GameWindow extends JFrame {
         Room room4= x.findRoom("RoomTest4");
         Room hole= x.findRoom("FloorOpenTest");
         Room Runway= x.findRoom("Runway");
+        Room winning = x.findRoom("Win");
 
         //create room to test
         //room2.setEnterRoomTransitionColor(0, Color.RED);
@@ -146,6 +147,7 @@ public class GameWindow extends JFrame {
         map.addRoomAt(Runway, 4, 0);
         map.addRoomAt(Runway, 5, 0);
         map.addRoomAt(Runway, 2, 0);
+        map.addRoomAt(winning,6,1);
     }
 
     /*
@@ -237,6 +239,7 @@ public class GameWindow extends JFrame {
 
             if (e.getKeyCode() == KeyEvent.VK_Q) {
                 qPressed = false;
+               
             }
         }
     }
@@ -300,7 +303,7 @@ public class GameWindow extends JFrame {
                 antiHoldDash = false;
             }
 
-            //insert death on player out of bounds below: (future)
+            //insert death on out of bounds below: (future)
             
             //tiles tick
             for (int i=0; i<map.mapRooms.length; i++) {

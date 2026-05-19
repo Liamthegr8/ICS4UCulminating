@@ -10,6 +10,7 @@ import java.util.Random;
 public abstract class Tile {
     boolean killPlayer;
     boolean isCollidable;
+    boolean winCondition;
     //static final int tileSize = 50;
     int x,y,width,height;
     BufferedImage texture;
@@ -28,6 +29,7 @@ public abstract class Tile {
         this.height = height;
         killPlayer = false;
         isCollidable = false;
+        winCondition = false;
         imageXOffset = 0;
         imageYOffset = 0;
         this.assignedMapColorIndex = assignedMapColorIndex;
@@ -36,6 +38,7 @@ public abstract class Tile {
         //     texture = loadImage(customTexturePath);
         //     getScaledImage();
         // }
+        winCondition=false;
     }
 
     Tile(Tile tileData) { //this is specifically for getsurroundingtiles collisions
@@ -46,6 +49,7 @@ public abstract class Tile {
         this.height = tileData.height;
         this.killPlayer = tileData.killPlayer;
         this.isCollidable = tileData.isCollidable;
+        this.winCondition = tileData.winCondition;
     }
 
     /*
