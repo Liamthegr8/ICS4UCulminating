@@ -1,3 +1,8 @@
+/**
+ * GhostTile.java
+ * Child class of Tile.java, serves as a placeholder tile for old code requiring Tile objects.
+ * Created by Tanush, Liam, Erik
+ */
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
@@ -52,7 +57,11 @@ public class GhostTile extends Tile{
         this.isCollidable = tileData.isCollidable;
     }
 
-    
+    /**
+     * load image from give file path and return found image
+     * @param filename  the name of the file with its relative location to main on pc
+     * @return  the loaded image
+     */
     BufferedImage loadImage(String filename) { //UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED
         url = this.getClass().getResource("/assets/" + filename);
         BufferedImage img = null;
@@ -72,6 +81,10 @@ public class GhostTile extends Tile{
         return img;
     }
 
+    /**
+     * scale image to specific size based on object's parameters(variables)
+     * @return  the scaled image
+     */
     Image getScaledImage() { //UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED
         if (texture == null) {
             return null;
@@ -80,6 +93,7 @@ public class GhostTile extends Tile{
         return scaledImage;
     }
 
+    //not used
     void tick(Player player, int i, int j) {}
 
     // void copyTile(Tile tileData) { //use 2nd constructor
@@ -89,6 +103,9 @@ public class GhostTile extends Tile{
     //     new Tile(tileData);
     // } 
 
+    /**
+     * defined, just return null
+     */ 
     public int[] returnParams() {
         return null;
     }

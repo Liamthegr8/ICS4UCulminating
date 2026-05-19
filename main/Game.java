@@ -1,3 +1,8 @@
+/**
+ * Game.java
+ * Main game.
+ * Created by Tanush, Liam, Erik
+ */
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;

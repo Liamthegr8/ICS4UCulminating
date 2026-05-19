@@ -1,3 +1,8 @@
+/**
+ * Player.java
+ * Class containing all the data and methods pertaining to the Player. Collision, movement, and abilities can all be found here.
+ * Created by Tanush, Liam, Erik
+ */
 import java.awt.*;
 import java.util.*;
 
@@ -52,30 +57,30 @@ public class Player extends Rectangle {
     //     playerHealth -= dmg;
     // }
 
-    /*
-    *set players global coordinates
-    *@param x   x coordinate
-    *@param y   y coordinate 
-    */
+    /**
+     * set players global coordinates
+     * @param x x coordinate
+     * @param y y coordinate 
+     */
     void setCoordinates(int x, int y) {
         this.x = x;
         this.y = y;
     }
-    /*
-    *change players global coordinates
-    *@param x   x coordinate
-    *@param y   y coordinate 
-    */
+    /**
+     * change players global coordinates
+     * @param x x coordinate
+     * @param y y coordinate 
+     */
     void changeCoordinates(int x, int y) {
         this.x += x;
         this.y += y;
     }
     
-    /*
-    *update player's velocity
-    *@param vx   horizontal velocity
-    *@param vy   vertical velocity
-    */
+    /**
+     * update player's velocity
+     * @param vx    horizontal velocity
+     * @param vy    vertical velocity
+     */
     void updateVelocity(double vx, double vy) {
             if (canControl) {
                 this.vx += vx; //IF canControl, then apply these
@@ -83,30 +88,30 @@ public class Player extends Rectangle {
             }
     }
 
-    /*
-    *set player's velocity
-    *@param vx   horizontal velocity
-    *@param vy   vertical velocity
-    */
+    /**
+     * set player's velocity
+     * @param vx    horizontal velocity
+     * @param vy    vertical velocity
+     */
     void setVelocity(double vx, double vy) {
             if (canControl) {
                 this.vx = vx; //IF canControl, then apply these
                 this.vy = vy;
             }
     }
-    /*
-    *set player's velocity on NO conditions
-    *@param vx   horizontal velocity
-    *@param vy   vertical velocity
-    */
+    /**
+     * set player's velocity on NO conditions
+     * @param vx    horizontal velocity
+     * @param vy    vertical velocity
+     */
     void setDashVelocity(double VX, double VY){
         vx = VX; 
         vy = VY;
     }
 
-    /*
-    *handle gravity and velocity
-    */
+    /**
+     * handle gravity and velocity
+     */
     void applyVelocity() {
         //apply gravity
         //the 3 lines below moved to outside in logic statement before trymove
@@ -160,10 +165,10 @@ public class Player extends Rectangle {
     }
 
     
-    /*
-    *return tiles around the player within certain radius
-    *@param map   reference of map
-    */
+    /**
+     * return tiles around the player within certain radius
+     * @param map   reference of map
+     */
     void getSurroundingTiles(Map map) {
         surroundingTiles.clear();
 
@@ -196,11 +201,11 @@ public class Player extends Rectangle {
     }
     
     //scratch griffpatch raycaster ref with edge setback
-    //is the passing class attribute suroundtiles to func redudant?
-
-    //ADD COMMENTS 
-
-    
+    /**
+     * try to move player in x direction, if collides with wall, move player next to wall and set velocity to 0, sets isTouchingWall variables
+     * @param xAmount   amount to move player in x direction
+     * @param surroundingTiles  list of tiles around player to check for collisions with
+     */
     void tryMoveX(double xAmount, ArrayList<Tile> surroundingTiles) {
         this.xx = (double)x;
         this.xx += xAmount;
@@ -259,6 +264,11 @@ public class Player extends Rectangle {
         }
     }
 
+    /**
+     * try to move player in y direction, if collides with wall, move player next to wall and set velocity to 0, sets isGrounded variable
+     * @param yAmount   amount to move player in y direction
+     * @param surroundingTiles  list of tiles around player to check for collisions with
+     */
     void tryMoveY(double yAmount, ArrayList<Tile> surroundingTiles) {
         this.yy = (double)y;
         this.yy += yAmount;
@@ -311,7 +321,11 @@ public class Player extends Rectangle {
         }
     }
 
-    //Checks where player is on map
+    /**
+     * return player location in the form of an integer array 
+     * @param map   reference to map
+     * @return  int array with 2 values, x and y location of room which is in the map
+     */
     int[] getPlayerLocation(Map map) {
         int[] tempPlayerLocation = new int[2]; //[roomx, roomy]
         for (int i=0; i<map.mapRooms.length; i++) {
@@ -332,6 +346,10 @@ public class Player extends Rectangle {
         
     }
 
+    /**
+     * update player location, get tiles and check collisions and other variables every tick
+     * @param map   reference to map
+     */
     void tick(Map map) {
          System.out.println(isWin);
         //isGrounded = false;
@@ -388,6 +406,9 @@ public class Player extends Rectangle {
 
     //ability methods
 
+    /**
+     * make player jump and handle wall jumps and check coyote and buffer time and set velocities accordingly
+     */
     void jump() {
         // isGrounded = false;
         // vy = 0;
@@ -428,6 +449,13 @@ public class Player extends Rectangle {
             
     }
     
+    /**
+     * make player dash in a direction based on input and set velocities as needed
+     * @param w bool that is true if player is pressing w
+     * @param a bool that is true if player is pressing a
+     * @param s bool that is true if player is pressing s
+     * @param d bool that is true if player is pressing d
+     */
     void dash(boolean w, boolean a, boolean s, boolean d) {
         
     if (canDash) {
@@ -488,7 +516,7 @@ public class Player extends Rectangle {
         }    
     }
     
-        
+    //not used methods yet, for future    
     }
     void dashPastWall() { // just teleport x and y, and then apply some velocity in that dir
     }
