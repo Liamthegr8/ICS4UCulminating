@@ -29,13 +29,12 @@ public class Room {
     //     roomTiles = data;
     // }
 
-    /*
-    *add a tile to the room
-    *@param tile   the tile that is to be added
-    **/
+    /**
+     * add a tile to the specified room
+     * @param tile  the tile that is to be added to the room's arraylist
+     */
     void addTileAt(Tile tile) {
         //should check if the tile is within room dimensions only
-        
         
         if (tile.x >= 0 && tile.x + tile.width <= roomWidth && tile.y >= 0 && tile.y + tile.height <= roomHeight) {
             roomTiles.add(tile);
@@ -44,18 +43,20 @@ public class Room {
             return;
         }    
     }
-    /*
-    *remove specific tile from room
-    **/
+    
+    /**
+     * remove specific tile from room
+     * @param index the location of the tile within the room's arraylist
+     */
     void removeTileAt(int index) {
         roomTiles.remove(index);
     }
 
-    /*
-    *define what color a set amount of blocks are to posses upon entering the room 
-    *@param index   a number used to assign the color to specific blocks (a reference number/location for the color)
-    *@param color   the color value
-    **/
+    /**
+     * define what color a set amount of tiles are to posses upon the player entering the room 
+     * @param index a number used to assign the color to specific tiles (a reference number/location for the color)
+     * @param color the Color object to assign
+     */
     void setEnterRoomTransitionColor(int index, Color color) {
         if (index >= 0 && index < enterRoomTransitionTileColors.length) { //stop errors
             enterRoomTransitionTileColors[index] = color;
@@ -64,13 +65,13 @@ public class Room {
         }
     }
 
-    /*
-    *change the colors when player enters the room
-    *@param map   reference to main map
-    *@param player   reference to player
-    *@param xIndex   x location of room within Map
-    *@param yIndex   y location of room within Map
-    **/
+    /**
+     * change the assigned tile colors when player enters the room
+     * @param map   reference to main map
+     * @param player    reference to player
+     * @param xIndex    x location of room within Map
+     * @param yIndex    y location of room within Map
+     */
     void tick(Map map, Player player, int xIndex, int yIndex) {
         if (player.playerLocation != null && xIndex == player.playerLocation[0] && yIndex == player.playerLocation[1]) {
             for (int i=0; i<Map.assignedColorsLength; i++) {

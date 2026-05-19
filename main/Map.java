@@ -15,18 +15,34 @@ public class Map {
     }
 
     //adds room to array
+    /**
+     * add a room to map at specific location
+     * @param room  the room that is to be added to the map's array
+     * @param x     x location of room within Map
+     * @param y     y location of room within Map
+     */
     void addRoomAt(Room room, int x, int y) {
         mapRooms[x][y] = room;
     }
     //removes room from array
+    /**
+     * remove a room from map at specific location
+     * @param x     x location of room within Map
+     * @param y     y location of room within Map
+     */
     void removeRoomAt(int x, int y) {
         mapRooms[x][y] = null;
 
     }
+    // UNUSED
     void updateMiniMap() {
     }
 
-    //changes color or smth, idk
+    /**
+     * set an array value to a color for set amount of tiles to posses
+     * @param index a number used to assign the color to specific tiles (a reference number/location for color)
+     * @param color the Color object to assign
+     */
     void setMapTileColor(int index, Color color) {
         if (index >= 0 && index < assignedTileColors.length) { //stop errors
             assignedTileColors[index] = color;
@@ -36,11 +52,3 @@ public class Map {
     }
 
 }
-
-//OUTDATED COMMENT:
-//matrix.add(new ArrayList<Integer>()); // Adds row 0
-// matrix.get(0).add(10); // Adds 10 to row 0, column 0
-// matrix.get(0).add(20); // Adds 20 to row 0, column 1
-
-//int value = matrix.get(0).get(1); // Retrieves 20
-//matrix.get(0).set(1, 50); // Changes 20 to 50

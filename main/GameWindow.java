@@ -88,9 +88,9 @@ public class GameWindow extends JFrame {
         gameSetup();
     }
 
-    /*
-    *setup initial game (first time window runs)
-    **/
+    /**
+     *setup initial game (first time window runs)
+     */
     private void gameSetup() {
         //Set up timer
         tick = new Timer(tickDelay, panel);
@@ -105,9 +105,9 @@ public class GameWindow extends JFrame {
         resetGame();
     }
 
-    /*
-    *resets main game variables upon e.g. death or by command, also allows for map to regenerate
-    **/
+    /**
+     *resets main game variables upon e.g. death or by command, also allows for map to regenerate
+     */
     private void resetGame() {
         camX = 0;
         camY = 0;
@@ -148,10 +148,12 @@ public class GameWindow extends JFrame {
         map.addRoomAt(Runway, 2, 0);
     }
 
-    /*
-    *recognize and implement keyboard functions
-    **/
+    // handle keyboard input
     private class KeyHandler extends KeyAdapter {
+        /**
+         * handle key presses
+         * @param e the key event triggered
+         */
         @Override
         public void keyPressed(KeyEvent e) {
             //no panel repaint here. otherwise the graphics will update when key pressed instantly. not upon fixed tick delay
@@ -200,7 +202,10 @@ public class GameWindow extends JFrame {
                 qPressed = true;
             } 
         }
-        //makes sure that buttons that are no longer being held aren't still being seen as held
+        /**
+         * handle key releases
+         * @param e the key event triggered
+         */
         public void keyReleased(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_W) {
                 wPressed = false;
@@ -241,10 +246,12 @@ public class GameWindow extends JFrame {
         }
     }
 
-    /*
-    *recognize and implement mouse cliks or mouse movement functions
-    **/
+    // handle mouse movement and clicks
     class MouseMotionHandler extends MouseAdapter {
+        /**
+         * handle mouse movement
+         * @param e the mouse event triggered
+         */
         @Override
         public void mouseMoved(MouseEvent e) {
             windowMouseX = e.getX()-8;
@@ -252,15 +259,14 @@ public class GameWindow extends JFrame {
         }
     }
 
-    //Private class responsible for the creation of the JPanel
     private class DrawingPanel extends JPanel implements ActionListener {
         DrawingPanel() {
             this.setPreferredSize(new Dimension(windowX,windowY));
         }
 
-        /*
-        *gameloop and main game timer, handles tiles, room, player TICK methods
-        **/
+        /**
+         * game's main gameloop and timer
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             //ticks down cooldowns
@@ -357,18 +363,19 @@ public class GameWindow extends JFrame {
             this.repaint();	
         }
 
-        /*
-        *update camera variable to track player, non dynamic fixed transitions
-        **/
+        /**
+         *update camera variable to track player, non dynamic fixed transitions
+         */
         void updateCamera() {
             //based on window vars
             camX = -player.x + (windowX/2) - (player.width/2);
             camY = -player.y + (windowY/2) - (player.height/2);
         }
 
-        /*
-        *render the game's graphics
-        **/
+        /**
+         * render graphics, tiles, and mouse selection box
+         * @param g the Graphics object
+         */
         @Override
         public void paintComponent(Graphics g) {
             //Advanced Graphics

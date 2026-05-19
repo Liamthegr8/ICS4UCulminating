@@ -38,7 +38,7 @@ public abstract class Tile {
         // }
     }
 
-    Tile(Tile tileData) { //this is specifically for getsurroundingtiles collisions
+    Tile(Tile tileData) { //this is method is used for getsurroundingtiles collisions
         this.tileID = tileData.tileID;
         this.x = tileData.x; //could be real or relative
         this.y = tileData.y; //could be real or relative
@@ -48,11 +48,11 @@ public abstract class Tile {
         this.isCollidable = tileData.isCollidable;
     }
 
-    /*
-    *load image from url and return found image
-    *@param filename   the name of the file with its relative location to main on pc
-    *@return    the image loaded and succesfuly
-    **/
+    /**
+     * load image from give file path and return found image
+     * @param filename  the name of the file with its relative location to main on pc
+     * @return  the loaded image
+     */
     BufferedImage loadImage(String filename) { //UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED
         url = this.getClass().getResource("/assets/" + filename);
         BufferedImage img = null;
@@ -72,10 +72,10 @@ public abstract class Tile {
         return img;
     }
 
-    /*
-    *scale image to specific size based on object's parameters(variables)
-    *@return    the image succesfuly scaled
-    **/
+    /**
+     * scale image to specific size based on object's parameters(variables)
+     * @return  the scaled image
+     */
     Image getScaledImage() { //UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED
         if (texture == null) {
             return null;
@@ -84,6 +84,7 @@ public abstract class Tile {
         return scaledImage;
     }
 
+    //UNUSED, IGNORE
     void tick(Player player, int i, int j) {}
 
     // void copyTile(Tile tileData) { //use 2nd constructor
