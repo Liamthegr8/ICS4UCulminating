@@ -1,3 +1,8 @@
+/**
+ * FileHandle.java
+ * Class with methods to read room data from roomData.txt.
+ * Created by Tanush, Liam, Erik
+ */
 import java.io.*;
 import java.awt.*;
 public class FileHandle{

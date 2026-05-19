@@ -1,3 +1,8 @@
+/**
+ * LevelCreationTool.java
+ * Allows for the creation of rooms through the use of mouse and keyboard, and saves them to txt.
+ * Created by Tanush, Liam, Erik
+ */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

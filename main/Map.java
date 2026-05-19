@@ -1,3 +1,8 @@
+/**
+ * Map.java
+ * Class containing the 2D array of rooms needed for level storage.
+ * Created by Tanush, Liam, Erik
+ */
 import java.awt.*;
 
 public class Map {

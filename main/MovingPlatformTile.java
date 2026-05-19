@@ -1,3 +1,8 @@
+/**
+ * MovingPlatformTile.java
+ * Child class of Tile, creates a moving platform that the Player can stand on.
+ * Created by Tanush, Liam, Erik
+ */
 import java.awt.Rectangle;
 
 public class MovingPlatformTile extends Tile{

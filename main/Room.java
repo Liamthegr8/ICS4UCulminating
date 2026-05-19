@@ -1,3 +1,8 @@
+/**
+ * Room.java
+ * Class that stores all the data pertaining to each individual room. Objects within are stored in an arraylist.
+ * Created by Tanush, Liam, Erik
+ */
 import java.util.ArrayList;
 import java.awt.*;
 

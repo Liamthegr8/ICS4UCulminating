@@ -1,3 +1,8 @@
+/**
+ * SpikeTile.java
+ * Child class of Tile. Creates a spike that will kill the player when touched.
+ * Created by Tanush, Liam, Erik
+ */
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;

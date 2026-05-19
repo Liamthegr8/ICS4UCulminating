@@ -1,3 +1,8 @@
+/**
+ * GameWindow.java
+ * Handles most of the game activities, such as player input, timing, and level creation.
+ * Created by Tanush, Liam, Erik
+ */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

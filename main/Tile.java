@@ -1,3 +1,8 @@
+/**
+ * Tile.java
+ * Parent abstract class responsible for giving all tile objects common properties, such as size, position, and effects on player.
+ * Created by Tanush, Liam, Erik
+ */
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 

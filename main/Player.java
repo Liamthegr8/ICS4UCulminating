@@ -1,3 +1,8 @@
+/**
+ * Player.java
+ * Class containing all the data and methods pertaining to the Player. Collision, movement, and abilities can all be found here.
+ * Created by Tanush, Liam, Erik
+ */
 import java.awt.*;
 import java.util.*;
 

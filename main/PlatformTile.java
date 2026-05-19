@@ -1,3 +1,8 @@
+/**
+ * Platform.java
+ * Child class of Tile, creates a platform that the Player can stand on.
+ * Created by Tanush, Liam, Erik
+ */
 import java.awt.image.BufferedImage;
 
 public class PlatformTile extends Tile {

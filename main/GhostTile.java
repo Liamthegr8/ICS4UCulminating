@@ -1,3 +1,8 @@
+/**
+ * GhostTile.java
+ * Child class of Tile.java, serves as a placeholder tile for old code requiring Tile objects.
+ * Created by Tanush, Liam, Erik
+ */
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
