@@ -20,6 +20,7 @@ public class Player extends Rectangle {
 
     double dashSpeed=25;
     double dashSpeedDiag=(dashSpeed * Math.sqrt(0.5));
+   //double dashSpeedDiag= dashSpeed*.7;
     double dashx=0;
     double dashy=0;
     //true is right false is left
@@ -35,6 +36,8 @@ public class Player extends Rectangle {
     int bufferTime = 0;
 
     boolean isWin=false;
+
+    boolean fastFall =false;
 
 
     Player(int x, int y, int width, int height) {
@@ -351,13 +354,14 @@ public class Player extends Rectangle {
      * @param map   reference to map
      */
     void tick(Map map) {
-         System.out.println(isWin);
+         //System.out.println(isWin);
         //isGrounded = false;
         //System.out.println(coyoteTime);
         if (coyoteTime>0){coyoteTime--;}
         if(bufferTime>0){
             jump();
         }
+        gravityUpdate();
         getSurroundingTiles(map);
         playerLocation = getPlayerLocation(map);
         // System.out.println(xx);
@@ -376,7 +380,7 @@ public class Player extends Rectangle {
                 noControlTime--;
             }else{
                 isDash=false;
-                setDashVelocity(0, 0);
+                setDashVelocity(vx*0.4, vy*0.4);
             }
         }else{
             noControlTime=0;
@@ -417,14 +421,17 @@ public class Player extends Rectangle {
             if(lastSurfaceTouched == 1) {
                 isDash = false;
                 //System.out.println(vx);
-                setDashVelocity(vx, -20+vy); 
+                //setDashVelocity(vx, -20+vy); 
+                if(isDash){
+                    setDashVelocity(vx, vy); 
+                }else{setDashVelocity(vx, -20); }
                 //System.out.println(vx);
                 coyoteTime=0;
                 bufferTime=0;
             }
             else if(lastSurfaceTouched == 2) {
                 if(isDash){
-                    setDashVelocity(5, -10+vy); 
+                    setDashVelocity(5, vy); 
                 }else{setDashVelocity(5, -25); }
                 isDash = false;
                 //System.out.println(vx);
@@ -435,7 +442,7 @@ public class Player extends Rectangle {
             }
             else if(lastSurfaceTouched == 3) {
                 if(isDash){
-                    setDashVelocity(-5, -10+vy); 
+                    setDashVelocity(-5, vy); 
                 }else{setDashVelocity(-5, -25); }
                 isDash = false; 
                 //System.out.println(vx);
@@ -463,7 +470,7 @@ public class Player extends Rectangle {
         noGravityTime = dashTime;
         noControlTime = dashTime;
         isDash=true;
-        //coyoteTime = 0;
+        coyoteTime = 0;
             if (w && !a && !d) {
            // setVelocity(0,-dashSpeed);
             dashx = 0.00;
@@ -523,6 +530,11 @@ public class Player extends Rectangle {
     void parachute() {
     }
     void grapplingHook() {   
+    }
+    void gravityUpdate() {
+        if(fastFall){
+            gravity = 1.3;
+        }else gravity =1;
     }
 
 }

@@ -297,7 +297,9 @@ public class GameWindow extends JFrame {
                 
             }
             if (sPressed) {
+                player.fastFall=true;
             }
+            else {player.fastFall=false;}
             if (qPressed) {
                 resetGame();
             }
