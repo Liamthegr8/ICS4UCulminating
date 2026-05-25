@@ -1,3 +1,8 @@
+/**
+ * LevelCreationTool.java
+ * Allows for the creation of rooms through the use of mouse and keyboard, and saves them to txt.
+ * Created by Tanush, Liam, Erik
+ */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -48,6 +53,9 @@ public class LevelCreationTool extends JFrame {
     String roomName;
     FileHandle x = new FileHandle();
 
+    String roomName;
+    FileHandle x = new FileHandle();
+
 
     public static void main(String[] args) {
          new LevelCreationTool();
@@ -70,10 +78,16 @@ public class LevelCreationTool extends JFrame {
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+
+        roomData = x.findRoom("RoomTest1");
+        roomName = "RoomTest1";
         
         gameSetup();
     }
 
+    /**
+     * set up the creation tool, events, timer
+     */
     private void gameSetup() {
         //Set up timer
         tick = new Timer(tickDelay, panel);
@@ -87,34 +101,63 @@ public class LevelCreationTool extends JFrame {
         resetGame();
     }
 
+    /**
+     * reset maps
+     */
     private void resetGame() {
         map = new Map();
         map.setMapTileColor(0, Color.BLUE);
         map.setMapTileColor(1, Color.RED);
 
-        roomData = new Room("NONAME");
+        //roomData = new Room("NONAME");
         
         // roomData.addTileAt(new SpikeTile(0,450,500,49,0));
         // roomData.addTileAt(new MovingPlatformTile(100, 400,  100, 50, 1, 200, 400, 1));
 
-        map.addRoomAt(roomData, 0, 0);
+        //map.addRoomAt(roomData, 0, 0);
     }
 
-    // public void saveToFile() {
-    //     File file = new File("main\\assets\\levelCreator.txt");
-    //     try {
-    //         FileWriter out = new FileWriter(file);
-    //         BufferedWriter write = new BufferedWriter(out);
-    //         for (Tile t: roomData.roomTiles) {
-    //             write.write();
-    //             write.newLine();
-    //         }
-    //     }
-    //     catch (IOException e) {
-    //         System.out.println("error");
-    //     }
-    // }
+    /**
+     * save the created level to a text file in a specific format, that can be read by the game
+     */
+    public void saveToFile() {
+        File file = new File("main\\assets\\levelCreator.txt");
+        System.out.println("method runs");
+        try {
+            FileWriter out = new FileWriter(file);
+            BufferedWriter write = new BufferedWriter(out);
+            System.out.println("Writers created");
+            write.write("(");
+            write.write(roomName);
+            write.write(")");
+            System.out.println("roomname written");
+            for (Tile t: roomData.roomTiles) {
+                System.out.println("yes");
+                int[] param = t.returnParams();
+                write.write("_");
+                write.write(String.valueOf(param[0]));
+                write.write("<");
+                System.out.println("tile start");
+                for (int i = 1; i < param.length; i++) {
+                    write.write(String.valueOf(param[i]));
+                    if (i != (param.length - 1)) {
+                        write.write(",");
+                        System.out.println("tile written");
+                    }
+                }
+                write.write(">");
+            }
+            write.write(";");
+            write.newLine();
+            write.close();
+            out.close();
+        }
+        catch (IOException e) {
+            System.out.println("error");
+        }
+    }
 
+    // handle keyboard input
     class KeyHandler extends KeyAdapter {
         @Override
         public void keyTyped(KeyEvent e) {
@@ -200,6 +243,10 @@ public class LevelCreationTool extends JFrame {
         //     System.out.println(digInput);
         //     System.out.println(digCounter);
         // }
+        /**
+         * handle key presses
+         * @param e the key event triggered
+         */
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_W) {
@@ -231,12 +278,17 @@ public class LevelCreationTool extends JFrame {
             }
             if (e.getKeyCode() == KeyEvent.VK_L) {
                 lPressed = true;
+                saveToFile();
             }
 
             if (e.getKeyCode() == KeyEvent.VK_Q) {
                 qPressed = true;
             } 
         }
+        /**
+         * handle key releases
+         * @param e the key event triggered
+         */
         @Override
         public void keyReleased(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_W) {
@@ -276,18 +328,30 @@ public class LevelCreationTool extends JFrame {
         }
     }
 
+    // handle mouse movement and clicks
     class MouseMotionHandler extends MouseAdapter {
+        /**
+         * handle mouse movement
+         * @param e the mouse event triggered
+         */
         @Override
         public void mouseMoved(MouseEvent e) {
             windowMouseX = e.getX()-8;
             windowMouseY = e.getY()-31;
         }
+        /**
+         * handle mouse dragging
+         * @param e the mouse event triggered
+         */
         @Override
         public void mouseDragged(MouseEvent e) {
             windowMouseX = e.getX()-8;
             windowMouseY = e.getY()-31;
         }
-        //mouseclick and release
+        /**
+         * handle mouse clicks
+         * @param e the mouse event triggered
+         */
         @Override
         public void mouseClicked(MouseEvent e) {
             //add tile at mouse location
@@ -298,6 +362,10 @@ public class LevelCreationTool extends JFrame {
                 rightMouseClicked = true;
             }
         }
+        /**
+         * handle mouse presses
+         * @param e the mouse event triggered
+         */
         @Override
         public void mousePressed(MouseEvent e) {
             if (SwingUtilities.isLeftMouseButton(e)) {
@@ -307,6 +375,10 @@ public class LevelCreationTool extends JFrame {
                 rightMouseHeld = true;
             }
         }
+        /**
+         * handle mouse releases
+         * @param e the mouse event triggered
+         */
         @Override
         public void mouseReleased(MouseEvent e) {
             if (SwingUtilities.isLeftMouseButton(e)) {
@@ -323,7 +395,9 @@ public class LevelCreationTool extends JFrame {
             this.setPreferredSize(new Dimension(windowX,windowY));
         }
 
-        //GAMELOOP & Timer
+        /**
+         * main loop
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             if (qPressed) {
@@ -459,6 +533,10 @@ public class LevelCreationTool extends JFrame {
             // }	
         }
 
+        /**
+         * render graphics, tiles, and mouse selection box
+         * @param g the Graphics object
+         */
         @Override
         public void paintComponent(Graphics g) {
             //Advanced Graphics

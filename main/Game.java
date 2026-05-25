@@ -1,3 +1,8 @@
+/**
+ * Game.java
+ * Main game.
+ * Created by Tanush, Liam, Erik
+ */
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
@@ -8,9 +13,7 @@ public class Game {
     public static void main(String[] args) {
        SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-                //ANONYMOUS
 				System.out.println("Run GameWindow");
-
                 new GameWindow();
                 
 			}

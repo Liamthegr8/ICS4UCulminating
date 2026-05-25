@@ -1,3 +1,8 @@
+/**
+ * FileHandle.java
+ * Class with methods to read room data from roomData.txt.
+ * Created by Tanush, Liam, Erik
+ */
 import java.io.*;
 import java.awt.*;
 public class FileHandle{
@@ -11,12 +16,22 @@ public class FileHandle{
         
     }
 
-    //Findes a room from txt file with room name
+    //Finds a room from txt file with room name
+    /**
+     * finds a room from txt file with room name
+     * @param roomName  the name of the room in format (roomName)roomData
+     * @return  room object created from string data
+     */
     public Room findRoom(String roomName){
         return roomStringToRoomObject(roomName, findRoomString(roomName));
     }
 
     //Given room name, finds room data as a string
+    /**
+     * given room name, finds room data as a string
+     * @param roomName  the name of the room in format (roomName)roomData
+     * @return  room data as a string in format roomData
+     */
     public String findRoomString(String roomName) {
         try {
             room = new File("main\\assets\\roomData.txt");
@@ -42,6 +57,12 @@ public class FileHandle{
     }
 
     //Turns the returned room data string into a room object
+    /**
+     * turns the returned room data string into a room object
+     * @param roomName  the name of the room in format (roomName)roomData
+     * @param roomData  the data of the room in format roomData
+     * @return  room object created from string data
+     */
     public Room roomStringToRoomObject(String roomName, String roomData){
         int index=0;
         Room room = new Room(roomName);
@@ -67,7 +88,10 @@ public class FileHandle{
                                break;
                     case 3:
                                room.addTileAt(new MovingPlatformTile(tileParameter(tileParam, 1), tileParameter(tileParam, 2), tileParameter(tileParam, 3), tileParameter(tileParam, 4), tileParameter(tileParam, 5), tileParameter(tileParam, 6), tileParameter(tileParam, 7), tileParameter(tileParam, 8)));
-                               break; 
+                               break;
+                    case 99:
+                                room.addTileAt(new WinTile(tileParameter(tileParam, 1), tileParameter(tileParam, 2), tileParameter(tileParam, 3), tileParameter(tileParam, 4), tileParameter(tileParam, 5)));
+
 
 
                 }
@@ -80,6 +104,12 @@ public class FileHandle{
     //tilestring is your line of text inside the <> for your tile
     //param index is which parameter do you want for your tile
     //Checks the parameters for the tile within the room
+    /**
+     * extracts the parameters for the tile within the room based on the index
+     * @param tileString    the text in the string that holds the data
+     * @param paramIndex    the index of the parameter to extract
+     * @return  the parameter at the index returned in integer format
+     */
     public int tileParameter(String tileString, int paramIndex){
         int end =-1;
         int start =0;

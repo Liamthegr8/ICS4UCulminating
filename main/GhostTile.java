@@ -1,6 +1,6 @@
 /**
- * Tile.java
- * Parent abstract class responsible for giving all tile objects common properties, such as size, position, and effects on player.
+ * GhostTile.java
+ * Child class of Tile.java, serves as a placeholder tile for old code requiring Tile objects.
  * Created by Tanush, Liam, Erik
  */
 import java.awt.image.BufferedImage;
@@ -12,10 +12,9 @@ import java.io.*;
 import java.net.URL;
 import java.util.Random;
 
-public abstract class Tile {
+public class GhostTile extends Tile{
     boolean killPlayer;
     boolean isCollidable;
-    boolean winCondition;
     //static final int tileSize = 50;
     int x,y,width,height;
     BufferedImage texture;
@@ -24,8 +23,10 @@ public abstract class Tile {
     int imageXOffset, imageYOffset;
     int assignedMapColorIndex;
     int tileID;
-
-    Tile(int x, int y,int width,int height, int assignedMapColorIndex) { //current tileID randomized, only manually set in 2nd contsructor
+    
+    //current tileID randomized, only manually set in 2nd contsructor
+    GhostTile(int x, int y,int width,int height, int assignedMapColorIndex) { 
+        super(x,y,width,height,assignedMapColorIndex);
         Random r = new Random();
         this.tileID = r.nextInt(10000);
         this.x = x;
@@ -34,7 +35,6 @@ public abstract class Tile {
         this.height = height;
         killPlayer = false;
         isCollidable = false;
-        winCondition = false;
         imageXOffset = 0;
         imageYOffset = 0;
         this.assignedMapColorIndex = assignedMapColorIndex;
@@ -43,10 +43,11 @@ public abstract class Tile {
         //     texture = loadImage(customTexturePath);
         //     getScaledImage();
         // }
-        winCondition=false;
     }
-
-    Tile(Tile tileData) { //this is method is used for getsurroundingtiles collisions
+    
+    //this is specifically for getsurroundingtiles collisions
+    GhostTile(Tile tileData) { 
+        super(tileData);
         this.tileID = tileData.tileID;
         this.x = tileData.x; //could be real or relative
         this.y = tileData.y; //could be real or relative
@@ -54,7 +55,6 @@ public abstract class Tile {
         this.height = tileData.height;
         this.killPlayer = tileData.killPlayer;
         this.isCollidable = tileData.isCollidable;
-        this.winCondition = tileData.winCondition;
     }
 
     /**
@@ -93,7 +93,7 @@ public abstract class Tile {
         return scaledImage;
     }
 
-    //UNUSED, IGNORE
+    //not used
     void tick(Player player, int i, int j) {}
 
     // void copyTile(Tile tileData) { //use 2nd constructor
@@ -103,5 +103,10 @@ public abstract class Tile {
     //     new Tile(tileData);
     // } 
 
-    public abstract int[] returnParams();
+    /**
+     * defined, just return null
+     */ 
+    public int[] returnParams() {
+        return null;
+    }
 }
