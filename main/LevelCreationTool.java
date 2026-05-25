@@ -37,6 +37,7 @@ public class LevelCreationTool extends JFrame {
 
     JLabel mouseXLabel = new JLabel();
     JLabel mouseYLabel = new JLabel();
+    JLabel objLabel = new JLabel();
     
     //creation tool
     Scanner sc = new Scanner(System.in);
@@ -44,8 +45,13 @@ public class LevelCreationTool extends JFrame {
     int rectStartY = -100;
     int rectEndX = -100;
     int rectEndY = -100;
+    int digSelected = -1;
     String digInput = "00"; //2 digit
     int digCounter = 0; //to track 00 
+    int objectChosen;
+
+    String roomName;
+    FileHandle x = new FileHandle();
 
     String roomName;
     FileHandle x = new FileHandle();
@@ -65,6 +71,7 @@ public class LevelCreationTool extends JFrame {
         panel = new DrawingPanel();
         panel.add(mouseXLabel);
         panel.add(mouseYLabel);
+        panel.add(objLabel);
 
         this.add(panel);
         this.pack();
@@ -152,6 +159,43 @@ public class LevelCreationTool extends JFrame {
 
     // handle keyboard input
     class KeyHandler extends KeyAdapter {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            switch(e.getKeyChar()) {
+                case '0':
+                    digSelected = 0;
+                    break;
+                case '1':
+                    digSelected = 1;
+                    break;
+                case '2':
+                    digSelected = 2;
+                    break;
+                case '3':
+                    digSelected = 3;
+                    break;
+                case '4':
+                    digSelected = 4;
+                    break;
+                case '5':
+                    digSelected = 5;
+                    break;
+                case '6':
+                    digSelected = 6;
+                    break;
+                case '7':
+                    digSelected = 7;
+                    break;
+                case '8':
+                    digSelected = 8;
+                    break;
+                case '9':
+                    digSelected = 9;
+                    break;
+            }
+            System.out.println(digSelected);
+        }
+        
         // @Override
         // public void keyTyped(KeyEvent e) {
         //     switch(e.getKeyChar()) {
@@ -359,28 +403,89 @@ public class LevelCreationTool extends JFrame {
             if (qPressed) {
                 resetGame();
             }
+            if (uPressed) {
+                objectChosen = 1;
+            }
+            if (iPressed) {
+                objectChosen = 2;
+            }
+            if (oPressed) {
+                objectChosen = 3;
+            }
+            if (jPressed) {
+                objectChosen = 0;
+            }
+            if (kPressed) {
+                objectChosen = 0;
+            }
+            if (lPressed) {
+                objectChosen = 99;
+            }
 
             if (leftMouseHeld) {
                 if (rectStartX < 0) { //start box corner
                     rectStartX = windowMouseX;
                     rectStartY = windowMouseY;
-                    System.out.println(windowMouseX + " " + windowMouseY);
+                    //System.out.println(windowMouseX + " " + windowMouseY);
                 } else { //end box corner
                     rectEndX = windowMouseX;
                     rectEndY = windowMouseY;
-                    System.out.println(windowMouseX + " " + windowMouseY);
+                    //System.out.println(windowMouseX + " " + windowMouseY);
                 }
             } else { // once released mouse
                 if (rectStartX >= 0 && rectEndX >= 0) { //check if box was drawn previously
                     //create tile with rect coords
-                    int x = rectStartX;
-                    int y = rectStartY;
-                    int width = rectEndX - rectStartX;
-                    int height = rectEndY - rectStartY;
+                    int x = 0;
+                    int y = 0;
+                    int width = 0;
+                    int height = 0;
+
+                    if (rectEndX-rectStartX>0 && rectEndY-rectStartY>0) { //++
+                        x = rectStartX;
+                        y = rectStartY;
+                        width = rectEndX-rectStartX;
+                        height = rectEndY-rectStartY;
+                    }
+                    else if (rectEndX-rectStartX>0 && rectEndY-rectStartY<0) { //+-
+                        x = rectStartX;
+                        y = rectEndY;
+                        width = rectEndX-rectStartX;
+                        height = rectStartY-rectEndY;
+                    }
+                    else if (rectEndX-rectStartX<0 && rectEndY-rectStartY<0) { //--
+                        x = rectEndX;
+                        y = rectEndY;
+                        width = rectStartX-rectEndX;
+                        height = rectStartY-rectEndY;
+                    }
+                    else if (rectEndX-rectStartX<0 && rectEndY-rectStartY>0) { //-+
+                        x = rectEndX;
+                        y = rectStartY;
+                        width = rectStartX-rectEndX;
+                        height = rectEndY-rectStartY;
+                    }
                     
                     System.out.println("Enter mapColorIndex:");
                     int assignedMapColorIndex = sc.nextInt();
-                    roomData.addTileAt(new PlatformTile(x, y, width, height, assignedMapColorIndex));
+                    if (objectChosen == 1) {
+                        roomData.addTileAt(new PlatformTile(x, y, width, height, assignedMapColorIndex));
+                    }
+                    else if (objectChosen == 2) {
+                        roomData.addTileAt(new SpikeTile(x, y, width, height, assignedMapColorIndex));
+                    }
+                    else if (objectChosen == 3) {
+                        System.out.println("Enter end pos(x)");
+                        int endX = sc.nextInt();
+                        System.out.println("Enter end pos(y)");
+                        int endY = sc.nextInt();
+                        System.out.println("Enter movespeed");
+                        int mSpeed = sc.nextInt();
+                        roomData.addTileAt(new MovingPlatformTile(x, y, width, height, assignedMapColorIndex, endX, endY, mSpeed));
+                    }
+                    else if (objectChosen == 99) {
+                        roomData.addTileAt(new WinTile(x, y, width, height, assignedMapColorIndex));
+                    }
+                    
                 }
                 rectStartX = -100;
                 rectStartY = -100;
@@ -395,6 +500,18 @@ public class LevelCreationTool extends JFrame {
 
             mouseXLabel.setText("mx:" + windowMouseX);
             mouseYLabel.setText("my:" + windowMouseY);
+            if (objectChosen == 1) {
+                objLabel.setText("Platform");
+            }
+            if (objectChosen == 2) {
+                objLabel.setText("Spike");
+            }
+            if (objectChosen == 3) {
+                objLabel.setText("Moving Platform");
+            }
+            if (objectChosen == 99) {
+                objLabel.setText("Win Tile");
+            }
             
             //refresh graphics
             this.repaint();
@@ -469,7 +586,25 @@ public class LevelCreationTool extends JFrame {
 
             //what is mouse selecting
             g2.setColor(Color.MAGENTA);
-            g2.fillRect(rectStartX, rectStartY, rectEndX-rectStartX, rectEndY-rectStartY);
+            System.out.println(rectEndX-rectStartX);
+            System.out.println();
+            System.out.println(rectEndY-rectStartY);
+            System.out.println();
+            
+            if (rectStartX>=0) {
+                if (rectEndX-rectStartX>0 && rectEndY-rectStartY>0) { //++
+                    g2.fillRect(rectStartX, rectStartY, rectEndX-rectStartX, rectEndY-rectStartY);
+                }
+                else if (rectEndX-rectStartX>0 && rectEndY-rectStartY<0) { //+-
+                    g2.fillRect(rectStartX, rectEndY, rectEndX-rectStartX, rectStartY-rectEndY);
+                }
+                else if (rectEndX-rectStartX<0 && rectEndY-rectStartY<0) { //--
+                    g2.fillRect(rectEndX, rectEndY, rectStartX-rectEndX, rectStartY-rectEndY);
+                }
+                else if (rectEndX-rectStartX<0 && rectEndY-rectStartY>0) { //-+
+                    g2.fillRect(rectEndX, rectStartY, rectStartX-rectEndX, rectEndY-rectStartY);
+                }  
+            }
 
 
             //DEBUG
