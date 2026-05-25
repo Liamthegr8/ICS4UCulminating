@@ -50,12 +50,8 @@ public class LevelCreationTool extends JFrame {
     int digCounter = 0; //to track 00 
     int objectChosen;
 
-    String roomName;
+    String roomName = "name";
     FileHandle x = new FileHandle();
-
-    String roomName;
-    FileHandle x = new FileHandle();
-
 
     public static void main(String[] args) {
          new LevelCreationTool();
@@ -78,9 +74,6 @@ public class LevelCreationTool extends JFrame {
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-
-        roomData = x.findRoom("RoomTest1");
-        roomName = "RoomTest1";
         
         gameSetup();
     }
@@ -193,7 +186,7 @@ public class LevelCreationTool extends JFrame {
                     digSelected = 9;
                     break;
             }
-            System.out.println(digSelected);
+            // System.out.println(digSelected);
         }
         
         // @Override
@@ -395,6 +388,45 @@ public class LevelCreationTool extends JFrame {
             this.setPreferredSize(new Dimension(windowX,windowY));
         }
 
+        int[] getBoxDetails(int rectStartX, int rectEndX, int rectStartY, int rectEndY) {
+            //create tile with rect coords
+            int x = 0;
+            int y = 0;
+            int width = 0;
+            int height = 0;
+
+            if (rectEndX-rectStartX>0 && rectEndY-rectStartY>0) { //++
+                x = rectStartX;
+                y = rectStartY;
+                width = rectEndX-rectStartX;
+                height = rectEndY-rectStartY;
+            }
+            else if (rectEndX-rectStartX>0 && rectEndY-rectStartY<0) { //+-
+                x = rectStartX;
+                y = rectEndY;
+                width = rectEndX-rectStartX;
+                height = rectStartY-rectEndY;
+            }
+            else if (rectEndX-rectStartX<0 && rectEndY-rectStartY<0) { //--
+                x = rectEndX;
+                y = rectEndY;
+                width = rectStartX-rectEndX;
+                height = rectStartY-rectEndY;
+            }
+            else if (rectEndX-rectStartX<0 && rectEndY-rectStartY>0) { //-+
+                x = rectEndX;
+                y = rectStartY;
+                width = rectStartX-rectEndX;
+                height = rectEndY-rectStartY;
+            }
+            int[] returnDimensions = new int[4];
+            returnDimensions[0] = x;
+            returnDimensions[1] = y;
+            returnDimensions[2] = width;
+            returnDimensions[3] = height;
+            return returnDimensions;
+        }
+
         /**
          * main loop
          */
@@ -434,44 +466,16 @@ public class LevelCreationTool extends JFrame {
                 }
             } else { // once released mouse
                 if (rectStartX >= 0 && rectEndX >= 0) { //check if box was drawn previously
-                    //create tile with rect coords
-                    int x = 0;
-                    int y = 0;
-                    int width = 0;
-                    int height = 0;
-
-                    if (rectEndX-rectStartX>0 && rectEndY-rectStartY>0) { //++
-                        x = rectStartX;
-                        y = rectStartY;
-                        width = rectEndX-rectStartX;
-                        height = rectEndY-rectStartY;
-                    }
-                    else if (rectEndX-rectStartX>0 && rectEndY-rectStartY<0) { //+-
-                        x = rectStartX;
-                        y = rectEndY;
-                        width = rectEndX-rectStartX;
-                        height = rectStartY-rectEndY;
-                    }
-                    else if (rectEndX-rectStartX<0 && rectEndY-rectStartY<0) { //--
-                        x = rectEndX;
-                        y = rectEndY;
-                        width = rectStartX-rectEndX;
-                        height = rectStartY-rectEndY;
-                    }
-                    else if (rectEndX-rectStartX<0 && rectEndY-rectStartY>0) { //-+
-                        x = rectEndX;
-                        y = rectStartY;
-                        width = rectStartX-rectEndX;
-                        height = rectEndY-rectStartY;
-                    }
+                    int[] boxDimensions = new int[4];
+                    boxDimensions = getBoxDetails(rectStartX, rectEndX, rectStartY, rectEndY);
                     
                     System.out.println("Enter mapColorIndex:");
                     int assignedMapColorIndex = sc.nextInt();
                     if (objectChosen == 1) {
-                        roomData.addTileAt(new PlatformTile(x, y, width, height, assignedMapColorIndex));
+                        roomData.addTileAt(new PlatformTile(boxDimensions[0], boxDimensions[1], boxDimensions[2], boxDimensions[3], assignedMapColorIndex));
                     }
                     else if (objectChosen == 2) {
-                        roomData.addTileAt(new SpikeTile(x, y, width, height, assignedMapColorIndex));
+                        roomData.addTileAt(new SpikeTile(boxDimensions[0], boxDimensions[1], boxDimensions[2], boxDimensions[3], assignedMapColorIndex));
                     }
                     else if (objectChosen == 3) {
                         System.out.println("Enter end pos(x)");
@@ -480,17 +484,23 @@ public class LevelCreationTool extends JFrame {
                         int endY = sc.nextInt();
                         System.out.println("Enter movespeed");
                         int mSpeed = sc.nextInt();
-                        roomData.addTileAt(new MovingPlatformTile(x, y, width, height, assignedMapColorIndex, endX, endY, mSpeed));
+                        roomData.addTileAt(new MovingPlatformTile(boxDimensions[0], boxDimensions[1], boxDimensions[2], boxDimensions[3], assignedMapColorIndex, endX, endY, mSpeed));
                     }
                     else if (objectChosen == 99) {
-                        roomData.addTileAt(new WinTile(x, y, width, height, assignedMapColorIndex));
+                        roomData.addTileAt(new WinTile(boxDimensions[0], boxDimensions[1], boxDimensions[2], boxDimensions[3], assignedMapColorIndex));
                     }
+                    
+                    System.out.println(boxDimensions[0]);
+                    System.out.println(boxDimensions[1]);
+                    System.out.println(boxDimensions[2]);
+                    System.out.println(boxDimensions[3]);
                     
                 }
                 rectStartX = -100;
                 rectStartY = -100;
                 rectEndX = -100;
                 rectEndY = -100;
+                
             }
             
             
@@ -586,10 +596,10 @@ public class LevelCreationTool extends JFrame {
 
             //what is mouse selecting
             g2.setColor(Color.MAGENTA);
-            System.out.println(rectEndX-rectStartX);
-            System.out.println();
-            System.out.println(rectEndY-rectStartY);
-            System.out.println();
+            // System.out.println(rectEndX-rectStartX);
+            // System.out.println();
+            // System.out.println(rectEndY-rectStartY);
+            // System.out.println();
             
             if (rectStartX>=0) {
                 if (rectEndX-rectStartX>0 && rectEndY-rectStartY>0) { //++
