@@ -1,4 +1,4 @@
-/**
+ /**
  * LevelCreationTool.java
  * Allows for the creation of rooms through the use of mouse and keyboard, and saves them to txt.
  * Created by Tanush, Liam, Erik
@@ -26,6 +26,7 @@ public class LevelCreationTool extends JFrame {
     Map map;
     Room roomData;
     boolean qPressed, wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed; //removed pPressed
+    boolean snapToGrid = false;
 
     //debugging
     int windowMouseX = 0;
@@ -34,6 +35,7 @@ public class LevelCreationTool extends JFrame {
     boolean rightMouseClicked = false;
     boolean leftMouseHeld = false;
     boolean rightMouseHeld = false;
+    
 
     JLabel mouseXLabel = new JLabel();
     JLabel mouseYLabel = new JLabel();
@@ -102,7 +104,9 @@ public class LevelCreationTool extends JFrame {
         map.setMapTileColor(0, Color.BLUE);
         map.setMapTileColor(1, Color.RED);
 
-        //roomData = new Room("NONAME");
+        roomData = new Room("NONAME");
+        map.addRoomAt(roomData, 0, 0);
+        player = new Player(-100, -10000, 1, 1);
         
         // roomData.addTileAt(new SpikeTile(0,450,500,49,0));
         // roomData.addTileAt(new MovingPlatformTile(100, 400,  100, 50, 1, 200, 400, 1));
@@ -244,12 +248,18 @@ public class LevelCreationTool extends JFrame {
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_W) {
                 wPressed = true;
+                saveToFile();
             }
             if (e.getKeyCode() == KeyEvent.VK_A) {
                 aPressed = true;
             }
             if (e.getKeyCode() == KeyEvent.VK_S) {
                 sPressed = true;
+                if (snapToGrid) snapToGrid = false;
+                else snapToGrid = true;
+                if (snapToGrid) System.out.println("Snap = on");
+                else System.out.println("Snap = off");
+                
             }
             if (e.getKeyCode() == KeyEvent.VK_D) {
                 dPressed = true;
@@ -271,7 +281,6 @@ public class LevelCreationTool extends JFrame {
             }
             if (e.getKeyCode() == KeyEvent.VK_L) {
                 lPressed = true;
-                saveToFile();
             }
 
             if (e.getKeyCode() == KeyEvent.VK_Q) {
@@ -456,12 +465,25 @@ public class LevelCreationTool extends JFrame {
 
             if (leftMouseHeld) {
                 if (rectStartX < 0) { //start box corner
-                    rectStartX = windowMouseX;
-                    rectStartY = windowMouseY;
+                    if (snapToGrid) {
+                        rectStartX = windowMouseX - (windowMouseX%20);
+                        rectStartY = windowMouseY - (windowMouseY%20);
+                    }
+                    else {
+                        rectStartX = windowMouseX;
+                        rectStartY = windowMouseY;
+                    }
+                   
                     //System.out.println(windowMouseX + " " + windowMouseY);
                 } else { //end box corner
-                    rectEndX = windowMouseX;
-                    rectEndY = windowMouseY;
+                    if (snapToGrid) {
+                        rectEndX = windowMouseX - (windowMouseX%20);
+                        rectEndY = windowMouseY - (windowMouseY%20);
+                    }
+                    else {
+                        rectEndX = windowMouseX;
+                        rectEndY = windowMouseY;
+                    }
                     //System.out.println(windowMouseX + " " + windowMouseY);
                 }
             } else { // once released mouse
@@ -528,20 +550,15 @@ public class LevelCreationTool extends JFrame {
             leftMouseClicked = false;
             rightMouseClicked = false;
 
-            //tiles tick - not run due to CONCERN OF MOVING PLATFORMS
-            // for (int i=0; i<map.mapRooms.length; i++) {
-            //     for (int j=0; j<map.mapRooms.length; j++) {
-            //         Room r = map.mapRooms[i][j];
-            //         if (r != null) {
-            //             for (Tile tile: r.roomTiles) {
-            //                     if (tile != null) {
-            //                         tile.tick(player, i, j);
-            //                     }
-            //             }
-            //         }
-            //     }
-            // }	
-        }
+            // tiles tick - not run due to CONCERN OF MOVING PLATFORMS
+
+                        for (Tile tile: roomData.roomTiles) {
+                                if (tile != null) {
+                                    tile.tick(player, 0, 0);
+                                }
+                        }
+                    }
+
 
         /**
          * render graphics, tiles, and mouse selection box
@@ -558,11 +575,8 @@ public class LevelCreationTool extends JFrame {
             
 
             //Tanush Code Render Tiles
-            for (int i=0; i<map.mapRooms.length; i++) {
-                for (int j=0; j<map.mapRooms.length; j++) {
-                    Room r = map.mapRooms[i][j];
-                    if (r != null) {
-                        for (Tile tile: r.roomTiles) {
+                        for (Tile tile: roomData.roomTiles) {
+                            System.out.println("a");
                             Tile t = tile;
                             if (t != null) {
                                 g2.setColor(Color.BLACK);
@@ -571,13 +585,13 @@ public class LevelCreationTool extends JFrame {
                                 if (t.assignedMapColorIndex >= 0 && t.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[t.assignedMapColorIndex] != null) {    
                                     Color tileColor = map.assignedTileColors[t.assignedMapColorIndex];
                                     g2.setColor(tileColor);
-                                    g2.fillRect(i*Room.roomWidth + (t.x), j*Room.roomHeight + (t.y), t.width, t.height);  
+                                    g2.fillRect(t.x, t.y, t.width, t.height);  
                                 } else {
                                     if (t.assignedMapColorIndex == -2) { //for transparent tiles
                                         //no fill or draw
                                     } else { //assumes -1 - black
                                         g2.setColor(Color.BLACK);
-                                        g2.fillRect(i*Room.roomWidth + (t.x), j*Room.roomHeight + (t.y), t.width, t.height);  
+                                        g2.fillRect(t.x, t.y, t.width, t.height);  
                                     }
                                 }
                         
@@ -590,9 +604,6 @@ public class LevelCreationTool extends JFrame {
                                 // }
                             }
                         }
-                    }
-                }
-            }
 
             //what is mouse selecting
             g2.setColor(Color.MAGENTA);
@@ -619,16 +630,16 @@ public class LevelCreationTool extends JFrame {
 
             //DEBUG
             //Render Map bounds
-            // for (int i=0; i<map.mapRooms.length; i++) {
-            //     // for (int j=0; j<map.mapRooms.length; j++) {
-            //     //     Room r = map.mapRooms[i][j];
-            //     //     // if (r != null) {
-            //     //     //     g2.setColor(Color.GRAY);
-            //     //     //     g2.setStroke(new BasicStroke(5));
-            //     //     //     g2.drawRect(i*Room.roomWidth, j*Room.roomHeight, Room.roomWidth, Room.roomHeight);
-            //     //     // }
-            //     // }
-            // }   
+            for (int i=0; i<map.mapRooms.length; i++) {
+                for (int j=0; j<map.mapRooms.length; j++) {
+                    Room r = map.mapRooms[i][j];
+                    if (r != null) {
+                        g2.setColor(Color.GRAY);
+                        g2.setStroke(new BasicStroke(5));
+                        g2.drawRect(i*Room.roomWidth, j*Room.roomHeight, Room.roomWidth, Room.roomHeight);
+                    }
+                }
+            }   
         }
     }
 }  
