@@ -153,6 +153,7 @@ public class GameWindow extends JFrame {
         map.addRoomAt(Runway, 5, 0);
         map.addRoomAt(Runway, 2, 0);
         map.addRoomAt(winning,6,1);
+        winning.addTileAt(new RelicTile(200,250,50,50,1,1));
     }
 
     // handle keyboard input
@@ -239,6 +240,7 @@ public class GameWindow extends JFrame {
             }
             if (e.getKeyCode() == KeyEvent.VK_J) {
                 jPressed = false;
+                antiHoldDash = true;
             }
             if (e.getKeyCode() == KeyEvent.VK_K) {
                 kPressed = false;
@@ -315,6 +317,11 @@ public class GameWindow extends JFrame {
                 iPressed=false;
                 antiHoldDash = false;
             }
+            if (jPressed) {
+                player.dashPastWall(wPressed, aPressed, sPressed, dPressed);
+                jPressed = false;
+                antiHoldDash = false;
+            }
 
             //insert death on out of bounds below: (future)
             
@@ -334,6 +341,8 @@ public class GameWindow extends JFrame {
 
             //player tick
             player.tick(map);
+            System.out.printf("Rels: %b,%b,%b,%b,%b", player.abilities[0],player.abilities[1],player.abilities[2],player.abilities[3],player.abilities[4]);
+            System.out.println();
             //check death
             if (player.isDead) {
                 resetGame();

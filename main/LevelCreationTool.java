@@ -123,23 +123,23 @@ public class LevelCreationTool extends JFrame {
         try {
             FileWriter out = new FileWriter(file);
             BufferedWriter write = new BufferedWriter(out);
-            System.out.println("Writers created");
+            //System.out.println("Writers created");
             write.write("(");
             write.write(roomName);
             write.write(")");
-            System.out.println("roomname written");
+            //System.out.println("roomname written");
             for (Tile t: roomData.roomTiles) {
                 System.out.println("yes");
                 int[] param = t.returnParams();
                 write.write("_");
                 write.write(String.valueOf(param[0]));
                 write.write("<");
-                System.out.println("tile start");
+                //System.out.println("tile start");
                 for (int i = 1; i < param.length; i++) {
                     write.write(String.valueOf(param[i]));
                     if (i != (param.length - 1)) {
                         write.write(",");
-                        System.out.println("tile written");
+                        //System.out.println("tile written");
                     }
                 }
                 write.write(">");
@@ -148,6 +148,7 @@ public class LevelCreationTool extends JFrame {
             write.newLine();
             write.close();
             out.close();
+            System.out.println("fini");
         }
         catch (IOException e) {
             System.out.println("error");
@@ -466,8 +467,8 @@ public class LevelCreationTool extends JFrame {
             if (leftMouseHeld) {
                 if (rectStartX < 0) { //start box corner
                     if (snapToGrid) {
-                        rectStartX = windowMouseX - (windowMouseX%20);
-                        rectStartY = windowMouseY - (windowMouseY%20);
+                        rectStartX = windowMouseX - (windowMouseX%10);
+                        rectStartY = windowMouseY - (windowMouseY%10);
                     }
                     else {
                         rectStartX = windowMouseX;
@@ -477,8 +478,8 @@ public class LevelCreationTool extends JFrame {
                     //System.out.println(windowMouseX + " " + windowMouseY);
                 } else { //end box corner
                     if (snapToGrid) {
-                        rectEndX = windowMouseX - (windowMouseX%20);
-                        rectEndY = windowMouseY - (windowMouseY%20);
+                        rectEndX = windowMouseX - (windowMouseX%10);
+                        rectEndY = windowMouseY - (windowMouseY%10);
                     }
                     else {
                         rectEndX = windowMouseX;
@@ -571,6 +572,16 @@ public class LevelCreationTool extends JFrame {
             Graphics2D g2 = (Graphics2D) g;
             //Turn on antialiasing
 		    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            if (snapToGrid) {
+                g2.setColor(Color.BLACK);
+                for(int i = 0; i < roomData.roomWidth; i += 10) {
+                    g2.drawLine(i, 0, i, roomData.roomHeight);
+                }
+                for(int i = 0; i < roomData.roomHeight; i += 10) {
+                    g2.drawLine(0, i, roomData.roomWidth, i);
+                }
+            }
 
             
 

@@ -16,6 +16,7 @@ public abstract class Tile {
     boolean killPlayer;
     boolean isCollidable;
     boolean winCondition;
+    boolean gainAbility;
     //static final int tileSize = 50;
     int x,y,width,height;
     BufferedImage texture;
@@ -24,6 +25,7 @@ public abstract class Tile {
     int imageXOffset, imageYOffset;
     int assignedMapColorIndex;
     int tileID;
+    int ability;
 
     Tile(int x, int y,int width,int height, int assignedMapColorIndex) { //current tileID randomized, only manually set in 2nd contsructor
         Random r = new Random();
@@ -35,6 +37,7 @@ public abstract class Tile {
         killPlayer = false;
         isCollidable = false;
         winCondition = false;
+        gainAbility = false;
         imageXOffset = 0;
         imageYOffset = 0;
         this.assignedMapColorIndex = assignedMapColorIndex;

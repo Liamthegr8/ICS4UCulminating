@@ -12,7 +12,8 @@ public class Player extends Rectangle {
     double xx, yy, vx, vy, gravity;
     //checks to see if the player is able to control the player character(Depricated, was intended for room transitions)
     //repurposed for dashes
-    boolean canControl, isDead, canDash, isGrounded, isTouchingRightWall, isTouchingLeftWall;
+    boolean canControl, isDead, canDash, isGrounded, isTouchingRightWall, isTouchingLeftWall, isPlayerCollidable;
+    boolean[] abilities = new boolean[5];
     int playerHealth, lastSurfaceTouched;
     int maxvx = 40;
     int maxvy = 40;
@@ -30,6 +31,7 @@ public class Player extends Rectangle {
     final double friction = 0.2;
     int noControlTime=0;
     int noGravityTime=0;
+    int noCollisionTime=0;
     int dashTime=10;
 
     int coyoteTime=0;
@@ -53,7 +55,8 @@ public class Player extends Rectangle {
         isGrounded = false;
         isTouchingRightWall = false;
         isTouchingLeftWall = false;
-        playerLocation = null;    
+        playerLocation = null;
+        isPlayerCollidable = true;    
     }
 
     // void applyDamage(int dmg) {
@@ -220,11 +223,35 @@ public class Player extends Rectangle {
             if (t != null) {
                 //real x and y required
                 Rectangle tile = new Rectangle(t.x, t.y, t.width, t.height);
+                if (t.gainAbility && this.intersects(tile)) {
+                        System.out.println("collide");
+                        switch (t.ability) {
+                            case 1:
+                                abilities[0] = true;
+                                break;
+                            case 2:
+                                abilities[1] = true;
+                                break;
+                            case 3:
+                                abilities[2] = true;
+                                break;
+                            case 4:
+                                abilities[3] = true;
+                                break;
+                            case 5:
+                                abilities[4] = true;
+                                break;
+                            default:
+                                System.out.println("No Relic Unlocked");
+                                break;
+                        }
+                    }
 
-                if (this.intersects(tile) && t.isCollidable) {     
+                if (this.intersects(tile) && t.isCollidable && isPlayerCollidable) {     //tanush edited for dash past wall
                     if(t.winCondition){
                             isWin = true;
                         }
+                    
                     if (t.killPlayer) {
                         
                         isDead = true;
@@ -283,10 +310,34 @@ public class Player extends Rectangle {
             if (t != null) {
                 Rectangle tile = new Rectangle(t.x, t.y, t.width, t.height);
                 Rectangle testground = new Rectangle(t.x, t.y-1, t.width, t.height);
-                if (this.intersects(tile) && t.isCollidable) {
+                if (t.gainAbility && this.intersects(tile)) {
+                        System.out.println("collide");
+                        switch (t.ability) {
+                            case 1:
+                                abilities[0] = true;
+                                break;
+                            case 2:
+                                abilities[1] = true;
+                                break;
+                            case 3:
+                                abilities[2] = true;
+                                break;
+                            case 4:
+                                abilities[3] = true;
+                                break;
+                            case 5:
+                                abilities[4] = true;
+                                break;
+                            default:
+                                System.out.println("No Relic Unlocked");
+                                break;
+                        }
+                    }
+                if (this.intersects(tile) && t.isCollidable && isPlayerCollidable) { //tanush edited for dash past wall
                     if(t.winCondition){
                             isWin = true;
                         }  
+                    
                     if (t.killPlayer) {
                         isDead = true;
                     }   
@@ -382,23 +433,33 @@ public class Player extends Rectangle {
                 isDash=false;
                 setDashVelocity(vx*0.4, vy*0.4);
             }
+
+            //tanush  edited code
+            if(noCollisionTime > 0)  {
+                isPlayerCollidable = false;
+                noCollisionTime--;
+            } else {
+                isPlayerCollidable = true;
+            }
+
         }else{
             noControlTime=0;
             noGravityTime=0;
+            noCollisionTime=0;
             canControl=true;
+            isPlayerCollidable = true;
         }
 
-        if (true) {
-            isGrounded = false; //if removed, weeeeeeeeeeeee
-            tryMoveY(vy, surroundingTiles);
-        } //else not moving, no new updates basically
+        isGrounded = false; //if removed, weeeeeeeeeeeee
+        tryMoveY(vy, surroundingTiles);
+         //else not moving, no new updates basically
         //assume grounded, touchingWalls are false until proven
         //try to move (considers collisions)
-        if (true) {
-            isTouchingLeftWall = false;
-            isTouchingRightWall = false;
-            tryMoveX(vx, surroundingTiles);
-        } //else not moving, no new updates basically
+
+        isTouchingLeftWall = false;
+        isTouchingRightWall = false;
+        tryMoveX(vx, surroundingTiles);
+         //else not moving, no new updates basically
         
 
         //check death
@@ -465,10 +526,72 @@ public class Player extends Rectangle {
      */
     void dash(boolean w, boolean a, boolean s, boolean d) {
         
-    if (canDash) {
+        if (canDash) {
+            canDash = false;
+            noGravityTime = dashTime;
+            noControlTime = dashTime;
+            isDash=true;
+            coyoteTime = 0;
+                if (w && !a && !d) {
+            // setVelocity(0,-dashSpeed);
+                dashx = 0.00;
+                dashy = -dashSpeed;
+            }
+            else if (a && !w && !s && !d) {
+                setVelocity(-dashSpeed,0);
+                dashx = -dashSpeed;
+                dashy = 0;
+            }
+            else if (s && !a && !d) {
+                //setVelocity(0,dashSpeed);
+                dashx = 0.0;
+                dashy = dashSpeed;
+            }
+            else if (d && !w && !s && !a) {
+                //setVelocity(dashSpeed,0);
+                dashx = dashSpeed;
+                dashy = 0;
+            }
+            else if (w && a) {
+                //setVelocity(-dashSpeedDiag,-dashSpeedDiag);
+                dashx = -dashSpeedDiag;
+                dashy = -dashSpeedDiag;
+            }
+            else if (s && a) {
+                //setVelocity(-dashSpeedDiag,dashSpeedDiag);
+                dashx = -dashSpeedDiag;
+                dashy = dashSpeedDiag;
+            }
+            else if (w && d) {
+                //setVelocity(dashSpeedDiag,-dashSpeedDiag);
+                dashx = dashSpeedDiag;
+                dashy = -dashSpeedDiag;
+            }
+            else if (s && d) {
+                //setVelocity(dashSpeedDiag,dashSpeedDiag);
+                dashx = dashSpeedDiag;
+                dashy = dashSpeedDiag;
+            }
+            else if(directionFaced){
+                //setVelocity(dashSpeedDiag,0);
+                dashx = dashSpeed;
+                dashy = 0;
+            }
+            else{
+                //setVelocity(-dashSpeedDiag,0);
+                dashx = -dashSpeed;
+                dashy = 0;
+            }    
+        }
+        
+        //not used methods yet, for future    
+    }
+    void dashPastWall(boolean w, boolean a, boolean s, boolean d) { // just teleport x and y, and then apply some velocity in that dir
+        if (canDash) {
         canDash = false;
         noGravityTime = dashTime;
         noControlTime = dashTime;
+        noCollisionTime = dashTime;
         isDash=true;
         coyoteTime = 0;
             if (w && !a && !d) {
@@ -522,10 +645,6 @@ public class Player extends Rectangle {
             dashy = 0;
         }    
     }
-    
-    //not used methods yet, for future    
-    }
-    void dashPastWall() { // just teleport x and y, and then apply some velocity in that dir
     }
     void parachute() {
     }
