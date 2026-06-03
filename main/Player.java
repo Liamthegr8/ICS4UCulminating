@@ -175,7 +175,7 @@ public class Player extends Rectangle {
      * return tiles around the player within certain radius
      * @param map   reference of map
      */
-    void getSurroundingTiles(Map map) {
+     void getSurroundingTiles(Map map) {
         surroundingTiles.clear();
 
         for (int i=0; i<map.mapRooms.length; i++) {
@@ -223,29 +223,6 @@ public class Player extends Rectangle {
             if (t != null) {
                 //real x and y required
                 Rectangle tile = new Rectangle(t.x, t.y, t.width, t.height);
-                if (t.gainAbility && this.intersects(tile)) {
-                        System.out.println("collide");
-                        switch (t.ability) {
-                            case 1:
-                                abilities[0] = true;
-                                break;
-                            case 2:
-                                abilities[1] = true;
-                                break;
-                            case 3:
-                                abilities[2] = true;
-                                break;
-                            case 4:
-                                abilities[3] = true;
-                                break;
-                            case 5:
-                                abilities[4] = true;
-                                break;
-                            default:
-                                System.out.println("No Relic Unlocked");
-                                break;
-                        }
-                    }
 
                 if (this.intersects(tile) && t.isCollidable && isPlayerCollidable) {     //tanush edited for dash past wall
                     if(t.winCondition){
@@ -310,33 +287,16 @@ public class Player extends Rectangle {
             if (t != null) {
                 Rectangle tile = new Rectangle(t.x, t.y, t.width, t.height);
                 Rectangle testground = new Rectangle(t.x, t.y-1, t.width, t.height);
-                if (t.gainAbility && this.intersects(tile)) {
-                        System.out.println("collide");
-                        switch (t.ability) {
-                            case 1:
-                                abilities[0] = true;
-                                break;
-                            case 2:
-                                abilities[1] = true;
-                                break;
-                            case 3:
-                                abilities[2] = true;
-                                break;
-                            case 4:
-                                abilities[3] = true;
-                                break;
-                            case 5:
-                                abilities[4] = true;
-                                break;
-                            default:
-                                System.out.println("No Relic Unlocked");
-                                break;
-                        }
-                    }
                 if (this.intersects(tile) && t.isCollidable && isPlayerCollidable) { //tanush edited for dash past wall
                     if(t.winCondition){
                             isWin = true;
                         }  
+
+                    if (t.ability1) abilities[0] = true;
+                    if (t.ability2) abilities[1] = true;
+                    if (t.ability3) abilities[2] = true;
+                    if (t.ability4) abilities[3] = true;
+                    if (t.ability5) abilities[4] = true;
                     
                     if (t.killPlayer) {
                         isDead = true;

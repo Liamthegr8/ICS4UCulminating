@@ -25,7 +25,7 @@ public class LevelCreationTool extends JFrame {
     Player player;
     Map map;
     Room roomData;
-    boolean qPressed, wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed; //removed pPressed
+    boolean qPressed, wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed, mPressed; //removed pPressed
     boolean snapToGrid = false;
 
     //debugging
@@ -283,6 +283,9 @@ public class LevelCreationTool extends JFrame {
             if (e.getKeyCode() == KeyEvent.VK_L) {
                 lPressed = true;
             }
+            if (e.getKeyCode() == KeyEvent.VK_M) {
+                mPressed = true;
+            }
 
             if (e.getKeyCode() == KeyEvent.VK_Q) {
                 qPressed = true;
@@ -324,7 +327,9 @@ public class LevelCreationTool extends JFrame {
             if (e.getKeyCode() == KeyEvent.VK_L) {
                 lPressed = false;
             }
-
+            if (e.getKeyCode() == KeyEvent.VK_M) {
+                mPressed = false;
+            }
             if (e.getKeyCode() == KeyEvent.VK_Q) {
                 qPressed = false;
             }
@@ -455,13 +460,16 @@ public class LevelCreationTool extends JFrame {
                 objectChosen = 3;
             }
             if (jPressed) {
-                objectChosen = 0;
+                objectChosen = 4;
             }
             if (kPressed) {
-                objectChosen = 0;
+                objectChosen = 5;
             }
             if (lPressed) {
                 objectChosen = 99;
+            }
+            if (mPressed) {
+                objectChosen = 98;
             }
 
             if (leftMouseHeld) {
@@ -509,6 +517,24 @@ public class LevelCreationTool extends JFrame {
                         int mSpeed = sc.nextInt();
                         roomData.addTileAt(new MovingPlatformTile(boxDimensions[0], boxDimensions[1], boxDimensions[2], boxDimensions[3], assignedMapColorIndex, endX, endY, mSpeed));
                     }
+                    else if (objectChosen == 4) {
+                        roomData.addTileAt(new SawTile(boxDimensions[0], boxDimensions[1], boxDimensions[2], boxDimensions[3], assignedMapColorIndex));
+                    }
+                    else if (objectChosen == 5) {
+                        System.out.println("Enter start delay");
+                        int startDelay = sc.nextInt();
+                        System.out.println("Enter duration");
+                        int duration = sc.nextInt();
+                        System.out.println("Enter frequency");
+                        int frequency = sc.nextInt();
+                        roomData.addTileAt(new LaserTile(boxDimensions[0], boxDimensions[1], boxDimensions[2], boxDimensions[3], assignedMapColorIndex, startDelay, duration, frequency));
+                    }
+                    else if (objectChosen == 98) {
+                        int relicType = 0;
+                        System.out.println("Enter relic type (int)");
+                        relicType = sc.nextInt();
+                        roomData.addTileAt(new RelicTile(boxDimensions[0], boxDimensions[1], boxDimensions[2], boxDimensions[3], relicType, assignedMapColorIndex));
+                    }
                     else if (objectChosen == 99) {
                         roomData.addTileAt(new WinTile(boxDimensions[0], boxDimensions[1], boxDimensions[2], boxDimensions[3], assignedMapColorIndex));
                     }
@@ -541,6 +567,15 @@ public class LevelCreationTool extends JFrame {
             }
             if (objectChosen == 3) {
                 objLabel.setText("Moving Platform");
+            }
+            if (objectChosen == 4) {
+                objLabel.setText("Saw");
+            }
+            if (objectChosen == 5) {
+                objLabel.setText("Laser");
+            }
+            if (objectChosen == 98) {
+                objLabel.setText("Relic");
             }
             if (objectChosen == 99) {
                 objLabel.setText("Win Tile");

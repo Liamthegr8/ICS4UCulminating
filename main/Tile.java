@@ -16,13 +16,15 @@ public abstract class Tile {
     boolean killPlayer;
     boolean isCollidable;
     boolean winCondition;
-    boolean gainAbility;
+    boolean ability1, ability2, ability3, ability4, ability5;
+    boolean enabled;
     //static final int tileSize = 50;
     int x,y,width,height;
     BufferedImage texture;
     Image scaledImage;
     URL url;
     int imageXOffset, imageYOffset;
+    int startDelay, duration, frequency;
     int assignedMapColorIndex;
     int tileID;
     int ability;
@@ -37,7 +39,12 @@ public abstract class Tile {
         killPlayer = false;
         isCollidable = false;
         winCondition = false;
-        gainAbility = false;
+        ability1 = false;
+        ability2 = false;
+        ability3 = false;
+        ability4 = false;
+        ability5 = false;
+        enabled = true;
         imageXOffset = 0;
         imageYOffset = 0;
         this.assignedMapColorIndex = assignedMapColorIndex;
@@ -58,6 +65,17 @@ public abstract class Tile {
         this.killPlayer = tileData.killPlayer;
         this.isCollidable = tileData.isCollidable;
         this.winCondition = tileData.winCondition;
+        //new
+        this.ability1 = tileData.ability1;
+        this.ability2 = tileData.ability2;
+        this.ability3 = tileData.ability3;
+        this.ability4 = tileData.ability4;
+        this.ability5 = tileData.ability5;
+        this.enabled = tileData.enabled;
+        this.startDelay = tileData.startDelay;
+        this.duration = tileData.duration;
+        this.frequency = tileData.frequency;
+        // this.winCondition = tileData.winCondition;
     }
 
     /**

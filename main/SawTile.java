@@ -11,7 +11,7 @@ public class SawTile extends Tile{
      */
     public int[] returnParams() {
         int[] params = new int[6];
-        params[0] = 01;
+        params[0] = 04;
         params[1] = x;
         params[2] = y;
         params[3] = width;

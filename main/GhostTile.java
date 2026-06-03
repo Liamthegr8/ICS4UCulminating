@@ -13,48 +13,49 @@ import java.net.URL;
 import java.util.Random;
 
 public class GhostTile extends Tile{
-    boolean killPlayer;
-    boolean isCollidable;
-    //static final int tileSize = 50;
-    int x,y,width,height;
-    BufferedImage texture;
-    Image scaledImage;
-    URL url;
-    int imageXOffset, imageYOffset;
-    int assignedMapColorIndex;
-    int tileID;
+    // boolean killPlayer;
+    // boolean isCollidable;
+    // //static final int tileSize = 50;
+    // int x,y,width,height;
+    // BufferedImage texture;
+    // Image scaledImage;
+    // URL url;
+    // int imageXOffset, imageYOffset;
+    // int assignedMapColorIndex;
+    // int tileID;
     
     //current tileID randomized, only manually set in 2nd contsructor
-    GhostTile(int x, int y,int width,int height, int assignedMapColorIndex) { 
-        super(x,y,width,height,assignedMapColorIndex);
-        Random r = new Random();
-        this.tileID = r.nextInt(10000);
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        killPlayer = false;
-        isCollidable = false;
-        imageXOffset = 0;
-        imageYOffset = 0;
-        this.assignedMapColorIndex = assignedMapColorIndex;
+    // GhostTile(int x, int y,int width,int height, int assignedMapColorIndex) { 
+    //     super(x,y,width,height,assignedMapColorIndex);
+    //     Random r = new Random();
+    //     this.tileID = r.nextInt(10000);
+    //     this.x = x;
+    //     this.y = y;
+    //     this.width = width;
+    //     this.height = height;
+    //     killPlayer = false;
+    //     isCollidable = false;
+    //     imageXOffset = 0;
+    //     imageYOffset = 0;
+    //     this.assignedMapColorIndex = assignedMapColorIndex;
 
-        // if (customTexturePath != null) {
-        //     texture = loadImage(customTexturePath);
-        //     getScaledImage();
-        // }
-    }
+    //     // if (customTexturePath != null) {
+    //     //     texture = loadImage(customTexturePath);
+    //     //     getScaledImage();
+    //     // }
+    // }
     
     //this is specifically for getsurroundingtiles collisions
     GhostTile(Tile tileData) { 
         super(tileData);
-        this.tileID = tileData.tileID;
-        this.x = tileData.x; //could be real or relative
-        this.y = tileData.y; //could be real or relative
-        this.width = tileData.width;
-        this.height = tileData.height;
-        this.killPlayer = tileData.killPlayer;
-        this.isCollidable = tileData.isCollidable;
+        // this.tileID = tileData.tileID;
+        // this.x = tileData.x; //could be real or relative
+        // this.y = tileData.y; //could be real or relative
+        // this.width = tileData.width;
+        // this.height = tileData.height;
+        // this.killPlayer = tileData.killPlayer;
+        // this.isCollidable = tileData.isCollidable;
+        // this.winCondition = tileData.winCondition;
     }
 
     /**

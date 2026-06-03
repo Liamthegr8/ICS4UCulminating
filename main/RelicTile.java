@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.io.*;
 public class RelicTile extends Tile{
 
-    int ability;
+    
 
 
     RelicTile(int x, int y, int width, int height, int ability, int assignedMapColorIndex) {
@@ -11,7 +11,23 @@ public class RelicTile extends Tile{
         killPlayer = false;
         isCollidable = true;
         this.ability = ability;
-        gainAbility = true;
+        switch (ability) {
+            case 1:
+                ability1 = true;
+                break;
+            case 2:
+                ability2 = true;
+                break;
+            case 3:
+                ability3 = true;
+                break;
+            case 4:
+                ability4 = true;
+                break;
+            case 5:
+                ability5 = true;
+                break;
+        }
     }
 
     /**
