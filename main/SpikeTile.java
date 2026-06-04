@@ -12,7 +12,7 @@ import java.io.*;
 
 public class SpikeTile extends Tile{
     //int spikeWidth, spikeHeight;
-    double scaleFactor = 2.3;
+    double scaleFactor = 1; //2.3 previously
 
     SpikeTile(int x, int y, int width, int height, int assignedMapColorIndex) {
         super(x,y, width, height, assignedMapColorIndex);

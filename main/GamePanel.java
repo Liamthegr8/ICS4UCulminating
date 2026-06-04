@@ -383,6 +383,7 @@ import java.io.File;
             Room hole= x.findRoom("FloorOpenTest");
             Room Runway= x.findRoom("Runway");
             Room winning = x.findRoom("Win");
+            Room test = x.findRoom("name");
 
             //create room to test
             //room2.setEnterRoomTransitionColor(0, Color.RED);
@@ -392,7 +393,7 @@ import java.io.File;
             //room2.addTileAt(new MovingPlatformTile(100, 400,  100, 50, 1, 200, 400, 1));
 
             //room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 1));
-
+            map.addRoomAt(test, 0, 0);
             map.addRoomAt(room1, 0, 1);
             map.addRoomAt(room2, 1, 1);
             map.addRoomAt(room3, 2, 1);
@@ -666,16 +667,23 @@ import java.io.File;
                                     g2.setColor(Color.BLACK);
                                     g2.setStroke(new BasicStroke(1));
 
-                                    if (t.assignedMapColorIndex >= 0 && t.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[t.assignedMapColorIndex] != null) {    
+                                    if (!(t instanceof SpikeTile) && t.assignedMapColorIndex >= 0 && t.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[t.assignedMapColorIndex] != null) {    
                                         Color tileColor = map.assignedTileColors[t.assignedMapColorIndex];
                                         g2.setColor(tileColor);
-                                        g2.fillRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);  
+                                        g2.fillRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
+                                          
                                     } else {
-                                        if (t.assignedMapColorIndex == -2) { //for transparent tiles
-                                            //no fill or draw
-                                        } else { //assumes -1 - black
+                                        if (t instanceof SpikeTile) { //for SPIKES tiles
+                                            Color tileColor = map.assignedTileColors[t.assignedMapColorIndex];
+                                            g2.setColor(tileColor);
+                                            Polygon triangle = new Polygon();
+                                            triangle.addPoint(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY) + t.height);
+                                            triangle.addPoint(i*Room.roomWidth + (t.x+camX) + t.width, j*Room.roomHeight + (t.y+camY) + t.height);
+                                            triangle.addPoint(i*Room.roomWidth + (t.x+camX) + t.width/2, j*Room.roomHeight + (t.y+camY));
+                                            g2.fillPolygon(triangle); 
+                                        } else { //assumes black
                                             g2.setColor(Color.BLACK);
-                                            g2.fillRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);  
+                                            g2.fillRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height); 
                                         }
                                     }
                                     

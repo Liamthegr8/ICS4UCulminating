@@ -1,497 +1,497 @@
-/**
- * GameWindow.java
- * Handles most of the game activities, such as player input, timing, and level creation.
- * Created by Tanush, Liam, Erik
- */
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.util.*;
-import javax.swing.Timer;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import java.io.File;
+// /**
+//  * GameWindow.java
+//  * Handles most of the game activities, such as player input, timing, and level creation.
+//  * Created by Tanush, Liam, Erik
+//  */
+// import java.awt.*;
+// import java.awt.event.*;
+// import javax.swing.*;
+// import java.util.*;
+// import javax.swing.Timer;
+// import java.awt.image.BufferedImage;
+// import javax.imageio.ImageIO;
+// import java.io.File;
 
-public class GameWindow extends JFrame {
-    //setup JFrame variables
-    int windowX = 900;
-    int windowY = 500;
-    int tickDelay = 10;
-    int camX;
-    int camY;
-    Timer tick;
-    DrawingPanel panel;
-    Player player;
-    Map map;
-    boolean wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed;
-    boolean qPressed; //testing buttons - may be removed better
-    boolean antiHoldDash =true;
-    boolean antiHoldJump =true;
+// public class GameWindow extends JFrame {
+//     //setup JFrame variables
+//     int windowX = 900;
+//     int windowY = 500;
+//     int tickDelay = 10;
+//     int camX;
+//     int camY;
+//     Timer tick;
+//     DrawingPanel panel;
+//     Player player;
+//     Map map;
+//     boolean wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed;
+//     boolean qPressed; //testing buttons - may be removed better
+//     boolean antiHoldDash =true;
+//     boolean antiHoldJump =true;
 
-    //debugging (labels for various statistics)
-    int windowMouseX = 0;
-    int windowMouseY = 0;
-    JLabel playerXLabel;
-    JLabel playerYLabel;
-    JLabel playervxLabel;
-    JLabel playervyLabel;
-    JLabel playerLocLabel;
-    JLabel windowXLabel;
-    JLabel windowYLabel;
-    JLabel isPlayerGroundedLabel;
-    JLabel isPlayerWalledRLabel;
-    JLabel isPlayerWalledLLabel;
+//     //debugging (labels for various statistics)
+//     int windowMouseX = 0;
+//     int windowMouseY = 0;
+//     JLabel playerXLabel;
+//     JLabel playerYLabel;
+//     JLabel playervxLabel;
+//     JLabel playervyLabel;
+//     JLabel playerLocLabel;
+//     JLabel windowXLabel;
+//     JLabel windowYLabel;
+//     JLabel isPlayerGroundedLabel;
+//     JLabel isPlayerWalledRLabel;
+//     JLabel isPlayerWalledLLabel;
 
 
 
-    /*
-    *temp non anonymous function that allows user to run main game Window directly from here instead of Game.java
-    **/
-    public static void main(String[] args) {
-            new GameWindow();
-    }
+//     /*
+//     *temp non anonymous function that allows user to run main game Window directly from here instead of Game.java
+//     **/
+//     public static void main(String[] args) {
+//             new GameWindow();
+//     }
           
-    GameWindow() {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("WINDOW NAME HERE");
-        //More custom stuff
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH); //IGNORED DUE TO JPANELPACK
-        this.setResizable(true);
-        //this.setUndecorated(true);  //hides the title bar of JFrame
+//     GameWindow() {
+//         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+// 		this.setTitle("WINDOW NAME HERE");
+//         //More custom stuff
+//         this.setExtendedState(JFrame.MAXIMIZED_BOTH); //IGNORED DUE TO JPANELPACK
+//         this.setResizable(true);
+//         //this.setUndecorated(true);  //hides the title bar of JFrame
 
-        panel = new DrawingPanel();
-        this.add(panel);
-        // this.setSize(windowX,windowY); //IGNORED DUE TO JPANELPACK
+//         panel = new DrawingPanel();
+//         this.add(panel);
+//         // this.setSize(windowX,windowY); //IGNORED DUE TO JPANELPACK
 
-        //debugging elements
-        windowXLabel = new JLabel();
-        windowYLabel = new JLabel();
-        playerXLabel = new JLabel();
-        playerYLabel = new JLabel();
-        playervxLabel = new JLabel();
-        playervyLabel = new JLabel();
-        isPlayerGroundedLabel = new JLabel();
-        isPlayerWalledRLabel = new JLabel();
-        isPlayerWalledLLabel = new JLabel();
-        playerLocLabel = new JLabel();
-        // panel.add(windowXLabel);
-        // panel.add(windowYLabel);
-        panel.add(playerXLabel);
-        panel.add(playerYLabel);
-        panel.add(playervxLabel);
-        panel.add(playervyLabel);
-        panel.add(isPlayerWalledRLabel);
-        panel.add(isPlayerWalledLLabel);
-        panel.add(isPlayerGroundedLabel);
-        panel.add(playerLocLabel);
+//         //debugging elements
+//         windowXLabel = new JLabel();
+//         windowYLabel = new JLabel();
+//         playerXLabel = new JLabel();
+//         playerYLabel = new JLabel();
+//         playervxLabel = new JLabel();
+//         playervyLabel = new JLabel();
+//         isPlayerGroundedLabel = new JLabel();
+//         isPlayerWalledRLabel = new JLabel();
+//         isPlayerWalledLLabel = new JLabel();
+//         playerLocLabel = new JLabel();
+//         // panel.add(windowXLabel);
+//         // panel.add(windowYLabel);
+//         panel.add(playerXLabel);
+//         panel.add(playerYLabel);
+//         panel.add(playervxLabel);
+//         panel.add(playervyLabel);
+//         panel.add(isPlayerWalledRLabel);
+//         panel.add(isPlayerWalledLLabel);
+//         panel.add(isPlayerGroundedLabel);
+//         panel.add(playerLocLabel);
 
-        this.pack(); //important to understand size of window is size of panel
+//         this.pack(); //important to understand size of window is size of panel
 
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
+//         this.setLocationRelativeTo(null);
+//         this.setVisible(true);
         
-        gameSetup();
-    }
+//         gameSetup();
+//     }
 
-    /**
-     *setup initial game (first time window runs)
-     */
-    private void gameSetup() {
-        //Set up timer
-        tick = new Timer(tickDelay, panel);
-        // tick.setInitialDelay(1000);
-        tick.start();
+//     /**
+//      *setup initial game (first time window runs)
+//      */
+//     private void gameSetup() {
+//         //Set up timer
+//         tick = new Timer(tickDelay, panel);
+//         // tick.setInitialDelay(1000);
+//         tick.start();
 
-        //Events
-        this.addKeyListener(new KeyHandler());
-        this.addMouseMotionListener(new MouseMotionHandler());
-        //this.addMouseListener(new MouseMotionHandler());
+//         //Events
+//         this.addKeyListener(new KeyHandler());
+//         this.addMouseMotionListener(new MouseMotionHandler());
+//         //this.addMouseListener(new MouseMotionHandler());
 
-        resetGame();
-    }
+//         resetGame();
+//     }
 
-    /**
-     *resets main game variables upon e.g. death or by command, also allows for map to regenerate
-     */
-    private void resetGame() {
-        camX = 0;
-        camY = 0;
-        player = new Player(0,500,18,30); //resets to constructors
+//     /**
+//      *resets main game variables upon e.g. death or by command, also allows for map to regenerate
+//      */
+//     private void resetGame() {
+//         camX = 0;
+//         camY = 0;
+//         player = new Player(0,500,18,30); //resets to constructors
 
-        //Tanush Mock Collision Setup
-        map = new Map();
-        map.setMapTileColor(0, Color.BLUE);
-        map.setMapTileColor(1, Color.RED);
+//         //Tanush Mock Collision Setup
+//         map = new Map();
+//         map.setMapTileColor(0, Color.BLUE);
+//         map.setMapTileColor(1, Color.RED);
 
-        FileHandle x = new FileHandle();
-        Room room1 = x.findRoom("RoomTest1");
-        //Room room2 = new Room("Room2");
-        Room room2 = x.findRoom("RoomTest2");
-        Room room3= x.findRoom("RoomTest3");
-        Room room4= x.findRoom("RoomTest4");
-        Room hole= x.findRoom("FloorOpenTest");
-        Room Runway= x.findRoom("Runway");
-        Room winning = x.findRoom("Win");
+//         FileHandle x = new FileHandle();
+//         Room room1 = x.findRoom("RoomTest1");
+//         //Room room2 = new Room("Room2");
+//         Room room2 = x.findRoom("RoomTest2");
+//         Room room3= x.findRoom("RoomTest3");
+//         Room room4= x.findRoom("RoomTest4");
+//         Room hole= x.findRoom("FloorOpenTest");
+//         Room Runway= x.findRoom("Runway");
+//         Room winning = x.findRoom("Win");
 
-        //create room to test
-        //room2.setEnterRoomTransitionColor(0, Color.RED);
-        //room2.setEnterRoomTransitionColor(1, Color.GRAY); 
-        //room2.addTileAt(new SpikeTile(0,450,500,49,0));
+//         //create room to test
+//         //room2.setEnterRoomTransitionColor(0, Color.RED);
+//         //room2.setEnterRoomTransitionColor(1, Color.GRAY); 
+//         //room2.addTileAt(new SpikeTile(0,450,500,49,0));
         
-        //room2.addTileAt(new MovingPlatformTile(100, 400,  100, 50, 1, 200, 400, 1));
+//         //room2.addTileAt(new MovingPlatformTile(100, 400,  100, 50, 1, 200, 400, 1));
 
-        //room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 1));
+//         //room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 1));
 
-        map.addRoomAt(room1, 0, 1);
-        map.addRoomAt(room2, 1, 1);
-        map.addRoomAt(room3, 2, 1);
-        map.addRoomAt(room4, 3, 1);
-        map.addRoomAt(room3, 4, 1);
-        map.addRoomAt(room3, 5, 1);
-        map.addRoomAt(hole, 3, 0);
-        map.addRoomAt(Runway, 4, 0);
-        map.addRoomAt(Runway, 5, 0);
-        map.addRoomAt(Runway, 2, 0);
-        map.addRoomAt(winning,6,1);
-        winning.addTileAt(new RelicTile(200,250,50,50,1,1));
-    }
+//         map.addRoomAt(room1, 0, 1);
+//         map.addRoomAt(room2, 1, 1);
+//         map.addRoomAt(room3, 2, 1);
+//         map.addRoomAt(room4, 3, 1);
+//         map.addRoomAt(room3, 4, 1);
+//         map.addRoomAt(room3, 5, 1);
+//         map.addRoomAt(hole, 3, 0);
+//         map.addRoomAt(Runway, 4, 0);
+//         map.addRoomAt(Runway, 5, 0);
+//         map.addRoomAt(Runway, 2, 0);
+//         map.addRoomAt(winning,6,1);
+//         winning.addTileAt(new RelicTile(200,250,50,50,1,1));
+//     }
 
-    // handle keyboard input
-    private class KeyHandler extends KeyAdapter {
-        /**
-         * handle key presses
-         * @param e the key event triggered
-         */
-        @Override
-        public void keyPressed(KeyEvent e) {
-            //no panel repaint here. otherwise the graphics will update when key pressed instantly. not upon fixed tick delay
-            //if repainted, this can be exploited to speed up time
-            //Checks if any of the viable buttons are pressed
-            if (e.getKeyCode() == KeyEvent.VK_W) {
-                wPressed = true;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_A) {
-                aPressed = true;
-                //this needs to be here as it needs to be able to be updated even if a or d is being held so it always updates to most recently pressed
-                player.directionFaced=false;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_S) {
-                sPressed = true;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_D) {
-                dPressed = true;
-                //this needs to be here as it needs to be able to be updated even if a or d is being held so it always updates to most recently pressed
-                player.directionFaced=true;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_U) {
-                if (antiHoldJump){
-                uPressed = true;
-                }
-            }
-            if (e.getKeyCode() == KeyEvent.VK_I) {
-                if(antiHoldDash){
-                    iPressed = true;
-                }
-            }
-            if (e.getKeyCode() == KeyEvent.VK_O) {
-                oPressed = true;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_J) {
-                jPressed = true;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_K) {
-                kPressed = true;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_L) {
-                lPressed = true;
-            }
+//     // handle keyboard input
+//     private class KeyHandler extends KeyAdapter {
+//         /**
+//          * handle key presses
+//          * @param e the key event triggered
+//          */
+//         @Override
+//         public void keyPressed(KeyEvent e) {
+//             //no panel repaint here. otherwise the graphics will update when key pressed instantly. not upon fixed tick delay
+//             //if repainted, this can be exploited to speed up time
+//             //Checks if any of the viable buttons are pressed
+//             if (e.getKeyCode() == KeyEvent.VK_W) {
+//                 wPressed = true;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_A) {
+//                 aPressed = true;
+//                 //this needs to be here as it needs to be able to be updated even if a or d is being held so it always updates to most recently pressed
+//                 player.directionFaced=false;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_S) {
+//                 sPressed = true;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_D) {
+//                 dPressed = true;
+//                 //this needs to be here as it needs to be able to be updated even if a or d is being held so it always updates to most recently pressed
+//                 player.directionFaced=true;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_U) {
+//                 if (antiHoldJump){
+//                 uPressed = true;
+//                 }
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_I) {
+//                 if(antiHoldDash){
+//                     iPressed = true;
+//                 }
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_O) {
+//                 oPressed = true;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_J) {
+//                 jPressed = true;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_K) {
+//                 kPressed = true;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_L) {
+//                 lPressed = true;
+//             }
 
-            if (e.getKeyCode() == KeyEvent.VK_Q) {
-                qPressed = true;
-            } 
-        }
-        /**
-         * handle key releases
-         * @param e the key event triggered
-         */
-        public void keyReleased(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_W) {
-                wPressed = false;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_A) {
-                aPressed = false;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_S) {
-                sPressed = false;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_D) {
-                dPressed = false;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_U) {
-                uPressed = false;
-                antiHoldJump = true;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_I) {
-                iPressed = false;
-                antiHoldDash = true;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_O) {
-                oPressed = false;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_J) {
-                jPressed = false;
-                antiHoldDash = true;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_K) {
-                kPressed = false;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_L) {
-                lPressed = false;
-            }
+//             if (e.getKeyCode() == KeyEvent.VK_Q) {
+//                 qPressed = true;
+//             } 
+//         }
+//         /**
+//          * handle key releases
+//          * @param e the key event triggered
+//          */
+//         public void keyReleased(KeyEvent e) {
+//             if (e.getKeyCode() == KeyEvent.VK_W) {
+//                 wPressed = false;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_A) {
+//                 aPressed = false;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_S) {
+//                 sPressed = false;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_D) {
+//                 dPressed = false;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_U) {
+//                 uPressed = false;
+//                 antiHoldJump = true;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_I) {
+//                 iPressed = false;
+//                 antiHoldDash = true;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_O) {
+//                 oPressed = false;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_J) {
+//                 jPressed = false;
+//                 antiHoldDash = true;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_K) {
+//                 kPressed = false;
+//             }
+//             if (e.getKeyCode() == KeyEvent.VK_L) {
+//                 lPressed = false;
+//             }
 
-            if (e.getKeyCode() == KeyEvent.VK_Q) {
-                qPressed = false;
+//             if (e.getKeyCode() == KeyEvent.VK_Q) {
+//                 qPressed = false;
                
-            }
-        }
-    }
+//             }
+//         }
+//     }
 
-    // handle mouse movement and clicks
-    class MouseMotionHandler extends MouseAdapter {
-        /**
-         * handle mouse movement
-         * @param e the mouse event triggered
-         */
-        @Override
-        public void mouseMoved(MouseEvent e) {
-            windowMouseX = e.getX()-8;
-            windowMouseY = e.getY()-31;
-        }
-    }
+//     // handle mouse movement and clicks
+//     class MouseMotionHandler extends MouseAdapter {
+//         /**
+//          * handle mouse movement
+//          * @param e the mouse event triggered
+//          */
+//         @Override
+//         public void mouseMoved(MouseEvent e) {
+//             windowMouseX = e.getX()-8;
+//             windowMouseY = e.getY()-31;
+//         }
+//     }
 
-    private class DrawingPanel extends JPanel implements ActionListener {
-        DrawingPanel() {
-            this.setPreferredSize(new Dimension(windowX,windowY));
-        }
+//     private class DrawingPanel extends JPanel implements ActionListener {
+//         DrawingPanel() {
+//             this.setPreferredSize(new Dimension(windowX,windowY));
+//         }
 
-        /**
-         * game's main gameloop and timer
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //ticks down cooldowns
-            //nogravity
+//         /**
+//          * game's main gameloop and timer
+//          */
+//         @Override
+//         public void actionPerformed(ActionEvent e) {
+//             //ticks down cooldowns
+//             //nogravity
             
-            //player movements inputs
-            //can turn into inputActions fuction
-            if (uPressed) {
-                player.bufferTime = 10;
-                antiHoldJump = false;
-                uPressed = false;
-            }
-            if (aPressed) {
-                if(player.isGrounded){
-                    player.updateVelocity(-10*player.friction, 0);
-                }else{
-                    player.updateVelocity(-10*player.airFriction, 0);
-                }
+//             //player movements inputs
+//             //can turn into inputActions fuction
+//             if (uPressed) {
+//                 player.bufferTime = 10;
+//                 antiHoldJump = false;
+//                 uPressed = false;
+//             }
+//             if (aPressed) {
+//                 if(player.isGrounded){
+//                     player.updateVelocity(-10*player.friction, 0);
+//                 }else{
+//                     player.updateVelocity(-10*player.airFriction, 0);
+//                 }
                 
                 
-            }
-            if (sPressed) {
-                player.fastFall=true;
-            }
-            else {player.fastFall=false;}
-            if (qPressed) {
-                resetGame();
-            }
-            if (dPressed) {
-                if(player.isGrounded){
-                    player.updateVelocity(10*player.friction, 0);
-                }else{
-                    player.updateVelocity(10*player.airFriction, 0);
-                }
-            }
-            if (iPressed) {
-                player.dash(wPressed, aPressed, sPressed, dPressed);
-                iPressed=false;
-                antiHoldDash = false;
-            }
-            if (jPressed) {
-                player.dashPastWall(wPressed, aPressed, sPressed, dPressed);
-                jPressed = false;
-                antiHoldDash = false;
-            }
+//             }
+//             if (sPressed) {
+//                 player.fastFall=true;
+//             }
+//             else {player.fastFall=false;}
+//             if (qPressed) {
+//                 resetGame();
+//             }
+//             if (dPressed) {
+//                 if(player.isGrounded){
+//                     player.updateVelocity(10*player.friction, 0);
+//                 }else{
+//                     player.updateVelocity(10*player.airFriction, 0);
+//                 }
+//             }
+//             if (iPressed) {
+//                 player.dash(wPressed, aPressed, sPressed, dPressed);
+//                 iPressed=false;
+//                 antiHoldDash = false;
+//             }
+//             if (jPressed) {
+//                 player.dashPastWall(wPressed, aPressed, sPressed, dPressed);
+//                 jPressed = false;
+//                 antiHoldDash = false;
+//             }
 
-            //insert death on out of bounds below: (future)
+//             //insert death on out of bounds below: (future)
             
-            //tiles tick
-            for (int i=0; i<map.mapRooms.length; i++) {
-                for (int j=0; j<map.mapRooms.length; j++) {
-                    Room r = map.mapRooms[i][j];
-                    if (r != null) {
-                        for (Tile tile: r.roomTiles) {
-                                if (tile != null) {
-                                    tile.tick(player, i, j);
-                                }
-                        }
-                    }
-                }
-            }
+//             //tiles tick
+//             for (int i=0; i<map.mapRooms.length; i++) {
+//                 for (int j=0; j<map.mapRooms.length; j++) {
+//                     Room r = map.mapRooms[i][j];
+//                     if (r != null) {
+//                         for (Tile tile: r.roomTiles) {
+//                                 if (tile != null) {
+//                                     tile.tick(player, i, j);
+//                                 }
+//                         }
+//                     }
+//                 }
+//             }
 
-            //player tick
-            player.tick(map);
-
-            
-            //check death
-            if (player.isDead) {
-                resetGame();
-            }
-
-            //room tick
-            for (int i=0; i<map.mapRooms.length; i++) {
-                for (int j=0; j<map.mapRooms.length; j++) {
-                    Room r = map.mapRooms[i][j];
-                    if (r != null) {
-                        r.tick(map, player, i, j);
-                    }
-                }
-            }
-
-            updateCamera();      
-
-            //debugging
-            windowXLabel.setText("Window MouseX: " + String.valueOf(windowMouseX));
-            windowYLabel.setText("Window MouseY: " + String.valueOf(windowMouseY));
-            playerXLabel.setText("Player x: " + String.valueOf(player.x));
-            playerYLabel.setText("Player y: " + String.valueOf(player.y));
-            String roundedvx = String.format("%.1f", player.vx);
-            String roundedvy = String.format("%.1f", player.vy);
-            playervxLabel.setText("Player vx: " + roundedvx);
-            playervyLabel.setText("Player vy: " + roundedvy);
-            isPlayerGroundedLabel.setText("Player Grounded: " + String.valueOf(player.isGrounded));
-            isPlayerWalledRLabel.setText("Player R Walled: " + String.valueOf(player.isTouchingRightWall));
-            isPlayerWalledLLabel.setText("Player L Walled: " + String.valueOf(player.isTouchingLeftWall));
-            if (player.playerLocation != null) {
-                playerLocLabel.setText("Location:" + "[" + player.playerLocation[0] + " , " + player.playerLocation[1] + "]");
-            } else {
-                playerLocLabel.setText("Location: null");
-            }
-            
-            //refresh graphics
-            this.repaint();	
-        }
-
-        /**
-         *update camera variable to track player, non dynamic fixed transitions
-         */
-        void updateCamera() {
-            //based on window vars
-            camX = -player.x + (windowX/2) - (player.width/2);
-            camY = -player.y + (windowY/2) - (player.height/2);
-        }
-
-        /**
-         * render graphics, tiles, and mouse selection box
-         * @param g the Graphics object
-         */
-        @Override
-        public void paintComponent(Graphics g) {
-            //Advanced Graphics
-            super.paintComponent(g);
-            Graphics2D g2 = (Graphics2D) g;
-            //Turn on antialiasing
-		    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//             //player tick
+//             player.tick(map);
 
             
+//             //check death
+//             if (player.isDead) {
+//                 resetGame();
+//             }
 
-            //Tanush Code Render Tiles
-            for (int i=0; i<map.mapRooms.length; i++) {
-                for (int j=0; j<map.mapRooms.length; j++) {
-                    Room r = map.mapRooms[i][j];
-                    if (r != null) {
-                        for (Tile tile: r.roomTiles) {
-                                Tile t = tile;
-                                if (t != null) {
-                                    g2.setColor(Color.BLACK);
-                                    g2.setStroke(new BasicStroke(1));
+//             //room tick
+//             for (int i=0; i<map.mapRooms.length; i++) {
+//                 for (int j=0; j<map.mapRooms.length; j++) {
+//                     Room r = map.mapRooms[i][j];
+//                     if (r != null) {
+//                         r.tick(map, player, i, j);
+//                     }
+//                 }
+//             }
 
-                                    if (t.assignedMapColorIndex >= 0 && t.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[t.assignedMapColorIndex] != null) {    
-                                        Color tileColor = map.assignedTileColors[t.assignedMapColorIndex];
-                                        g2.setColor(tileColor);
-                                        g2.fillRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);  
-                                    } else {
-                                        if (t.assignedMapColorIndex == -2) { //for transparent tiles
-                                            //no fill or draw
-                                        } else { //assumes -1 - black
-                                            g2.setColor(Color.BLACK);
-                                            g2.fillRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);  
-                                        }
-                                    }
+//             updateCamera();      
+
+//             //debugging
+//             windowXLabel.setText("Window MouseX: " + String.valueOf(windowMouseX));
+//             windowYLabel.setText("Window MouseY: " + String.valueOf(windowMouseY));
+//             playerXLabel.setText("Player x: " + String.valueOf(player.x));
+//             playerYLabel.setText("Player y: " + String.valueOf(player.y));
+//             String roundedvx = String.format("%.1f", player.vx);
+//             String roundedvy = String.format("%.1f", player.vy);
+//             playervxLabel.setText("Player vx: " + roundedvx);
+//             playervyLabel.setText("Player vy: " + roundedvy);
+//             isPlayerGroundedLabel.setText("Player Grounded: " + String.valueOf(player.isGrounded));
+//             isPlayerWalledRLabel.setText("Player R Walled: " + String.valueOf(player.isTouchingRightWall));
+//             isPlayerWalledLLabel.setText("Player L Walled: " + String.valueOf(player.isTouchingLeftWall));
+//             if (player.playerLocation != null) {
+//                 playerLocLabel.setText("Location:" + "[" + player.playerLocation[0] + " , " + player.playerLocation[1] + "]");
+//             } else {
+//                 playerLocLabel.setText("Location: null");
+//             }
+            
+//             //refresh graphics
+//             this.repaint();	
+//         }
+
+//         /**
+//          *update camera variable to track player, non dynamic fixed transitions
+//          */
+//         void updateCamera() {
+//             //based on window vars
+//             camX = -player.x + (windowX/2) - (player.width/2);
+//             camY = -player.y + (windowY/2) - (player.height/2);
+//         }
+
+//         /**
+//          * render graphics, tiles, and mouse selection box
+//          * @param g the Graphics object
+//          */
+//         @Override
+//         public void paintComponent(Graphics g) {
+//             //Advanced Graphics
+//             super.paintComponent(g);
+//             Graphics2D g2 = (Graphics2D) g;
+//             //Turn on antialiasing
+// 		    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            
+
+//             //Tanush Code Render Tiles
+//             for (int i=0; i<map.mapRooms.length; i++) {
+//                 for (int j=0; j<map.mapRooms.length; j++) {
+//                     Room r = map.mapRooms[i][j];
+//                     if (r != null) {
+//                         for (Tile tile: r.roomTiles) {
+//                                 Tile t = tile;
+//                                 if (t != null) {
+//                                     g2.setColor(Color.BLACK);
+//                                     g2.setStroke(new BasicStroke(1));
+
+//                                     if (t.assignedMapColorIndex >= 0 && t.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[t.assignedMapColorIndex] != null) {    
+//                                         Color tileColor = map.assignedTileColors[t.assignedMapColorIndex];
+//                                         g2.setColor(tileColor);
+//                                         g2.fillRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);  
+//                                     } else {
+//                                         if (t.assignedMapColorIndex == -2) { //for transparent tiles
+//                                             //no fill or draw
+//                                         } else { //assumes -1 - black
+//                                             g2.setColor(Color.BLACK);
+//                                             g2.fillRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);  
+//                                         }
+//                                     }
                                     
                                     
                                     
-                                    //Images
-                                    // if (t.getScaledImage() == null) {
-                                    //     g2.drawRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
-                                    // }
-                                    // else {
-                                    // g2.drawImage(t.scaledImage, i*Room.roomWidth + t.x + t.imageXOffset + camX, j*Room.roomHeight + t.y + t.imageYOffset + camY, null);
-                                    // }
-                                }
-                        }
-                    }
-                }
-            }
+//                                     //Images
+//                                     // if (t.getScaledImage() == null) {
+//                                     //     g2.drawRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
+//                                     // }
+//                                     // else {
+//                                     // g2.drawImage(t.scaledImage, i*Room.roomWidth + t.x + t.imageXOffset + camX, j*Room.roomHeight + t.y + t.imageYOffset + camY, null);
+//                                     // }
+//                                 }
+//                         }
+//                     }
+//                 }
+//             }
 
-            //DEBUG
-            //Render Map bounds
-            for (int i=0; i<map.mapRooms.length; i++) {
-                for (int j=0; j<map.mapRooms.length; j++) {
-                    Room r = map.mapRooms[i][j];
-                    if (r != null) {
-                        g2.setColor(Color.GRAY);
-                        g2.setStroke(new BasicStroke(5));
-                        g2.drawRect(i*Room.roomWidth + camX, j*Room.roomHeight + camY, Room.roomWidth, Room.roomHeight);
-                    }
-                }
-            }
-            //Render surroundingTiles
-            ArrayList<Tile> tiles = player.surroundingTiles;
-            for (Tile tile: tiles) {
-                Tile t = tile;
-                if (t != null) {
-                    g2.setColor(Color.BLUE);
-                    //g2.fillRect(t.x+camX, t.y+camY, t.width, t.height);
-                    g2.setColor(Color.RED);
-                    g2.setStroke(new BasicStroke(3));
-                    g2.drawRect(t.x+camX, t.y+camY, t.width, t.height);
-                }
-            }
+//             //DEBUG
+//             //Render Map bounds
+//             for (int i=0; i<map.mapRooms.length; i++) {
+//                 for (int j=0; j<map.mapRooms.length; j++) {
+//                     Room r = map.mapRooms[i][j];
+//                     if (r != null) {
+//                         g2.setColor(Color.GRAY);
+//                         g2.setStroke(new BasicStroke(5));
+//                         g2.drawRect(i*Room.roomWidth + camX, j*Room.roomHeight + camY, Room.roomWidth, Room.roomHeight);
+//                     }
+//                 }
+//             }
+//             //Render surroundingTiles
+//             ArrayList<Tile> tiles = player.surroundingTiles;
+//             for (Tile tile: tiles) {
+//                 Tile t = tile;
+//                 if (t != null) {
+//                     g2.setColor(Color.BLUE);
+//                     //g2.fillRect(t.x+camX, t.y+camY, t.width, t.height);
+//                     g2.setColor(Color.RED);
+//                     g2.setStroke(new BasicStroke(3));
+//                     g2.drawRect(t.x+camX, t.y+camY, t.width, t.height);
+//                 }
+//             }
 
-            //Render currentRoom
-            if (player.playerLocation != null) {
-                g2.setColor(Color.CYAN);
-                g2.setStroke(new BasicStroke(3));
-                g2.drawRect(player.playerLocation[0]*Room.roomWidth + camX, player.playerLocation[1]*Room.roomHeight + camY, Room.roomWidth, Room.roomHeight);
-            }
+//             //Render currentRoom
+//             if (player.playerLocation != null) {
+//                 g2.setColor(Color.CYAN);
+//                 g2.setStroke(new BasicStroke(3));
+//                 g2.drawRect(player.playerLocation[0]*Room.roomWidth + camX, player.playerLocation[1]*Room.roomHeight + camY, Room.roomWidth, Room.roomHeight);
+//             }
 
-            //Player
-            if (!player.canControl){
-                g2.setColor(Color.blue);
-            } else if (player.isTouchingRightWall) {
-                g2.setColor(Color.YELLOW);
-            } else if (player.isTouchingLeftWall) {
-                g2.setColor(Color.ORANGE);
-            } else if (player.isGrounded) {
-                g2.setColor(Color.GREEN);
-            } else {
-                g2.setColor(Color.RED);
-            }
-            g2.fillRect(player.x+camX, player.y+camY, player.width, player.height);
+//             //Player
+//             if (!player.canControl){
+//                 g2.setColor(Color.blue);
+//             } else if (player.isTouchingRightWall) {
+//                 g2.setColor(Color.YELLOW);
+//             } else if (player.isTouchingLeftWall) {
+//                 g2.setColor(Color.ORANGE);
+//             } else if (player.isGrounded) {
+//                 g2.setColor(Color.GREEN);
+//             } else {
+//                 g2.setColor(Color.RED);
+//             }
+//             g2.fillRect(player.x+camX, player.y+camY, player.width, player.height);
 
             
-        }
-    }
+//         }
+//     }
 
-}
+// }

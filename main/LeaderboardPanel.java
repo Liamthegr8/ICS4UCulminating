@@ -4,22 +4,20 @@ import javax.swing.*;
 import java.util.*;
 import javax.swing.Timer;
 
-public class MainMenuPanel extends JPanel implements ActionListener {
-    int windowX = 900;
-    int windowY = 500;
-    boolean startGame;
-    boolean activeMenu;
+public class LeaderboardPanel extends JPanel implements ActionListener {
+    int windowX;
+    int windowY;
+    boolean activeWindow;
 
     Timer tick;
     int tickDelay = 10;
     boolean wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed;
-    //JLabel titleLabel;
     Button[] buttons;
     int selectedButton;
     boolean selectButton;
 
 
-    MainMenuPanel(int windowWidth, int windowHeight) {
+    LeaderboardPanel(int windowWidth, int windowHeight) {
         windowX = windowWidth;
         windowY = windowHeight;
         initialSetup();
@@ -30,7 +28,7 @@ public class MainMenuPanel extends JPanel implements ActionListener {
         startGame = false;
         selectedButton = 0;
         selectButton = false;
-        activeMenu = true;
+        activeWindow = false;
 
         //this.setPreferredSize(new Dimension(windowX,windowY));
 
@@ -38,10 +36,10 @@ public class MainMenuPanel extends JPanel implements ActionListener {
         tick.start();
         addKeyListener(new KeyHandler());
 
-        buttons = new Button[3];
-        buttons[0] = new Button(windowX/2, 100, 200, 50, "Play", "play");
-        buttons[1] = new Button(windowX/2, 200, 200, 50, "Leaderboard", "leaderboard");
-        buttons[2] = new Button(windowX/2, 300, 200, 50, "Quit", "quit");
+        buttons = new Button[1];
+        // buttons[0] = new Button(windowX/2, 100, 200, 50, "Play", "play");
+        // buttons[1] = new Button(windowX/2, 200, 200, 50, "Leaderboard", "leaderboard");
+        buttons[0] = new Button(windowX/2, 300, 200, 50, "Back to menu", "menu");
 
     }
 
@@ -51,7 +49,7 @@ public class MainMenuPanel extends JPanel implements ActionListener {
         startGame = false;
         selectedButton = 0;
         selectButton = false;
-        activeMenu = true;
+        activeWindow = true;
 
         wPressed = false;
         aPressed = false;
@@ -152,19 +150,14 @@ public class MainMenuPanel extends JPanel implements ActionListener {
                 selectButton = false;
                 // buttons[i].action();
                 switch (buttons[i].action) {
-                    case "play":
+                    case "menu":
                         //System.out.println("Start button pressed");
-                        startGame = true;
-                        break;
-                    case "quit":
-                        //System.out.println("Quit button pressed");
-                        System.exit(0);
+                        activeWindow = false;
                         break;
                     default:
                         //System.out.println("No action designated to button");
                         break;
                 }
-                activeMenu = false;
                 
             }
         }
@@ -196,7 +189,7 @@ public class MainMenuPanel extends JPanel implements ActionListener {
         //title text render
         g2.setColor(Color.BLACK);
         g2.setFont(new Font("Arial", Font.BOLD, 36));
-        g2.drawString("Main Menu", windowX/2, 50);
+        g2.drawString("Leaderboard", windowX/2, 50);
 
 
         //button render
@@ -231,8 +224,4 @@ class Button extends Rectangle {
         this.text = text;
         this.action = action;
     }
-
-    // void action() {
-        
-    // }
 }

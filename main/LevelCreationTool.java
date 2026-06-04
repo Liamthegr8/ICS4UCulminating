@@ -17,8 +17,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class LevelCreationTool extends JFrame {
-    int windowX = 500;
-    int windowY = 500;
+    int windowX = 1200;
+    int windowY = 800;
     int tickDelay = 10;
     Timer tick;
     DrawingPanel panel;
@@ -105,6 +105,7 @@ public class LevelCreationTool extends JFrame {
         map.setMapTileColor(1, Color.RED);
 
         roomData = new Room("NONAME");
+        //roomData = x.findRoom("name");
         map.addRoomAt(roomData, 0, 0);
         player = new Player(-100, -10000, 1, 1);
         
@@ -120,6 +121,8 @@ public class LevelCreationTool extends JFrame {
     public void saveToFile() {
         File file = new File("main\\assets\\levelCreator.txt");
         System.out.println("method runs");
+        System.out.println("What is the room name?");
+        roomName = sc.nextLine();
         try {
             FileWriter out = new FileWriter(file);
             BufferedWriter write = new BufferedWriter(out);
@@ -132,6 +135,7 @@ public class LevelCreationTool extends JFrame {
                 System.out.println("yes");
                 int[] param = t.returnParams();
                 write.write("_");
+                if (param[0] < 10) write.write("0"); //to make sure tileID is 2 digits for reading purposes
                 write.write(String.valueOf(param[0]));
                 write.write("<");
                 //System.out.println("tile start");
@@ -193,6 +197,7 @@ public class LevelCreationTool extends JFrame {
             }
             // System.out.println(digSelected);
         }
+        
         
         // @Override
         // public void keyTyped(KeyEvent e) {
@@ -264,6 +269,39 @@ public class LevelCreationTool extends JFrame {
             }
             if (e.getKeyCode() == KeyEvent.VK_D) {
                 dPressed = true;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_E) {
+                System.out.println("Enter default variation:");
+                System.out.println("1: Left Right Straight");
+                System.out.println("2: Left Up Bend");
+                System.out.println("3: Right Up Bend");
+                System.out.println("4: Left Down Bend");
+                System.out.println("5: Right Down Bend");
+                System.out.println("6: Left Up Right T Junction");
+                System.out.println("7: Left Down Right T Junction");
+                System.out.println("8: Left Up Down T Junction");
+                System.out.println("9: Up Down Right T Junction");
+                System.out.println("0: Cross Junction");
+                int variation = sc.nextInt();
+                switch (variation) {
+                    case 1:
+                        roomData.addTileAt(new PlatformTile(0, Room.roomHeight - 100, Room.roomWidth, 100, 0));
+                        roomData.addTileAt(new PlatformTile(0, 0, Room.roomWidth, 100, 0));
+
+                        break;
+                    case 2:
+                        roomData.addTileAt(new PlatformTile(0, Room.roomHeight - 50, 500, 50, 0));
+                        break;
+                    case 3:
+                        roomData.addTileAt(new PlatformTile(0, Room.roomHeight - 50, 500, 50, 0));
+                        break;
+                    case 4:
+                        roomData.addTileAt(new PlatformTile(0, Room.roomHeight - 50, 500, 50, 0));
+                        break;
+                    case 5:
+                        roomData.addTileAt(new PlatformTile(0, Room.roomHeight - 50, 500, 50, 0));
+                        break;
+                }
             }
             if (e.getKeyCode() == KeyEvent.VK_U) {
                 uPressed = true;
@@ -401,6 +439,7 @@ public class LevelCreationTool extends JFrame {
     private class DrawingPanel extends JPanel implements ActionListener {
         DrawingPanel() {
             this.setPreferredSize(new Dimension(windowX,windowY));
+            setUndecorated(true);
         }
 
         int[] getBoxDetails(int rectStartX, int rectEndX, int rectStartY, int rectEndY) {
@@ -509,6 +548,8 @@ public class LevelCreationTool extends JFrame {
                         roomData.addTileAt(new SpikeTile(boxDimensions[0], boxDimensions[1], boxDimensions[2], boxDimensions[3], assignedMapColorIndex));
                     }
                     else if (objectChosen == 3) {
+                        System.out.println(boxDimensions[0]);
+                        System.out.println(boxDimensions[1]);
                         System.out.println("Enter end pos(x)");
                         int endX = sc.nextInt();
                         System.out.println("Enter end pos(y)");
@@ -604,7 +645,7 @@ public class LevelCreationTool extends JFrame {
         public void paintComponent(Graphics g) {
             //Advanced Graphics
             super.paintComponent(g);
-            Graphics2D g2 = (Graphics2D) g;
+            Graphics2D g2 = (Graphics2D)g;
             //Turn on antialiasing
 		    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 

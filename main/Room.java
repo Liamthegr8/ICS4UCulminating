@@ -10,8 +10,8 @@ public class Room {
     String roomID;
     ArrayList<Tile> roomTiles;
     //static final int roomDimensions = 50; //10
-    static final int roomWidth = 500; //roomDimensions*Tile.tileSize;
-    static final int roomHeight = 500; //roomDimensions*Tile.tileSize;
+    static final int roomWidth = 1200; //roomDimensions*Tile.tileSize;
+    static final int roomHeight = 800; //roomDimensions*Tile.tileSize;
     Color[] enterRoomTransitionTileColors = new Color[Map.assignedColorsLength];
     int colorTransitionSpeed = 10;
 
