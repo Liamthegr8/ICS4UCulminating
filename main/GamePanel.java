@@ -267,7 +267,7 @@ import java.io.File;
     // }
 
     class GamePanel extends JPanel implements ActionListener {
-        int windowX = 900;
+        int windowX = 900; //not accurate anymore, uses window ref now
         int windowY = 500;
         int tickDelay = 10;
         int camX;
@@ -279,6 +279,8 @@ import java.io.File;
         boolean qPressed; //testing buttons - may be removed better
         boolean antiHoldDash =true;
         boolean antiHoldJump =true;
+        boolean gameActive;
+        boolean inMenu;
 
         //debugging (labels for various statistics)
         int windowMouseX = 0;
@@ -294,8 +296,10 @@ import java.io.File;
         JLabel isPlayerWalledRLabel;
         JLabel isPlayerWalledLLabel;
 
-        GamePanel() {
-            this.setPreferredSize(new Dimension(windowX,windowY));
+        GamePanel(int windowWidth, int windowHeight) {
+            windowX = windowWidth;
+            windowY = windowHeight;
+            //this.setPreferredSize(new Dimension(windowX,windowY));
             
             // this.setSize(windowX,windowY); //IGNORED DUE TO JPANELPACK
 
@@ -328,6 +332,7 @@ import java.io.File;
          *setup initial game (first time window runs)
         */
         private void gameSetup() {
+            // gameActive = true;
             //Set up timer
             tick = new Timer(tickDelay, this);
             // tick.setInitialDelay(1000);
@@ -344,7 +349,22 @@ import java.io.File;
         /**
          *resets main game variables upon e.g. death or by command, also allows for map to regenerate
         */
-        private void resetGame() {
+        void resetGame() {
+            wPressed = false;
+            aPressed = false;
+            sPressed = false;
+            dPressed = false;
+            uPressed = false;
+            iPressed = false;
+            oPressed = false;
+            jPressed = false;
+            kPressed = false;
+            lPressed = false;
+
+            tick.start();
+
+            gameActive = true;
+            inMenu = false;
             camX = 0;
             camY = 0;
             player = new Player(0,500,18,30); //resets to constructors
@@ -531,6 +551,9 @@ import java.io.File;
             if (qPressed) {
                 resetGame();
             }
+            if (lPressed) {
+                gameActive=false;
+            }
             if (dPressed) {
                 if(player.isGrounded){
                     player.updateVelocity(10*player.friction, 0);
@@ -571,7 +594,8 @@ import java.io.File;
             System.out.println();
             //check death
             if (player.isDead) {
-                resetGame();
+                //resetGame();
+                gameActive = false;
             }
 
             //room tick
