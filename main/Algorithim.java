@@ -1,277 +1,157 @@
-import java.util.*;
 public class Algorithim {
-    static String[][] testOut = new String[7][7];
-    static boolean[][] dotAlgRoom = new boolean[7][7];
-    
-
-    
-    static boolean Alg1=false;
-    static boolean Alg2=false;
-    static boolean Alg3=false;
-
     public static void main(String[] args) {
-        //current position
-        int posx=3;
-        int posy=3;
-        //inital side
-        int side=0;
-        //for weights
-        int up=0;
-        int down=0;
-        int left=0;
-        int right=0;
-        
-        boolean enterBasement=false;
-        int basementTime=0;
+        //DotAlgorithim dotAlg = new DotAlgorithim();
+        //boolean ifrun=false;
+        int x=7;
+        int y=7;
+        GeneralAlgorithim genAlg = new GeneralAlgorithim(x,y,-1);
 
-        //previous direction moved 0:up 1:right 2:down 3:left
-        int preDir=1;
-        //times this direction has been repeated
-        int dirReps=1;
+        genAlg.startPosition(x/2,y/2);
+        genAlg.pickSide();
+        genAlg.booleanMap[y/2][x/2]=true;
+        genAlg.startSetup(true,true);
+        genAlg.setIfRepeatingWeights(true,true,true,true);
+        genAlg.setDirectionWeights(8,8,8,8);
+        genAlg.setMovementRestrictions(-1,-1,-1,-1);
+        genAlg.run(y/2,x/2+genAlg.side);
 
-        Random r = new Random();
-
-        //setsup visual graph for testing and prints out
-        textSetup();
-        dotAlgRoom[3][3]=true;
-        testOut[3][3]="S ";
-        printOut();
-
-        //chooses side alg will start on and sets positon to it
-        if(r.nextBoolean()){
-            side =1;
-            preDir=1;
-            dirReps=1;
-        }else {
-            side =-1;
-            preDir=3;
-            dirReps=1;
-        }
-        posx = 3+side;
-        posy = 3;
-
-        dotAlgRoom[posy][posx]=true;
-        //makes changes to visual graph from boolean array
-        booleanToString();
-        printOut();
-        
-        //sets unuccoppied dierection weights to 8 and occupied to 0
-        for (int i =0; i!=-1;i++){
-            try{
-            if(!dotAlgRoom[posy][posx+1]){
-                right = 8;
-                
-            }else right =0;
-            }catch(Exception e){right = 0;}
+        if(genAlg.Alg3){
+            genAlg.Alg1=true;
+            genAlg.basementWeights=false;
+            int k;
             
-            try{
-            if(!dotAlgRoom[posy][posx-1]){
-                left = 8;
-                
-            }else left =0;
-            }catch(Exception e){left = 0;}
+            boolean done=false;
+            if (genAlg.side==1){
+                k=x-1;
 
-            try{
-            if(!dotAlgRoom[posy-1][posx]){
-                up = 8;
-                
-            }else up =0;
-            }catch(Exception e){up = 0;}
-
-            try{
-            if(!dotAlgRoom[posy+1][posx]){
-                down = 8;
-            
-            }else down =0;
-            }catch(Exception e){down = 0;}
-
-            //apply Direction Weights
-            if(preDir==0){
-                up =up- 2*dirReps;
-            }
-            if(up<0){up=0;}
-        
-            if(preDir==1){
-                right -= 2*dirReps;
-            }
-            if(right<0){right=0;}
-
-            if(preDir==2){
-                down -= 2*dirReps;
-            }
-            if(down<0){down=0;}
-
-            if(preDir==3){
-                left -= 2*dirReps;
-            }
-            if(left<0){left=0;}
-
-
-            //basement weights
-            if(posy>dotAlgRoom.length/2){
-                right = right/2;
-                left = left/2;
-            }
-            if(posy-1>dotAlgRoom.length/2){
-                up = up/2;   
-            }
-            if(posy+1>dotAlgRoom.length/2){
-                down = down/2;
-            }
-
-            //force up
-            if(posx==3){
-                left=0;
-                right=0;
-                if(posy>dotAlgRoom.length/2){
-                    up=0;
-                }else{
-                    down=0;
-                }
-            }
-
-
-            //selecting which direction path moves randomly according to weights provided earlier
-            int dirRan = r.nextInt(up+down+right+left);
-            System.out.printf("\nup: %d right: %d down: %d left: %d selected: %d\n",up,right,down,left,dirRan);
-            if(dirRan<up){
-                System.out.println("up");
-                posy--;
-                if(preDir==0){
-                    dirReps++;
-                }else{
-                    preDir=0;
-                    dirReps=1;
-                }
-            }else if(dirRan<up+right){
-                System.out.println("right");
-                posx++;
-                if(preDir==1){
-                    dirReps++;
-                }else{
-                    preDir=1;
-                    dirReps=1;
-                }
-            }else if(dirRan<right+up+down){
-                System.out.println("down");
-                posy++;
-                if(preDir==2){
-                    dirReps++;
-                }else{
-                    preDir=2;
-                    dirReps=1;
-                }
-            }else if(dirRan<right+up+down+left){
-                System.out.println("left");
-                posx--;
-                if(preDir==3){
-                    dirReps++;
-                }else{
-                    preDir=3;
-                    dirReps=1;
-                }
-            }else{System.out.println("error");}
-
-            dotAlgRoom[posy][posx]=true;
-            booleanToString();
-            printOut();
-
-            if(posy>dotAlgRoom.length/2){
-                enterBasement=true;
-                basementTime++;
-                System.out.println("basement: "+basementTime);
-            }
-
-            //breaks for if algorthim is selected
-            if(posy==0){
-                Alg2 = true;
-                break;
-            }
-            if(posx==0||posx==dotAlgRoom[3].length-1){
-                if(posy<dotAlgRoom.length/2+1){
-                    Alg1=true;
+         for(int i =0;i<genAlg.mapHeight;i++){ 
+             for(int j=x-1;j>0;j--){
+                 if(genAlg.booleanMap[i][j]){
+                    done=true;
+                    genAlg.booleanMap[i][j]=false;
+                    System.out.println(i+" "+j);
+                    genAlg.run(i,j);
                     break;
-                }
+                  }
             }
-            if(posy==dotAlgRoom.length-1){
-                Alg3=true;
-                break;
+            if(done)break;
+        }       
+            }else {
+                k = 0;
+        for(int i =0;i<y;i++){ 
+             for(int j=0;j<x-1;j++){
+                 if(genAlg.booleanMap[i][j]){
+                    done=true;
+                    genAlg.booleanMap[i][j]=false;
+                    System.out.println(i+" "+j);
+                    genAlg.run(i,j);
+                    break;
+                  }
             }
-            if(basementTime ==5){
-                Alg3=true;
-                break;
+            if(done)break;
+        } 
             }
-            if(enterBasement&&posy<=dotAlgRoom.length/2){
-                Alg1=true;
-                break;
-            }
+        System.out.println(k);  
+        genAlg.Alg1=false; 
+        
 
         }
-        if(Alg1){
-            System.out.println("alg1");
-        }
-        if(Alg2){
-            System.out.println("alg2");
-        }
-        if(Alg3){
-            System.out.println("alg3");
+        genAlg.side *= -1;
+        genAlg.run(y/2,x/2+genAlg.side);
+
+        if(!genAlg.Alg3){
+            genAlg.Alg1=false;
+            genAlg.Alg2=false;
+            genAlg.run(y/2+1,x/2);
         }
 
+        GeneralAlgorithim alg1 = new GeneralAlgorithim(10, 7, 3);
+        alg1.pickSide(x,genAlg.alg1x);
+        alg1.startSetup(false,false);
+        alg1.setIfRepeatingWeights(false,false,false,false);
+        alg1.setDirectionWeights(1,1,1,1);
+        alg1.setMovementRestrictions(-1,-1,-1,-1);
+        
+        System.out.println(alg1.side);
+        alg1.startPosition(x/2,y/2);
+        alg1.alg1Position(genAlg.alg1x,genAlg.alg1y);
+        alg1.alg2Position(genAlg.alg2x,genAlg.alg2y);
+        alg1.alg3Position(genAlg.alg3x,genAlg.alg3y);
+        if(alg1.side==1){
+            alg1.joinAlg(genAlg.booleanMap, 0, 0);
+            alg1.run(genAlg.alg1y,genAlg.alg1x);
+        }else{
+            alg1.joinAlg(genAlg.booleanMap, 0, 3);
+            alg1.run(genAlg.alg1y,genAlg.alg1x+3);
+        }
+        alg1.relic1Position(alg1.posx,alg1.posy);
+        alg1.booleanToString("O ");
+        alg1.printOut();
+        //Algorithim1 alg1 = new Algorithim1(dotAlg.alg1x,dotAlg.alg1y,dotAlg.alg2x,dotAlg.alg2y,dotAlg.alg3x,dotAlg.alg3y);
+        //alg1.sideToArray(dotAlg.dotAlgRoom,dotAlg.alg1x);
+        //alg1.run(dotAlg.alg1y,dotAlg.alg1x);
+        GeneralAlgorithim alg2 = new GeneralAlgorithim(15, 7, -1);
+        alg2.pickSide(10,alg1.alg2x);
+        alg2.startPosition(alg1.startx,alg1.starty);
+        alg2.alg1Position(alg1.alg1x,alg1.alg1y);
+        alg2.alg2Position(alg1.alg2x,alg1.alg2y);
+        alg2.alg3Position(alg1.alg3x,alg1.alg3y);
+        alg2.relic1Position(alg1.r1x,alg1.r1y);
+       
+        
+        if(alg2.side==1){
+            alg2.joinAlg(alg1.booleanMap, 0, 0);
+            alg2.startSetup(false,false);
+            alg2.setIfRepeatingWeights(false,true,false,true);
+            alg2.setDirectionWeights(0,3,3,3);
+            alg2.setMovementRestrictions(-1,-1,alg2.mapHeight/2+1,alg2.alg2x);
+            System.out.println(genAlg.mapWidth/2+4+3);
+            for(int i = alg2.alg2x; i<genAlg.mapWidth/2+4+3;i++){
+                alg2.booleanMap[alg2.alg2y][i]=true;
+                alg2.posx=i;
+            }
+        }else{
+            alg2.joinAlg(alg1.booleanMap, 0, 5);
+            alg2.startSetup(false,false);
+            alg2.setIfRepeatingWeights(false,true,false,true);
+            alg2.setDirectionWeights(0,3,3,3);
+            alg2.setMovementRestrictions(-1,alg2.alg2x,alg2.mapHeight/2+1,-1);
+            System.out.println(genAlg.mapWidth/2-4+5);
 
-    }
-    
-    
-    public static void printOut(){
-        System.out.println();
-         for(String[] i:testOut){
-            for (String j:i){
-                System.out.print(j);
-                
-            }
-            System.out.println();
-        }
-    }
-    public static void booleanToString(){
-        for(int i =0; i<dotAlgRoom.length; i++){
-            for (int j =0; j<dotAlgRoom[i].length; j++){
-                if(dotAlgRoom[i][j]){
-                    testOut[i][j]="O ";
-                }
-                
+            for(int i = genAlg.mapWidth/2-4+5; i<alg2.alg2x;i++){
+                alg2.booleanMap[alg2.alg2y][i]=true;
+                alg2.posx=genAlg.mapWidth/2-4+5;
             }
         }
-    }
-    public static void textSetup(){
-        for(int i =0; i<dotAlgRoom.length; i++){
-            for (int j =0; j<dotAlgRoom[i].length; j++){
-                
-                    testOut[i][j]="f ";
-                
-            }
-        }
-        for(int i =0; i<dotAlgRoom[3].length; i++){
-            testOut[i][3]="X " ;
-        }
-        for(int i =0; i<dotAlgRoom.length; i++){
-            testOut[0][i]="* " ;
-        }
-        for(int i =(dotAlgRoom.length/2+1); i<dotAlgRoom.length; i++){
-            for(int j =0; j<dotAlgRoom.length; j++){
-            testOut[i][j]="+ " ;
-            }
-        }
-        for(int i =(dotAlgRoom.length/2+1); i<dotAlgRoom.length; i++){
-            
-            testOut[i][3]="# " ;
+       
+        alg2.booleanToString("O ");
+        alg2.printOut();
+        alg2.setYEndpoint(alg2.mapHeight/2+1);
+        alg2.run(alg2.alg2y,alg2.posx);
+        alg2.relic2Position(alg2.posx,alg2.posy);
+        alg2.booleanToString("O ");
+        alg2.printOut();
 
+
+        GeneralAlgorithim dotAlg = new GeneralAlgorithim(15, 7, -1);
+        dotAlg.plainTextSetup();
+        if(alg2.side==1){
+            dotAlg.joinAlg(alg1.preBooleanMap, 0, 0);
+        }else{
+            dotAlg.joinAlg(alg1.preBooleanMap, 0, 5);
         }
-        for(int i =0; i<(dotAlgRoom.length/2+1); i++){
-            
-            testOut[i][0]="^ " ;
-            testOut[i][dotAlgRoom.length-1]="^ " ;
-        }
-        for(int i =0; i<dotAlgRoom.length; i++){
-            testOut[dotAlgRoom.length-1][i]="# " ;
-        }
+        dotAlg.startPosition(alg2.startx,alg2.starty);
+        dotAlg.alg1Position(alg2.alg1x,alg2.alg1y);
+        dotAlg.alg2Position(alg2.alg2x,alg2.alg2y);
+        dotAlg.alg3Position(alg2.alg3x,alg2.alg3y);
+        dotAlg.relic1Position(alg2.r1x,alg2.r1y);
+        dotAlg.relic2Position(alg2.r2x,alg2.r2y);
+
+        dotAlg.booleanToString("* ", alg2.booleanMap);
+        dotAlg.booleanToString("^ ", alg2.preBooleanMap);
+        dotAlg.booleanToString(". ");
+        
+        dotAlg.printOut();
     }
 }
+
