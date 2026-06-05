@@ -615,8 +615,16 @@ public class GeneralAlgorithim {
     
 
 
-    public boolean getAlg1(){
-        return Alg1;
+    public void isolateMap(boolean[][] otherMap){
+        for(int i =0; i<mapHeight; i++){
+            for (int j =0; j<mapWidth; j++){
+                if(otherMap[i][j]){
+                    booleanMap[i][j]=false;
+                }
+                
+            }
+
+        }
     }
     
     public void printOut(){
@@ -668,6 +676,20 @@ public class GeneralAlgorithim {
         if(R1Placed){testOut[r1y][r1x]="R ";}
         if(R2Placed){testOut[r2y][r2x]="R ";}
         if(R3Placed){testOut[r3y][r3x]="R ";}
+    }
+    public void printBooleanOnly(String s){
+        System.out.println();
+        for(int i =0; i<mapHeight; i++){
+            for (int j =0; j<mapWidth; j++){
+                if(booleanMap[i][j]){
+                    System.out.print(s);
+                }
+                else System.out.print("_ ");
+                
+            }
+            System.out.println();
+        }
+        
     }
     public void plainTextSetup(){
         for(int i =0; i<mapHeight; i++){

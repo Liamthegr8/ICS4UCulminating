@@ -393,6 +393,24 @@ public class Algorithim {
         alg5.booleanToString("O ");
         alg5.printOut();
 
+        GeneralAlgorithim endAlg = new GeneralAlgorithim(19, 15, -1);
+        endAlg.startPosition(balg.startx,balg.starty);
+        endAlg.side=alg1.side;
+        endAlg.posy=balg.by-2;
+        endAlg.posx=balg.bx;
+        endAlg.booleanMap[endAlg.posy][endAlg.posx]=true;
+        if(endAlg.side==1){
+            endAlg.posx++;
+        }else endAlg.posx--;
+
+        for(int i =endAlg.posy; i>0;i-- ){
+            endAlg.posy=i;
+            endAlg.booleanMap[endAlg.posy][endAlg.posx]=true;
+        }
+        endAlg.textSetup();
+        endAlg.booleanToString("e ");
+        endAlg.printOut();
+
 
 
 
@@ -485,13 +503,75 @@ public class Algorithim {
         dotAlgF.relic4Position(alg4.r4x,alg4.r4y);
         dotAlgF.relic5Position(alg5.r5x,alg5.r5y);
 
-        dotAlgF.booleanToString("X ", alg5.booleanMap);
+        
+
+        
+        dotAlgF.booleanMap[dotAlgF.alg1y][dotAlgF.alg1x]=false;
+        
+
+        
+        
+        
+        
+        //starAlgF.printBooleanOnly("X ");
+        //balg.printBooleanOnly("X ");
+        //alg4.printBooleanOnly("X ");
+        //alg5.printBooleanOnly("X ");
+        alg5.printBooleanOnly("X ");
+        alg5.isolateMap(balg.booleanMap);
+        alg5.printBooleanOnly("+ ");
+
+        alg4.printBooleanOnly("X ");
+        alg4.isolateMap(balg.booleanMap);
+        alg4.printBooleanOnly("L ");
+
+        balg.printBooleanOnly("X ");
+        balg.isolateMap(starAlgF.booleanMap);
+        balg.printBooleanOnly("B ");
+
+        starAlgF.booleanMap[starAlgF.alg2y][starAlgF.alg2x]=false;
+
+        starAlgF.printBooleanOnly("X ");
+        starAlgF.isolateMap(hashAlgF.booleanMap);
+        starAlgF.printBooleanOnly("* ");
+
+        hashAlgF.printBooleanOnly("X ");
+        hashAlgF.isolateMap(triAlgF.booleanMap);
+        hashAlgF.printBooleanOnly("# ");
+
+        triAlgF.printBooleanOnly("X ");
+        triAlgF.isolateMap(dotAlgF.booleanMap);
+        triAlgF.printBooleanOnly("^ ");
+
+        dotAlgF.printBooleanOnly("X ");
+
+        triAlgF.booleanMap[triAlgF.r1y][triAlgF.r1x]=false;
+        starAlgF.booleanMap[starAlgF.r2y][starAlgF.r2x]=false;
+        hashAlgF.booleanMap[hashAlgF.r3y][hashAlgF.r3x]=false;
+        hashAlgF.booleanMap[hashAlgF.ay][hashAlgF.ax]=false;
+        balg.booleanMap[balg.by][balg.bx]=false;
+        alg4.booleanMap[alg4.r4y][alg4.r4x]=false;
+        alg5.booleanMap[alg5.r5y][alg5.r5x]=false;
+
+        dotAlgF.printBooleanOnly(". ");
+        triAlgF.printBooleanOnly("^ ");
+        hashAlgF.printBooleanOnly("# ");
+        starAlgF.printBooleanOnly("* ");
+        balg.printBooleanOnly("b ");
+        alg4.printBooleanOnly("L ");
+        alg5.printBooleanOnly("+ ");
+
+
+        
         dotAlgF.booleanToString("L ", alg4.booleanMap);
         dotAlgF.booleanToString("b ", balg.booleanMap);
         dotAlgF.booleanToString("* ", starAlgF.booleanMap);
         dotAlgF.booleanToString("# ", hashAlgF.booleanMap);
         dotAlgF.booleanToString("^ ", triAlgF.booleanMap);
         dotAlgF.booleanToString(". ");
+        dotAlgF.booleanToString("+ ", alg5.booleanMap);
+        dotAlgF.booleanToString("e ", endAlg.booleanMap);
+
         
         dotAlgF.printOut();
 
