@@ -49,6 +49,10 @@ public class GeneralAlgorithim {
     boolean R1Placed;
     boolean R2Placed;
     boolean R3Placed;
+    boolean APlaced;
+    boolean BPlaced;
+    boolean R4Placed;
+    boolean R5Placed;
 
     int startx,starty;
     int alg1x,alg1y;
@@ -57,6 +61,10 @@ public class GeneralAlgorithim {
     int r1x,r1y;
     int r2x,r2y;
     int r3x,r3y;
+    int ay,ax;
+    int bx,by;
+    int r4x,r4y;
+    int r5x,r5y;
 
     boolean ifUpRestrict;
     int upRestrict;
@@ -127,7 +135,7 @@ public class GeneralAlgorithim {
         //previous direction moved 0:up 1:right 2:down 3:left
         preDir=1;
         //times this direction has been repeated
-        dirReps=1;
+        dirReps=0;
     }
     public void startPosition(int x, int y){
         startx=x;
@@ -162,6 +170,26 @@ public class GeneralAlgorithim {
         r3x=x;
         r3y=y;
         R3Placed=true;
+    }
+    public void APosition(int x, int y){
+        ax=x;
+        ay=y;
+        APlaced=true;
+    }
+    public void BPosition(int x, int y){
+        bx=x;
+        by=y;
+        BPlaced=true;
+    }
+     public void relic4Position(int x, int y){
+        r4x=x;
+        r4y=y;
+        R4Placed=true;
+    }
+    public void relic5Position(int x, int y){
+        r5x=x;
+        r5y=y;
+        R5Placed=true;
     }
     //
     public void joinAlg(boolean[][] oldMap, int y, int x){
@@ -199,6 +227,22 @@ public class GeneralAlgorithim {
         r3x+=x;
         r3y+=y;
         }
+        if(APlaced){
+        ax+=x;
+        ay+=y;
+        }
+        if(BPlaced){
+        bx+=x;
+        by+=y;
+        }
+        if(R4Placed){
+        r4x+=x;
+        r4y+=y;
+        }
+        if(R5Placed){
+        r5x+=x;
+        r5y+=y;
+        }
     }
     public void pickSide(){
         if(r.nextBoolean()){
@@ -215,11 +259,11 @@ public class GeneralAlgorithim {
         if(xValue>width/2){
             side =1;
             preDir=1;
-            dirReps=1;
+            dirReps=0;
         }else {
             side =-1;
             preDir=3;
-            dirReps=1;
+            dirReps=0;
         }
     }
     public void startSetup(boolean canexit, boolean basement){
@@ -425,6 +469,15 @@ public class GeneralAlgorithim {
                 down=0;
             }
             }
+            //edge case preventing spiral of DOOM specically when alg2 spawns first and takes middle path up and alg 1 is on specifically either 2,1 or 4,1
+            if(Alg2&&posy==1){
+                if(booleanMap[1][3]||booleanMap[2][3]){
+                if(posx==2||posx==4){
+                    down=0;
+                    System.out.println("day saved by anti-spiral of DOOM endevors :)");
+                }
+                }
+            }
             
 
 
@@ -522,7 +575,7 @@ public class GeneralAlgorithim {
                 break;
             }
             //alg 1 renter
-            if(enterBasement&&posy<=mapHeight/2){
+            if(!Alg1&&enterBasement&&posy<=mapHeight/2){
                 Alg1=true;
                 alg1x=posx;
                 alg1y=posy;
@@ -593,6 +646,10 @@ public class GeneralAlgorithim {
         if(R1Placed){testOut[r1y][r1x]="R ";}
         if(R2Placed){testOut[r2y][r2x]="R ";}
         if(R3Placed){testOut[r3y][r3x]="R ";}
+        if(APlaced){testOut[ay][ax]="A ";}
+        if(BPlaced){testOut[by][bx]="B ";}
+        if(R4Placed){testOut[r4y][r4x]="R ";}
+        if(R5Placed){testOut[r5y][r5x]="R ";}
     }
     public void booleanToString(String s,boolean[][] otherMap){
         for(int i =0; i<mapHeight; i++){
@@ -625,33 +682,33 @@ public class GeneralAlgorithim {
         for(int i =0; i<mapHeight; i++){
             for (int j =0; j<mapWidth; j++){
                 
-                    testOut[i][j]="f ";
+                    testOut[i][j]="_ ";
                 
             }
         }
         for(int i =0; i<mapHeight; i++){
-            testOut[i][mapWidth/2]="X " ;
+            testOut[i][startx]="X " ;
         }
         for(int i =0; i<mapWidth; i++){
-            testOut[0][i]="* " ;
+            testOut[starty-3][i]="* " ;
         }
-        for(int i =(mapHeight/2+1); i<mapHeight; i++){
+        for(int i =(starty+1); i<mapHeight; i++){
             for(int j =0; j<mapWidth; j++){
-            testOut[i][j]="+ " ;
+            testOut[i][j]=". " ;
             }
         }
-        for(int i =(mapHeight/2+1); i<mapHeight; i++){
+        for(int i =(starty+1); i<mapHeight; i++){
             
-            testOut[i][mapWidth/2]="# " ;
+            testOut[i][startx]="# " ;
 
         }
-        for(int i =0; i<(mapHeight/2+1); i++){
+        for(int i =0; i<(starty+1); i++){
             
-            testOut[i][0]="^ " ;
-            testOut[i][mapWidth-1]="^ " ;
+            testOut[i][startx-3]="^ " ;
+            testOut[i][startx+3]="^ " ;
         }
         for(int i =0; i<mapWidth; i++){
-            testOut[mapHeight-1][i]="# " ;
+            testOut[starty+3][i]="# " ;
         }
         
     }
