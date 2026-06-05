@@ -224,7 +224,7 @@ public class Player extends Rectangle {
                 //real x and y required
                 Rectangle tile = new Rectangle(t.x, t.y, t.width, t.height);
 
-                if (this.intersects(tile) && t.isCollidable && isPlayerCollidable) {     //tanush edited for dash past wall
+                if (this.intersects(tile) && t.isCollidable && (isPlayerCollidable || t.overideDisabledCollisions)) {     //tanush edited for dash past wall
                     if(t.winCondition){
                             isWin = true;
                         }
@@ -287,7 +287,7 @@ public class Player extends Rectangle {
             if (t != null) {
                 Rectangle tile = new Rectangle(t.x, t.y, t.width, t.height);
                 Rectangle testground = new Rectangle(t.x, t.y-1, t.width, t.height);
-                if (this.intersects(tile) && t.isCollidable && isPlayerCollidable) { //tanush edited for dash past wall
+                if (this.intersects(tile) && t.isCollidable && (isPlayerCollidable || t.overideDisabledCollisions)) { //tanush edited for dash past wall
                     if(t.winCondition){
                             isWin = true;
                         }  

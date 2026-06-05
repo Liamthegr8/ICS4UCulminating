@@ -7,7 +7,7 @@ import javax.swing.Timer;
 public class LeaderboardPanel extends JPanel implements ActionListener {
     int windowX;
     int windowY;
-    boolean activeWindow;
+    boolean panelActive;
 
     Timer tick;
     int tickDelay = 10;
@@ -15,20 +15,20 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
     Button[] buttons;
     int selectedButton;
     boolean selectButton;
+    String[] tempLeaderboard;
 
 
-    LeaderboardPanel(int windowWidth, int windowHeight) {
+    LeaderboardPanel(int windowWidth, int windowHeight, String[] leaderboard) {
         windowX = windowWidth;
         windowY = windowHeight;
+        tempLeaderboard = leaderboard;
         initialSetup();
-
     }
 
     void initialSetup() {
-        startGame = false;
         selectedButton = 0;
         selectButton = false;
-        activeWindow = false;
+        panelActive = false;
 
         //this.setPreferredSize(new Dimension(windowX,windowY));
 
@@ -44,12 +44,12 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
     }
 
     void reset() {
+        tick.restart();
         tick.start();
-        
-        startGame = false;
+    
         selectedButton = 0;
         selectButton = false;
-        activeWindow = true;
+        panelActive = true;
 
         wPressed = false;
         aPressed = false;
@@ -152,7 +152,7 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
                 switch (buttons[i].action) {
                     case "menu":
                         //System.out.println("Start button pressed");
-                        activeWindow = false;
+                        panelActive = false;
                         break;
                     default:
                         //System.out.println("No action designated to button");
@@ -191,6 +191,18 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
         g2.setFont(new Font("Arial", Font.BOLD, 36));
         g2.drawString("Leaderboard", windowX/2, 50);
 
+
+        //render leaderboard
+        g2.setColor(Color.BLACK);
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
+        int yOffset = 0;
+        int ySteps = 20;
+        for (int i=0; i<tempLeaderboard.length; i++) {
+            if (tempLeaderboard[i] != null) {
+                g2.drawString(tempLeaderboard[i],windowX/2, 100+yOffset);
+            }
+            yOffset += ySteps;
+        }
 
         //button render
         for (Button button : buttons) {

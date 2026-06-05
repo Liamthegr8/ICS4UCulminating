@@ -14,6 +14,8 @@ public class Game extends JFrame implements ActionListener  {
     JPanel activePanel;
     MainMenuPanel menuPanel;
     GamePanel gamePanel;
+    LeaderboardPanel leaderboardPanel;
+    String[] leaderboardScores;
     Timer tick;
     int tickDelay = 10;
 
@@ -74,8 +76,16 @@ public class Game extends JFrame implements ActionListener  {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        gamePanel = new GamePanel(getWidth(), getHeight());
+        leaderboardScores = new String[10];
+        leaderboardScores[0] = "Player 1: 67";
+        leaderboardScores[1] = "Player 2: 67";
+        leaderboardScores[3] = "Player 4: 67";
+        leaderboardScores[4] = "Player 5: 67";
+        leaderboardScores[5] = "Player 6: 67";
+
+        gamePanel = new GamePanel(getWidth(), getHeight(), leaderboardScores);
         menuPanel = new MainMenuPanel(getWidth(), getHeight());
+        leaderboardPanel = new LeaderboardPanel(getWidth(), getHeight(), leaderboardScores); 
 
         switchTo(menuPanel);
         
@@ -85,15 +95,25 @@ public class Game extends JFrame implements ActionListener  {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (activePanel == menuPanel) {
-            if (menuPanel.startGame) {
+            if (menuPanel.menuOption.equals("play")) {
                 menuPanel.tick.stop();
                 gamePanel.resetGame();
                 switchTo(gamePanel);
                 
+            } else if (menuPanel.menuOption.equals("leaderboard")) {
+                menuPanel.tick.stop();
+                leaderboardPanel.reset();
+                switchTo(leaderboardPanel);
             }
         } else if (activePanel == gamePanel) {
-            if (!gamePanel.gameActive) {
+            if (!gamePanel.panelActive) {
                 gamePanel.tick.stop();
+                menuPanel.reset();
+                switchTo(menuPanel);
+            }
+        } else if (activePanel == leaderboardPanel) {
+            if (!leaderboardPanel.panelActive) {
+                leaderboardPanel.tick.stop();
                 menuPanel.reset();
                 switchTo(menuPanel);
             }

@@ -12,260 +12,6 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 
-// public class GamePanel extends JFrame {   
-
-    // int tickDelay = 10;
-    // int camX;
-    // int camY;
-    // Timer tick;
-    // Player player;
-    // Map map;
-    // boolean wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed;
-    // boolean qPressed; //testing buttons - may be removed better
-    // boolean antiHoldDash =true;
-    // boolean antiHoldJump =true;
-
-    // //debugging (labels for various statistics)
-    // int windowMouseX = 0;
-    // int windowMouseY = 0;
-    // JLabel playerXLabel;
-    // JLabel playerYLabel;
-    // JLabel playervxLabel;
-    // JLabel playervyLabel;
-    // JLabel playerLocLabel;
-    // JLabel windowXLabel;
-    // JLabel windowYLabel;
-    // JLabel isPlayerGroundedLabel;
-    // JLabel isPlayerWalledRLabel;
-    // JLabel isPlayerWalledLLabel;
-
-
-
-    /*
-    *temp non anonymous function that allows user to run main game Window directly from here instead of Game.java
-    **/
-    // public static void main(String[] args) {
-    //     new();
-    // }
-          
-    // GameWindow() {
-    //     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);                       //startcomment
-	// 	this.setTitle("67676767676767676767676767676767676767676767676767");
-    //     //More custom stuff
-    //     this.setExtendedState(JFrame.MAXIMIZED_BOTH); //IGNORED DUE TO JPANELPACK
-    //     this.setResizable(true);
-    //     //this.setUndecorated(true);  //hides the title bar of JFrame                 //endcomment
-
-    //     panel = new DrawingPanel();
-    //     this.add(panel);                //comment 
-    //     // this.setSize(windowX,windowY); //IGNORED DUE TO JPANELPACK
-
-    //     //debugging elements
-    //     windowXLabel = new JLabel();
-    //     windowYLabel = new JLabel();
-    //     playerXLabel = new JLabel();
-    //     playerYLabel = new JLabel();
-    //     playervxLabel = new JLabel();
-    //     playervyLabel = new JLabel();
-    //     isPlayerGroundedLabel = new JLabel();
-    //     isPlayerWalledRLabel = new JLabel();
-    //     isPlayerWalledLLabel = new JLabel();
-    //     playerLocLabel = new JLabel();
-    //     // panel.add(windowXLabel);
-    //     // panel.add(windowYLabel);
-    //     panel.add(playerXLabel);
-    //     panel.add(playerYLabel);
-    //     panel.add(playervxLabel);
-    //     panel.add(playervyLabel);
-    //     panel.add(isPlayerWalledRLabel);
-    //     panel.add(isPlayerWalledLLabel);
-    //     panel.add(isPlayerGroundedLabel);
-    //     panel.add(playerLocLabel);
-
-    //     this.pack(); //important to understand size of window is size of panel             //start commnet
-
-    //     this.setLocationRelativeTo(null);
-    //     this.setVisible(true);                             //end comment
-        
-    //     gameSetup();
-    // }
-
-    // /**
-    //  *setup initial game (first time window runs)
-    //  */
-    // private void gameSetup() {
-    //     //Set up timer
-    //     tick = new Timer(tickDelay, panel);
-    //     // tick.setInitialDelay(1000);
-    //     tick.start();
-
-    //     //Events
-    //     this.addKeyListener(new KeyHandler());
-    //     this.addMouseMotionListener(new MouseMotionHandler());
-    //     //this.addMouseListener(new MouseMotionHandler());
-
-    //     resetGame();
-    // }
-
-    // /**
-    //  *resets main game variables upon e.g. death or by command, also allows for map to regenerate
-    //  */
-    // private void resetGame() {
-    //     camX = 0;
-    //     camY = 0;
-    //     player = new Player(0,500,18,30); //resets to constructors
-
-    //     //Tanush Mock Collision Setup
-    //     map = new Map();
-    //     map.setMapTileColor(0, Color.BLUE);
-    //     map.setMapTileColor(1, Color.RED);
-
-    //     FileHandle x = new FileHandle();
-    //     Room room1 = x.findRoom("RoomTest1");
-    //     //Room room2 = new Room("Room2");
-    //     Room room2 = x.findRoom("RoomTest2");
-    //     Room room3= x.findRoom("RoomTest3");
-    //     Room room4= x.findRoom("RoomTest4");
-    //     Room hole= x.findRoom("FloorOpenTest");
-    //     Room Runway= x.findRoom("Runway");
-    //     Room winning = x.findRoom("Win");
-
-    //     //create room to test
-    //     //room2.setEnterRoomTransitionColor(0, Color.RED);
-    //     //room2.setEnterRoomTransitionColor(1, Color.GRAY); 
-    //     //room2.addTileAt(new SpikeTile(0,450,500,49,0));
-        
-    //     //room2.addTileAt(new MovingPlatformTile(100, 400,  100, 50, 1, 200, 400, 1));
-
-    //     //room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 1));
-
-    //     map.addRoomAt(room1, 0, 1);
-    //     map.addRoomAt(room2, 1, 1);
-    //     map.addRoomAt(room3, 2, 1);
-    //     map.addRoomAt(room4, 3, 1);
-    //     map.addRoomAt(room3, 4, 1);
-    //     map.addRoomAt(room3, 5, 1);
-    //     map.addRoomAt(hole, 3, 0);
-    //     map.addRoomAt(Runway, 4, 0);
-    //     map.addRoomAt(Runway, 5, 0);
-    //     map.addRoomAt(Runway, 2, 0);
-    //     map.addRoomAt(winning,6,1);
-    //     winning.addTileAt(new RelicTile(200,250,50,50,1,1));
-    // }
-
-    // // handle keyboard input
-    // private class KeyHandler extends KeyAdapter {
-    //     /**
-    //      * handle key presses
-    //      * @param e the key event triggered
-    //      */
-    //     @Override
-    //     public void keyPressed(KeyEvent e) {
-    //         //no panel repaint here. otherwise the graphics will update when key pressed instantly. not upon fixed tick delay
-    //         //if repainted, this can be exploited to speed up time
-    //         //Checks if any of the viable buttons are pressed
-    //         if (e.getKeyCode() == KeyEvent.VK_W) {
-    //             wPressed = true;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_A) {
-    //             aPressed = true;
-    //             //this needs to be here as it needs to be able to be updated even if a or d is being held so it always updates to most recently pressed
-    //             player.directionFaced=false;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_S) {
-    //             sPressed = true;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_D) {
-    //             dPressed = true;
-    //             //this needs to be here as it needs to be able to be updated even if a or d is being held so it always updates to most recently pressed
-    //             player.directionFaced=true;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_U) {
-    //             if (antiHoldJump){
-    //             uPressed = true;
-    //             }
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_I) {
-    //             if(antiHoldDash){
-    //                 iPressed = true;
-    //             }
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_O) {
-    //             oPressed = true;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_J) {
-    //             jPressed = true;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_K) {
-    //             kPressed = true;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_L) {
-    //             lPressed = true;
-    //         }
-
-    //         if (e.getKeyCode() == KeyEvent.VK_Q) {
-    //             qPressed = true;
-    //         } 
-    //     }
-    //     /**
-    //      * handle key releases
-    //      * @param e the key event triggered
-    //      */
-    //     public void keyReleased(KeyEvent e) {
-    //         if (e.getKeyCode() == KeyEvent.VK_W) {
-    //             wPressed = false;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_A) {
-    //             aPressed = false;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_S) {
-    //             sPressed = false;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_D) {
-    //             dPressed = false;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_U) {
-    //             uPressed = false;
-    //             antiHoldJump = true;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_I) {
-    //             iPressed = false;
-    //             antiHoldDash = true;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_O) {
-    //             oPressed = false;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_J) {
-    //             jPressed = false;
-    //             antiHoldDash = true;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_K) {
-    //             kPressed = false;
-    //         }
-    //         if (e.getKeyCode() == KeyEvent.VK_L) {
-    //             lPressed = false;
-    //         }
-
-    //         if (e.getKeyCode() == KeyEvent.VK_Q) {
-    //             qPressed = false;
-               
-    //         }
-    //     }
-    // }
-
-    // // handle mouse movement and clicks
-    // class MouseMotionHandler extends MouseAdapter {
-    //     /**
-    //      * handle mouse movement
-    //      * @param e the mouse event triggered
-    //      */
-    //     @Override
-    //     public void mouseMoved(MouseEvent e) {
-    //         windowMouseX = e.getX()-8;
-    //         windowMouseY = e.getY()-31;
-    //     }
-    // }
-
     class GamePanel extends JPanel implements ActionListener {
         int windowX = 900; //not accurate anymore, uses window ref now
         int windowY = 500;
@@ -279,12 +25,14 @@ import java.io.File;
         boolean qPressed; //testing buttons - may be removed better
         boolean antiHoldDash =true;
         boolean antiHoldJump =true;
-        boolean gameActive;
+        boolean panelActive;
         boolean inMenu;
+        String[] tempLeaderboard;
 
         //debugging (labels for various statistics)
         int windowMouseX = 0;
         int windowMouseY = 0;
+        int runtime = 0;
         JLabel playerXLabel;
         JLabel playerYLabel;
         JLabel playervxLabel;
@@ -296,9 +44,10 @@ import java.io.File;
         JLabel isPlayerWalledRLabel;
         JLabel isPlayerWalledLLabel;
 
-        GamePanel(int windowWidth, int windowHeight) {
+        GamePanel(int windowWidth, int windowHeight, String[] leaderboard) {
             windowX = windowWidth;
             windowY = windowHeight;
+            tempLeaderboard = leaderboard;
             //this.setPreferredSize(new Dimension(windowX,windowY));
             
             // this.setSize(windowX,windowY); //IGNORED DUE TO JPANELPACK
@@ -332,7 +81,7 @@ import java.io.File;
          *setup initial game (first time window runs)
         */
         private void gameSetup() {
-            // gameActive = true;
+            // panelActive = true;
             //Set up timer
             tick = new Timer(tickDelay, this);
             // tick.setInitialDelay(1000);
@@ -361,9 +110,11 @@ import java.io.File;
             kPressed = false;
             lPressed = false;
 
+            tick.restart();
+            runtime = 0;
             tick.start();
 
-            gameActive = true;
+            panelActive = true;
             inMenu = false;
             camX = 0;
             camY = 0;
@@ -526,6 +277,7 @@ import java.io.File;
          */
         @Override
         public void actionPerformed(ActionEvent e) {
+            runtime++;
             //ticks down cooldowns
             //nogravity
             
@@ -553,7 +305,7 @@ import java.io.File;
                 resetGame();
             }
             if (lPressed) {
-                gameActive=false;
+                panelActive=false;
             }
             if (dPressed) {
                 if(player.isGrounded){
@@ -596,7 +348,8 @@ import java.io.File;
             //check death
             if (player.isDead) {
                 //resetGame();
-                gameActive = false;
+                tempLeaderboard[0] = "score ahh:" + String.valueOf(runtime);
+                panelActive = false;
             }
 
             //room tick
@@ -620,7 +373,8 @@ import java.io.File;
             String roundedvy = String.format("%.1f", player.vy);
             playervxLabel.setText("Player vx: " + roundedvx);
             playervyLabel.setText("Player vy: " + roundedvy);
-            isPlayerGroundedLabel.setText("Player Grounded: " + String.valueOf(player.isGrounded));
+            //isPlayerGroundedLabel.setText("Player Grounded: " + String.valueOf(player.isGrounded));
+            isPlayerGroundedLabel.setText("runtime: " + String.valueOf(runtime));
             isPlayerWalledRLabel.setText("Player R Walled: " + String.valueOf(player.isTouchingRightWall));
             isPlayerWalledLLabel.setText("Player L Walled: " + String.valueOf(player.isTouchingLeftWall));
             if (player.playerLocation != null) {

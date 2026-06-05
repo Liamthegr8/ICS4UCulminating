@@ -8,7 +8,8 @@ public class MainMenuPanel extends JPanel implements ActionListener {
     int windowX = 900;
     int windowY = 500;
     boolean startGame;
-    boolean activeMenu;
+    String menuOption;
+    //boolean activeMenu;
 
     Timer tick;
     int tickDelay = 10;
@@ -27,10 +28,11 @@ public class MainMenuPanel extends JPanel implements ActionListener {
     }
 
     void initialSetup() {
+        menuOption = "";
         startGame = false;
         selectedButton = 0;
         selectButton = false;
-        activeMenu = true;
+        //activeMenu = true;
 
         //this.setPreferredSize(new Dimension(windowX,windowY));
 
@@ -46,12 +48,14 @@ public class MainMenuPanel extends JPanel implements ActionListener {
     }
 
     void reset() {
+        tick.restart();
         tick.start();
         
         startGame = false;
+        menuOption = "";
         selectedButton = 0;
         selectButton = false;
-        activeMenu = true;
+        //activeMenu = true;
 
         wPressed = false;
         aPressed = false;
@@ -154,17 +158,21 @@ public class MainMenuPanel extends JPanel implements ActionListener {
                 switch (buttons[i].action) {
                     case "play":
                         //System.out.println("Start button pressed");
-                        startGame = true;
+                        menuOption = "play";
                         break;
                     case "quit":
                         //System.out.println("Quit button pressed");
                         System.exit(0);
                         break;
+                    case "leaderboard":
+                        //System.out.println("Quit button pressed");
+                        menuOption = "leaderboard";
+                        break;
                     default:
                         //System.out.println("No action designated to button");
                         break;
                 }
-                activeMenu = false;
+                //activeMenu = false;
                 
             }
         }

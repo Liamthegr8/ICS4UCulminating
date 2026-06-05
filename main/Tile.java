@@ -18,6 +18,7 @@ public abstract class Tile {
     boolean winCondition;
     boolean ability1, ability2, ability3, ability4, ability5;
     boolean enabled;
+    boolean overideDisabledCollisions;
     //static final int tileSize = 50;
     int x,y,width,height;
     BufferedImage texture;
@@ -48,7 +49,8 @@ public abstract class Tile {
         imageXOffset = 0;
         imageYOffset = 0;
         this.assignedMapColorIndex = assignedMapColorIndex;
-
+        overideDisabledCollisions = false;
+        
         // if (customTexturePath != null) {
         //     texture = loadImage(customTexturePath);
         //     getScaledImage();
@@ -75,6 +77,7 @@ public abstract class Tile {
         this.startDelay = tileData.startDelay;
         this.duration = tileData.duration;
         this.frequency = tileData.frequency;
+        this.overideDisabledCollisions = tileData.overideDisabledCollisions;
         // this.winCondition = tileData.winCondition;
     }
 
