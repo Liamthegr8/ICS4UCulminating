@@ -192,15 +192,9 @@ public class GeneralAlgorithim {
         R5Placed=true;
     }
     //
-    public void joinAlg(boolean[][] oldMap, int y, int x){
-        System.out.println(y+oldMap.length);
-        System.out.println(x+oldMap[0].length);
-        for(int i =y; i<y+oldMap.length;i++){
-            for(int j = x; j<x+oldMap[0].length;j++){
-                preBooleanMap[i][j]=oldMap[i-y][j-x];
-                booleanMap[i][j]=oldMap[i-y][j-x];
-            }
-        }
+    public void joinAlgWithPositons(boolean[][] oldMap, int y, int x){
+        
+        joinAlg(oldMap, y, x);
         startx+=x;
         starty+=y;
         if(Alg1Placed){
@@ -243,6 +237,19 @@ public class GeneralAlgorithim {
         r5x+=x;
         r5y+=y;
         }
+    }
+    public void joinAlg(boolean[][] oldMap, int y, int x){
+        System.out.println(y+oldMap.length);
+        System.out.println(x+oldMap[0].length);
+        for(int i =y; i<y+oldMap.length;i++){
+            for(int j = x; j<x+oldMap[0].length;j++){
+                if(oldMap[i-y][j-x]){
+                preBooleanMap[i][j]=oldMap[i-y][j-x];
+                booleanMap[i][j]=oldMap[i-y][j-x];
+                }
+            }
+        }
+        
     }
     public void pickSide(){
         if(r.nextBoolean()){
