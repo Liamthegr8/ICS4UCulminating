@@ -75,52 +75,52 @@ public class Algorithim {
             genAlg.run(y/2+1,x/2);
         }
 
-        GeneralAlgorithim alg1 = new GeneralAlgorithim(10, 7, 3);
-        alg1.pickSide(x,genAlg.alg1x);
-        System.out.println(alg1.side);
+        GeneralAlgorithim triAlg = new GeneralAlgorithim(10, 7, 3);
+        triAlg.pickSide(x,genAlg.alg1x);
+        System.out.println(triAlg.side);
 
-        alg1.startPosition(genAlg.startx,genAlg.starty);
-        alg1.alg1Position(genAlg.alg1x,genAlg.alg1y);
-        alg1.alg2Position(genAlg.alg2x,genAlg.alg2y);
-        alg1.alg3Position(genAlg.alg3x,genAlg.alg3y);
+        triAlg.startPosition(genAlg.startx,genAlg.starty);
+        triAlg.alg1Position(genAlg.alg1x,genAlg.alg1y);
+        triAlg.alg2Position(genAlg.alg2x,genAlg.alg2y);
+        triAlg.alg3Position(genAlg.alg3x,genAlg.alg3y);
 
         
-        alg1.setIfRepeatingWeights(false,false,false,false);
-        alg1.setDirectionWeights(1,1,1,1);
+        triAlg.setIfRepeatingWeights(false,false,false,false);
+        triAlg.setDirectionWeights(1,1,1,1);
         
         
         
         
-        if(alg1.side==1){
-            alg1.joinAlg(genAlg.booleanMap, 0, 0);
-            alg1.setMovementRestrictions(-1,-1,5, (alg1.startx+1));
-            alg1.startSetup(false,false);
-            alg1.run(genAlg.alg1y,genAlg.alg1x);
+        if(triAlg.side==1){
+            triAlg.joinAlg(genAlg.booleanMap, 0, 0);
+            triAlg.setMovementRestrictions(-1,-1,5, (triAlg.startx+1));
+            triAlg.startSetup(false,false);
+            triAlg.run(genAlg.alg1y,genAlg.alg1x);
         }else{
-            alg1.joinAlg(genAlg.booleanMap, 0, 3);
-            alg1.setMovementRestrictions(-1,(alg1.startx-1),5, -1);
-            alg1.startSetup(false,false);
-            alg1.run(genAlg.alg1y,genAlg.alg1x+3);
+            triAlg.joinAlg(genAlg.booleanMap, 0, 3);
+            triAlg.setMovementRestrictions(-1,(triAlg.startx-1),5, -1);
+            triAlg.startSetup(false,false);
+            triAlg.run(genAlg.alg1y,genAlg.alg1x+3);
         }
-        alg1.relic1Position(alg1.posx,alg1.posy);
-        alg1.booleanToString("O ");
-        alg1.printOut();
+        triAlg.relic1Position(triAlg.posx,triAlg.posy);
+        triAlg.booleanToString("O ");
+        triAlg.printOut();
 
         GeneralAlgorithim alg3 = new GeneralAlgorithim(13, 8, -1);
         
-        alg3.side=alg1.side;
-        alg3.startPosition(alg1.startx, alg1.starty);
-        alg3.alg1Position(alg1.alg1x, alg1.alg1y);
-        alg3.alg2Position(alg1.alg2x, alg1.alg2y);
-        alg3.alg3Position(alg1.alg3x, alg1.alg3y);
-        alg3.relic1Position(alg1.r1x, alg1.r1y);
+        alg3.side=triAlg.side;
+        alg3.startPosition(triAlg.startx, triAlg.starty);
+        alg3.alg1Position(triAlg.alg1x, triAlg.alg1y);
+        alg3.alg2Position(triAlg.alg2x, triAlg.alg2y);
+        alg3.alg3Position(triAlg.alg3x, triAlg.alg3y);
+        alg3.relic1Position(triAlg.r1x, triAlg.r1y);
         
         if (alg3.side==1){
-            alg3.joinAlg(alg1.booleanMap, 0, 1);
+            alg3.joinAlg(triAlg.booleanMap, 0, 1);
 
         }
         else{
-            alg3.joinAlg(alg1.booleanMap, 0, 2);
+            alg3.joinAlg(triAlg.booleanMap, 0, 2);
         }
         alg3.textSetup(); 
         alg3.posx=alg3.alg3x;
@@ -160,62 +160,62 @@ public class Algorithim {
         alg3.printOut();
 
 
-        GeneralAlgorithim alg2 = new GeneralAlgorithim(17, 8, -1);
-        alg2.pickSide(10,alg3.alg2x);
-        alg2.preDir = 0;
-        alg2.startPosition(alg3.startx,alg3.starty);
-        alg2.alg1Position(alg3.alg1x,alg3.alg1y);
-        alg2.alg2Position(alg3.alg2x,alg3.alg2y);
-        alg2.alg3Position(alg3.alg3x,alg3.alg3y);
-        alg2.relic1Position(alg3.r1x,alg3.r1y);
-        alg2.relic3Position(alg3.r3x,alg3.r3y);
-        alg2.APosition(alg3.ax,alg3.ay);
+        GeneralAlgorithim starAlg = new GeneralAlgorithim(17, 8, -1);
+        starAlg.pickSide(10,alg3.alg2x);
+        starAlg.preDir = 0;
+        starAlg.startPosition(alg3.startx,alg3.starty);
+        starAlg.alg1Position(alg3.alg1x,alg3.alg1y);
+        starAlg.alg2Position(alg3.alg2x,alg3.alg2y);
+        starAlg.alg3Position(alg3.alg3x,alg3.alg3y);
+        starAlg.relic1Position(alg3.r1x,alg3.r1y);
+        starAlg.relic3Position(alg3.r3x,alg3.r3y);
+        starAlg.APosition(alg3.ax,alg3.ay);
        
         
-        if(alg2.side==1){
-            alg2.joinAlg(alg3.booleanMap, 0, 0);
-            alg2.startSetup(false,false);
-            alg2.setIfRepeatingWeights(false,true,false,true);
-            alg2.setDirectionWeights(0,3,3,3);
+        if(starAlg.side==1){
+            starAlg.joinAlg(alg3.booleanMap, 0, 0);
+            starAlg.startSetup(false,false);
+            starAlg.setIfRepeatingWeights(false,true,false,true);
+            starAlg.setDirectionWeights(0,3,3,3);
             
 
-            System.out.println(alg2.startx+4);
-            for(int i = alg2.startx+4; i>alg2.alg2x;i--){
-                alg2.booleanMap[alg2.alg2y][i]=true;
+            System.out.println(starAlg.startx+4);
+            for(int i = starAlg.startx+4; i>starAlg.alg2x;i--){
+                starAlg.booleanMap[starAlg.alg2y][i]=true;
             }
 
-            alg2.posx=alg2.startx+4;
-            alg2.setMovementRestrictions(-1,-1,alg2.starty+1,alg2.posx);
+            starAlg.posx=starAlg.startx+4;
+            starAlg.setMovementRestrictions(-1,-1,starAlg.starty+1,starAlg.posx);
         }else{
-            alg2.joinAlg(alg3.booleanMap, 0, 4);
-            alg2.startSetup(false,false);
-            alg2.setIfRepeatingWeights(false,true,false,true);
-            alg2.setDirectionWeights(0,3,3,3);
+            starAlg.joinAlg(alg3.booleanMap, 0, 4);
+            starAlg.startSetup(false,false);
+            starAlg.setIfRepeatingWeights(false,true,false,true);
+            starAlg.setDirectionWeights(0,3,3,3);
             
 
-            System.out.println(alg2.startx-4);
-            for(int i = alg2.startx-4; i<alg2.alg2x;i++){
-                alg2.booleanMap[alg2.alg2y][i]=true;
+            System.out.println(starAlg.startx-4);
+            for(int i = starAlg.startx-4; i<starAlg.alg2x;i++){
+                starAlg.booleanMap[starAlg.alg2y][i]=true;
             }
 
-            alg2.posx=alg2.startx-4;
-            alg2.setMovementRestrictions(-1,alg2.posx,alg2.starty+1,-1);
+            starAlg.posx=starAlg.startx-4;
+            starAlg.setMovementRestrictions(-1,starAlg.posx,starAlg.starty+1,-1);
         }
        
-        alg2.booleanToString("O ");
-        alg2.printOut();
-        alg2.setYEndpoint(alg2.starty+1);
-        alg2.run(alg2.alg2y,alg2.posx);
-        alg2.relic2Position(alg2.posx,alg2.posy);
-        alg2.booleanToString("O ");
-        alg2.printOut();
+        starAlg.booleanToString("O ");
+        //alg2.printOut();
+        starAlg.setYEndpoint(starAlg.starty+1);
+        starAlg.run(starAlg.alg2y,starAlg.posx);
+        starAlg.relic2Position(starAlg.posx,starAlg.posy);
+        starAlg.booleanToString("O ");
+        starAlg.printOut();
 
         GeneralAlgorithim dotAlg3 = new GeneralAlgorithim(13, 8, -1);
         dotAlg3.plainTextSetup();
         if(alg3.side==1){
-            dotAlg3.joinAlg(alg1.preBooleanMap, 0, 1);
+            dotAlg3.joinAlg(triAlg.preBooleanMap, 0, 1);
         }else{
-            dotAlg3.joinAlg(alg1.preBooleanMap, 0, 2);
+            dotAlg3.joinAlg(triAlg.preBooleanMap, 0, 2);
         }
         dotAlg3.startPosition(alg3.startx,alg3.starty);
         dotAlg3.alg1Position(alg3.alg1x,alg3.alg1y);
@@ -230,69 +230,69 @@ public class Algorithim {
         dotAlg3.booleanToString("^ ", alg3.preBooleanMap);
         dotAlg3.booleanToString(". ");
         
-        dotAlg3.printOut();
+        //dotAlg3.printOut();
 
         //yes its out of order
         //originally 3 would of been generated later but there is a single 1/9000 edge case which made it so it has to generate before*
         GeneralAlgorithim triAlg2 = new GeneralAlgorithim(17, 8, -1);
         triAlg2.plainTextSetup();
-        if(alg2.side==1){
+        if(starAlg.side==1){
             triAlg2.joinAlg(alg3.preBooleanMap, 0, 0);
         }else{
             triAlg2.joinAlg(alg3.preBooleanMap, 0, 4);
         }
-        triAlg2.startPosition(alg2.startx,alg2.starty);
-        triAlg2.alg1Position(alg2.alg1x,alg2.alg1y);
-        triAlg2.alg2Position(alg2.alg2x,alg2.alg2y);
-        triAlg2.alg3Position(alg2.alg3x,alg2.alg3y);
-        triAlg2.relic1Position(alg2.r1x,alg2.r1y);
-        triAlg2.relic2Position(alg2.r2x,alg2.r2y);
-        triAlg2.relic3Position(alg2.r3x,alg2.r3y);
-        triAlg2.APosition(alg2.ax,alg2.ay);
+        triAlg2.startPosition(starAlg.startx,starAlg.starty);
+        triAlg2.alg1Position(starAlg.alg1x,starAlg.alg1y);
+        triAlg2.alg2Position(starAlg.alg2x,starAlg.alg2y);
+        triAlg2.alg3Position(starAlg.alg3x,starAlg.alg3y);
+        triAlg2.relic1Position(starAlg.r1x,starAlg.r1y);
+        triAlg2.relic2Position(starAlg.r2x,starAlg.r2y);
+        triAlg2.relic3Position(starAlg.r3x,starAlg.r3y);
+        triAlg2.APosition(starAlg.ax,starAlg.ay);
 
-        triAlg2.booleanToString("* ", alg2.booleanMap);
-        triAlg2.booleanToString("# ", alg2.preBooleanMap);
+        triAlg2.booleanToString("* ", starAlg.booleanMap);
+        triAlg2.booleanToString("# ", starAlg.preBooleanMap);
         triAlg2.booleanToString("^ ");
         
-        triAlg2.printOut();
+        //triAlg2.printOut();
 
         //yes its out of order
         //originally 3 would of been generated later but there is a single 1/9000 edge case which made it so it has to generate before*
         GeneralAlgorithim dotAlg2 = new GeneralAlgorithim(17, 8, -1);
         dotAlg2.plainTextSetup();
-        if(alg2.side==1){
+        if(starAlg.side==1){
             dotAlg2.joinAlg(dotAlg3.booleanMap, 0, 0);
         }else{
             dotAlg2.joinAlg(dotAlg3.preBooleanMap, 0, 4);
         }
-        dotAlg2.startPosition(alg2.startx,alg2.starty);
-        dotAlg2.alg1Position(alg2.alg1x,alg2.alg1y);
-        dotAlg2.alg2Position(alg2.alg2x,alg2.alg2y);
-        dotAlg2.alg3Position(alg2.alg3x,alg2.alg3y);
-        dotAlg2.relic1Position(alg2.r1x,alg2.r1y);
-        dotAlg2.relic2Position(alg2.r2x,alg2.r2y);
-        dotAlg2.relic3Position(alg2.r3x,alg2.r3y);
-        dotAlg2.APosition(alg2.ax,alg2.ay);
+        dotAlg2.startPosition(starAlg.startx,starAlg.starty);
+        dotAlg2.alg1Position(starAlg.alg1x,starAlg.alg1y);
+        dotAlg2.alg2Position(starAlg.alg2x,starAlg.alg2y);
+        dotAlg2.alg3Position(starAlg.alg3x,starAlg.alg3y);
+        dotAlg2.relic1Position(starAlg.r1x,starAlg.r1y);
+        dotAlg2.relic2Position(starAlg.r2x,starAlg.r2y);
+        dotAlg2.relic3Position(starAlg.r3x,starAlg.r3y);
+        dotAlg2.APosition(starAlg.ax,starAlg.ay);
 
-        dotAlg2.booleanToString("* ", alg2.booleanMap);
-        dotAlg2.booleanToString("# ", alg2.preBooleanMap);
+        dotAlg2.booleanToString("* ", starAlg.booleanMap);
+        dotAlg2.booleanToString("# ", starAlg.preBooleanMap);
         dotAlg2.booleanToString("^ ", triAlg2.booleanMap);
         dotAlg2.booleanToString(". ");
         
-        dotAlg2.printOut();
+        //dotAlg2.printOut();
         
 
         GeneralAlgorithim balg = new GeneralAlgorithim(19, 15, -1);
-        balg.startPosition(alg2.startx,alg2.starty);
-        balg.alg1Position(alg2.alg1x,alg2.alg1y);
-        balg.alg2Position(alg2.alg2x,alg2.alg2y);
-        balg.alg3Position(alg2.alg3x,alg2.alg3y);
-        balg.relic1Position(alg2.r1x,alg2.r1y);
-        balg.relic2Position(alg2.r2x,alg2.r2y);
-        balg.relic3Position(alg2.r3x,alg2.r3y);
-        balg.APosition(alg2.ax,alg2.ay);
+        balg.startPosition(starAlg.startx,starAlg.starty);
+        balg.alg1Position(starAlg.alg1x,starAlg.alg1y);
+        balg.alg2Position(starAlg.alg2x,starAlg.alg2y);
+        balg.alg3Position(starAlg.alg3x,starAlg.alg3y);
+        balg.relic1Position(starAlg.r1x,starAlg.r1y);
+        balg.relic2Position(starAlg.r2x,starAlg.r2y);
+        balg.relic3Position(starAlg.r3x,starAlg.r3y);
+        balg.APosition(starAlg.ax,starAlg.ay);
         
-        balg.joinAlg(alg2.booleanMap, 7, 1);
+        balg.joinAlg(starAlg.booleanMap, 7, 1);
         balg.textSetup();
         balg.booleanToString("O ");
         balg.printOut();
@@ -305,7 +305,7 @@ public class Algorithim {
 
 
         GeneralAlgorithim alg4 = new GeneralAlgorithim(19, 15, -1);
-        alg4.side=alg1.side;
+        alg4.side=triAlg.side;
         alg4.preDir = 2;
         alg4.startPosition(balg.startx,balg.starty);
         alg4.alg1Position(balg.alg1x,balg.alg1y);
@@ -345,15 +345,15 @@ public class Algorithim {
         }
        
         alg4.booleanToString("O ");
-        alg4.printOut();
         
         alg4.run(alg4.posy,alg4.posx);
+        
         alg4.relic4Position(alg4.posx,alg4.posy);
         alg4.booleanToString("O ");
         alg4.printOut();
 
         GeneralAlgorithim alg5 = new GeneralAlgorithim(19, 15, -1);
-        alg5.side=alg2.side;
+        alg5.side=starAlg.side;
         alg5.preDir = 2;
         alg5.startPosition(balg.startx,balg.starty);
         alg5.alg1Position(balg.alg1x,balg.alg1y);
@@ -365,7 +365,7 @@ public class Algorithim {
         alg5.relic4Position(alg4.r4x,alg4.r4y);
         alg5.APosition(balg.ax,balg.ay);
         alg5.BPosition(balg.bx,balg.by);
-        alg5.joinAlg(balg.booleanMap, 0, 0);
+        alg5.joinAlg(alg4.booleanMap, 0, 0);
         alg5.startSetup(false,false);
         alg5.setIfRepeatingWeights(true,false,false,false);
         alg5.posy=balg.by-1;
@@ -386,7 +386,6 @@ public class Algorithim {
         }
        
         alg5.booleanToString("O ");
-        alg5.printOut();
         
         alg5.run(alg5.posy,alg5.posx);
         alg5.relic5Position(alg5.posx,alg5.posy);
@@ -395,18 +394,20 @@ public class Algorithim {
 
         GeneralAlgorithim endAlg = new GeneralAlgorithim(19, 15, -1);
         endAlg.startPosition(balg.startx,balg.starty);
-        endAlg.side=alg1.side;
+        endAlg.side=triAlg.side;
         endAlg.posy=balg.by-2;
         endAlg.posx=balg.bx;
+        endAlg.joinAlg(alg5.booleanMap, 0, 0);
         endAlg.booleanMap[endAlg.posy][endAlg.posx]=true;
         if(endAlg.side==1){
             endAlg.posx++;
         }else endAlg.posx--;
 
-        for(int i =endAlg.posy; i>0;i-- ){
+        for(int i =endAlg.posy; i>=0;i-- ){
             endAlg.posy=i;
             endAlg.booleanMap[endAlg.posy][endAlg.posx]=true;
         }
+
         endAlg.textSetup();
         endAlg.booleanToString("e ");
         endAlg.printOut();
@@ -441,12 +442,12 @@ public class Algorithim {
         starAlgF.booleanToString("b ", balg.booleanMap);
         starAlgF.booleanToString("* ");
         
-        starAlgF.printOut();
+        //starAlgF.printOut();
 
         GeneralAlgorithim hashAlgF = new GeneralAlgorithim(19, 15, -1);
         hashAlgF.plainTextSetup();
         
-        hashAlgF.joinAlg(alg2.preBooleanMap, 7, 1);
+        hashAlgF.joinAlg(starAlg.preBooleanMap, 7, 1);
         
         hashAlgF.startPosition(balg.startx,balg.starty);
         hashAlgF.alg1Position(balg.alg1x,balg.alg1y);
@@ -462,7 +463,7 @@ public class Algorithim {
         hashAlgF.booleanToString("* ", starAlgF.booleanMap);
         hashAlgF.booleanToString("# ");
         
-        hashAlgF.printOut();
+        //hashAlgF.printOut();
 
         GeneralAlgorithim triAlgF = new GeneralAlgorithim(19, 15, -1);
         triAlgF.plainTextSetup();
@@ -484,7 +485,25 @@ public class Algorithim {
         triAlgF.booleanToString("# ", hashAlgF.booleanMap);
         triAlgF.booleanToString("^ ");
         
-        triAlgF.printOut();
+        //triAlgF.printOut();
+
+        GeneralAlgorithim endAlgIsolated = new GeneralAlgorithim(19, 15, -1);
+
+        endAlgIsolated.plainTextSetup();
+        endAlgIsolated.joinAlg(endAlg.booleanMap, 0, 0);
+        endAlgIsolated.startPosition(balg.startx,balg.starty);
+        endAlgIsolated.alg1Position(balg.alg1x,balg.alg1y);
+        endAlgIsolated.alg2Position(balg.alg2x,balg.alg2y);
+        endAlgIsolated.alg3Position(balg.alg3x,balg.alg3y);
+        endAlgIsolated.relic1Position(balg.r1x,balg.r1y);
+        endAlgIsolated.relic2Position(balg.r2x,balg.r2y);
+        endAlgIsolated.relic3Position(balg.r3x,balg.r3y);
+        endAlgIsolated.APosition(balg.ax,balg.ay);
+        endAlgIsolated.BPosition(balg.bx,balg.by);
+        endAlgIsolated.relic4Position(alg4.r4x,alg4.r4y);
+        endAlgIsolated.relic5Position(alg5.r5x,alg5.r5y);
+
+        
 
         GeneralAlgorithim dotAlgF = new GeneralAlgorithim(19, 15, -1);
         dotAlgF.plainTextSetup();
@@ -511,39 +530,37 @@ public class Algorithim {
 
         
         
+        //endAlgIsolated.printBooleanOnly("X ");
+        endAlgIsolated.isolateMap(alg5.booleanMap);
+        //endAlgIsolated.printBooleanOnly("+ ");
         
-        
-        //starAlgF.printBooleanOnly("X ");
-        //balg.printBooleanOnly("X ");
-        //alg4.printBooleanOnly("X ");
         //alg5.printBooleanOnly("X ");
-        alg5.printBooleanOnly("X ");
-        alg5.isolateMap(balg.booleanMap);
-        alg5.printBooleanOnly("+ ");
+        alg5.isolateMap(alg4.booleanMap);
+        //alg5.printBooleanOnly("+ ");
 
-        alg4.printBooleanOnly("X ");
+        //alg4.printBooleanOnly("X ");
         alg4.isolateMap(balg.booleanMap);
-        alg4.printBooleanOnly("L ");
+        //alg4.printBooleanOnly("L ");
 
-        balg.printBooleanOnly("X ");
+        //balg.printBooleanOnly("X ");
         balg.isolateMap(starAlgF.booleanMap);
-        balg.printBooleanOnly("B ");
+        //balg.printBooleanOnly("B ");
 
         starAlgF.booleanMap[starAlgF.alg2y][starAlgF.alg2x]=false;
 
-        starAlgF.printBooleanOnly("X ");
+        //starAlgF.printBooleanOnly("X ");
         starAlgF.isolateMap(hashAlgF.booleanMap);
-        starAlgF.printBooleanOnly("* ");
+        //starAlgF.printBooleanOnly("* ");
 
-        hashAlgF.printBooleanOnly("X ");
+        //hashAlgF.printBooleanOnly("X ");
         hashAlgF.isolateMap(triAlgF.booleanMap);
-        hashAlgF.printBooleanOnly("# ");
+        //hashAlgF.printBooleanOnly("# ");
 
-        triAlgF.printBooleanOnly("X ");
+        //triAlgF.printBooleanOnly("X ");
         triAlgF.isolateMap(dotAlgF.booleanMap);
-        triAlgF.printBooleanOnly("^ ");
+        //triAlgF.printBooleanOnly("^ ");
 
-        dotAlgF.printBooleanOnly("X ");
+        //dotAlgF.printBooleanOnly("X ");
 
         triAlgF.booleanMap[triAlgF.r1y][triAlgF.r1x]=false;
         starAlgF.booleanMap[starAlgF.r2y][starAlgF.r2x]=false;
@@ -570,12 +587,103 @@ public class Algorithim {
         dotAlgF.booleanToString("^ ", triAlgF.booleanMap);
         dotAlgF.booleanToString(". ");
         dotAlgF.booleanToString("+ ", alg5.booleanMap);
-        dotAlgF.booleanToString("e ", endAlg.booleanMap);
+        dotAlgF.booleanToString("e ", endAlgIsolated.booleanMap);
 
-        
+        endAlg.printBooleanOnly("X ");
         dotAlgF.printOut();
 
+        //time for pillars!!!!
+
+        GeneralAlgorithim pillarAlg = new GeneralAlgorithim(19, 15, -1);
         
+        pillarAlg.startPosition(balg.startx,balg.starty);
+        pillarAlg.alg1Position(balg.alg1x,balg.alg1y);
+        pillarAlg.alg2Position(balg.alg2x,balg.alg2y);
+        pillarAlg.alg3Position(balg.alg3x,balg.alg3y);
+        pillarAlg.relic1Position(balg.r1x,balg.r1y);
+        pillarAlg.relic2Position(balg.r2x,balg.r2y);
+        pillarAlg.relic3Position(balg.r3x,balg.r3y);
+        pillarAlg.APosition(balg.ax,balg.ay);
+        pillarAlg.BPosition(balg.bx,balg.by);
+        pillarAlg.relic4Position(alg4.r4x,alg4.r4y);
+        pillarAlg.relic5Position(alg5.r5x,alg5.r5y);
+        pillarAlg.plainTextSetup();
+
+        pillarAlg.booleanToString("~ ", alg4.booleanMap);
+        pillarAlg.booleanToString("b ", balg.booleanMap);
+        pillarAlg.booleanToString("* ", starAlgF.booleanMap);
+        pillarAlg.booleanToString("# ", hashAlgF.booleanMap);
+        pillarAlg.booleanToString("^ ", triAlgF.booleanMap);
+        pillarAlg.booleanToString(". ", dotAlgF.booleanMap);
+        pillarAlg.booleanToString("@ ", alg5.booleanMap);
+        pillarAlg.booleanToString("e ", endAlgIsolated.booleanMap);
+
+        for(int i = pillarAlg.r4y+1; !endAlg.booleanMap[i][pillarAlg.r4x];i++){
+            pillarAlg.booleanMap[i][pillarAlg.r4x]=true;
+            }
+        
+        if(triAlg.side==1){
+            for(int j = 0; j<3;j++){
+            for(int i = pillarAlg.r4y+1; i!=pillarAlg.starty+1;i++){
+            pillarAlg.booleanMap[i][pillarAlg.r4x-j]=true;
+            }
+        }
+            for(int i = pillarAlg.bx;i !=pillarAlg.r4x;i++){
+                for(int j = pillarAlg.by; !endAlg.booleanMap[j][i];j--){
+                    pillarAlg.booleanMap[j][i]=true;
+                }
+            }
+        }else{
+            for(int j = 0; j<3;j++){
+            for(int i = pillarAlg.r4y+1; i!=pillarAlg.starty+1;i++){
+            pillarAlg.booleanMap[i][pillarAlg.r4x+j]=true;
+            }
+        }
+            for(int i = pillarAlg.bx;i !=pillarAlg.r4x;i--){
+                for(int j = pillarAlg.by; !endAlg.booleanMap[j][i];j--){
+                    pillarAlg.booleanMap[j][i]=true;
+                }
+            }
+        }
+        for(int i = 0; !endAlg.booleanMap[i][pillarAlg.bx];i++){
+            pillarAlg.booleanMap[i][pillarAlg.bx]=true;
+        }
+        pillarAlg.booleanMap[pillarAlg.by-1][pillarAlg.bx+alg4.side]=true;
+        for(int i = 0; !endAlg.booleanMap[i][pillarAlg.bx+2*alg4.side];i++){
+            pillarAlg.booleanMap[i][pillarAlg.bx+2*alg4.side]=true;
+        }
+
+    //j!=pillarAlg.r2x+2*starAlg.side
+        for(int j = pillarAlg.bx+starAlg.side; j!=-1&&j!=pillarAlg.mapWidth; j+= starAlg.side){
+            for(int i = 0; !endAlg.booleanMap[i][j]&&i!=pillarAlg.starty+1;i++){
+                pillarAlg.booleanMap[i][j]=true;
+            }
+        }
+
+        pillarAlg.booleanToString("| ");
+        pillarAlg.printOut();
+        pillarAlg.isolateMap(alg4.booleanMap);
+        pillarAlg.printOut();
+
+        GeneralAlgorithim emptyAlg = new GeneralAlgorithim(19, 15, -1);
+        emptyAlg.startPosition(balg.startx,balg.starty);
+        emptyAlg.relic4Position(alg4.r4x,alg4.r4y);
+        emptyAlg.plainTextSetup();
+
+        for(int j = pillarAlg.bx+3*triAlg.side; j!=-1&&j!=pillarAlg.mapWidth; j+= triAlg.side){
+            for(int i = 0; !endAlg.booleanMap[i][j]&&i!=pillarAlg.starty+1;i++){
+                emptyAlg.booleanMap[i][j]=true;
+            }
+        }
+        pillarAlg.booleanToString("  ", emptyAlg.booleanMap);
+        pillarAlg.isolateMap(emptyAlg.booleanMap);
+        pillarAlg.booleanToString("~ ", alg4.booleanMap);
+        pillarAlg.printOut();
+        
+
+        
+
+
     }
 }
 

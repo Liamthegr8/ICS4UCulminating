@@ -478,6 +478,19 @@ public class GeneralAlgorithim {
                 }
                 }
             }
+            //edge case ocasionaly a spiral can form if alg2 but alg 2 hasnt touched middle allowing 1 to trase up and spiral left
+            if(Alg2&&posy==1){
+                if(booleanMap[1][3]){
+                    if(booleanMap[0][2]&&booleanMap[2][2]&&posx==1){
+                        right=0;
+                        System.out.println("day saved by the other anti-spiral of DOOM endevor :3");
+                    }
+                    if(booleanMap[0][4]&&booleanMap[2][4]&&posx==5){
+                        left=0;
+                        System.out.println("day saved by the other anti-spiral of DOOM endevor :3");
+                    }
+                }
+            }
             
 
 
@@ -605,8 +618,8 @@ public class GeneralAlgorithim {
         if(Alg3){
             System.out.println("alg3");
         }
-        booleanToString("O ");
-        printOut();
+        //booleanToString("O ");
+        //printOut();
         
 
 
@@ -712,7 +725,7 @@ public class GeneralAlgorithim {
             testOut[i][startx]="X " ;
         }
         for(int i =0; i<mapWidth; i++){
-            testOut[starty-3][i]="* " ;
+            testOut[starty-3][i]="- " ;
         }
         for(int i =(starty+1); i<mapHeight; i++){
             for(int j =0; j<mapWidth; j++){
@@ -721,7 +734,7 @@ public class GeneralAlgorithim {
         }
         for(int i =(starty+1); i<mapHeight; i++){
             
-            testOut[i][startx]="# " ;
+            testOut[i][startx]="+ " ;
 
         }
         for(int i =0; i<(starty+1); i++){
@@ -730,7 +743,7 @@ public class GeneralAlgorithim {
             testOut[i][startx+3]="^ " ;
         }
         for(int i =0; i<mapWidth; i++){
-            testOut[starty+3][i]="# " ;
+            testOut[starty+3][i]="~ " ;
         }
         
     }
