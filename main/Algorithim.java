@@ -1,5 +1,6 @@
 public class Algorithim {
-    public static void main(String[] args) {
+    int[][] directionMap;
+    Algorithim() {
         //DotAlgorithim dotAlg = new DotAlgorithim();
         //boolean ifrun=false;
         int x=7;
@@ -707,6 +708,7 @@ public class Algorithim {
         direction.printOutDir();
 
         direction.findDirection(starAlgF.booleanMap,true);
+        direction.printOutDir();
         direction.findDirection(dotAlgFB.alg2y ,dotAlgFB.alg2x ,starAlgF.booleanMap ,dotAlgFB.booleanMap ,false);
         direction.merge(starAlgF.booleanMap,dotAlgFB.alg2y,dotAlgFB.alg2x,true);
         direction.printOutDir();
@@ -776,8 +778,12 @@ public class Algorithim {
             direction.roomDir[hashAlgF.by-1][hashAlgF.bx]=3;
             direction.roomDir[hashAlgF.by-2][hashAlgF.bx]=10;
         }
+        direction.findDirection(7, 9,dotAlgFB.booleanMap,starAlgF.booleanMap, false);
+        //direction.roomDir[10][9]=7;
         
         direction.printOutDir();
+
+        directionMap=direction.roomDir;
         
     }
 }

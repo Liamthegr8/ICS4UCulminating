@@ -137,4 +137,27 @@ public class FileHandle{
         
     }
 
+    public DirectionKeyStructure findDirectionStructure() {
+        try {
+            room = new File("main\\assets\\roomData.txt");
+            readStream = new FileReader(room);
+	        in = new BufferedReader(readStream);
+            DirectionKeyStructure originalDirectionKeys = new DirectionKeyStructure();
+            while((line = in.readLine()) != null &&!line.contentEquals("-")){
+               String name = line.substring(line.indexOf('(')+1,line.indexOf(')'));
+               int dirKey = Integer.parseInt(line.substring(0,line.indexOf('|')));
+               String roomTypeString = line.substring(line.indexOf('|')+1,line.indexOf('('));
+                originalDirectionKeys.add(dirKey,name,roomTypeString);
+            }
+            in.close();
+            readStream.close();
+            return originalDirectionKeys;
+        }
+        catch(IOException e) {
+			System.out.println("Error accessing file");
+			System.err.println("IOException: "+ e.getMessage());
+		}
+        return null;
+    }
+
 }

@@ -99,6 +99,7 @@ import java.io.File;
          *resets main game variables upon e.g. death or by command, also allows for map to regenerate
         */
         void resetGame() {
+            boolean testingMap = false;
             wPressed = false;
             aPressed = false;
             sPressed = false;
@@ -118,14 +119,24 @@ import java.io.File;
             inMenu = false;
             camX = 0;
             camY = 0;
-            player = new Player(0,500,18,30); //resets to constructors
-
+            
+            //player = new Player(0,0,18,30);
+            if(testingMap){
+            //player = new Player(0,500,18,30); //resets to constructors
+            }else{
+             //player = new Player(1200*9 + 600,500*10+250,18,30);
+             player = new Player(11400 ,8670,18,30);
+            }
             //Tanush Mock Collision Setup
             map = new Map();
             map.setMapTileColor(0, Color.BLUE);
             map.setMapTileColor(1, Color.RED);
 
             FileHandle x = new FileHandle();
+            DirectionKeyStructure directionMap = new DirectionKeyStructure();
+            directionMap = x.findDirectionStructure();
+            if(testingMap){
+            Room algTest = x.findRoom(directionMap.generate(7,0));
             Room room1 = x.findRoom("RoomTest1");
             //Room room2 = new Room("Room2");
             Room room2 = x.findRoom("RoomTest2");
@@ -135,6 +146,7 @@ import java.io.File;
             Room Runway= x.findRoom("Runway");
             Room winning = x.findRoom("Win");
             Room test = x.findRoom("name");
+            Room straight =x.findRoom("straight");
 
             //create room to test
             //room2.setEnterRoomTransitionColor(0, Color.RED);
@@ -145,6 +157,7 @@ import java.io.File;
 
             //room1.addTileAt(new MovingPlatformTile(250, -150, 400, -300, 100, 50, 1));
             map.addRoomAt(test, 0, 0);
+            map.addRoomAt(algTest, 1, 0);
             map.addRoomAt(room1, 0, 1);
             map.addRoomAt(room2, 1, 1);
             map.addRoomAt(room3, 2, 1);
@@ -156,7 +169,28 @@ import java.io.File;
             map.addRoomAt(Runway, 5, 0);
             map.addRoomAt(Runway, 2, 0);
             map.addRoomAt(winning,6,1);
+            map.addRoomAt(straight, 0, 2);
+            map.addRoomAt(straight, 1, 3);
+            map.addRoomAt(straight, 2, 4);
+            map.addRoomAt(straight, 3, 5);
+            map.addRoomAt(straight,4, 6);
+            map.addRoomAt(straight,5, 7);
+            map.addRoomAt(straight,6, 8);
+            map.addRoomAt(straight, 7, 9);
+            map.addRoomAt(straight, 8, 10);
+            map.addRoomAt(straight, 9, 10);
             winning.addTileAt(new RelicTile(200,250,50,50,1,1));
+            }else{
+                Algorithim alg= new Algorithim();
+                for(int i =0; i<alg.directionMap.length; i++){
+                     for (int j =0; j<alg.directionMap[i].length; j++){
+                        map.addRoomAt(x.findRoom(directionMap.generate(alg.directionMap[i][j],0)),j,i);
+                     }
+                }
+                Room straightSpawn =x.findRoom("straightSpawn");
+                map.addRoomAt(straightSpawn, 9, 10);
+         }
+        
         }
 
         // handle keyboard input
@@ -344,7 +378,7 @@ import java.io.File;
             //player tick
             player.tick(map);
             //System.out.printf("Rels: %b,%b,%b,%b,%b", player.abilities[0],player.abilities[1],player.abilities[2],player.abilities[3],player.abilities[4]);
-            System.out.println();
+            //System.out.println();
             //check death
             if (player.isDead) {
                 //resetGame();

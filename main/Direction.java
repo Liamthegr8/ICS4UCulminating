@@ -90,6 +90,9 @@ public class Direction {
                 }
             }
         }
+        if(x==9&&y==7){
+            dir= directionBooleanToInt (true, right, down, left, mergeT, 0,  0);
+        }
 
 
         return dir;
