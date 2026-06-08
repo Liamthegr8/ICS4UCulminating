@@ -27,7 +27,9 @@ import java.io.File;
         boolean antiHoldJump =true;
         boolean panelActive;
         boolean inMenu;
+        boolean pauseMenuActive = false;
         String[] tempLeaderboard;
+        int[][] dirMap;
 
         //debugging (labels for various statistics)
         int windowMouseX = 0;
@@ -92,7 +94,7 @@ import java.io.File;
             this.addMouseMotionListener(new MouseMotionHandler());
             //this.addMouseListener(new MouseMotionHandler());
 
-            resetGame();
+        
         }
 
         /**
@@ -125,7 +127,7 @@ import java.io.File;
             //player = new Player(0,500,18,30); //resets to constructors
             }else{
              //player = new Player(1200*9 + 600,500*10+250,18,30);
-             player = new Player(11400 ,8670,18,18);
+             player = new Player(11400 ,8670,18,30);
             }
             //Tanush Mock Collision Setup
             map = new Map();
@@ -180,13 +182,16 @@ import java.io.File;
             map.addRoomAt(straight, 8, 10);
             map.addRoomAt(straight, 9, 10);
             winning.addTileAt(new RelicTile(200,250,50,50,1,1));
-            }else{
-                Algorithim alg= new Algorithim();
+            }
+            else {
+                Algorithim alg = new Algorithim();
                 for(int i =0; i<alg.directionMap.length; i++){
                      for (int j =0; j<alg.directionMap[i].length; j++){
                         map.addRoomAt(x.findRoom(directionMap.generate(alg.directionMap[i][j],0)),j,i);
                      }
                 }
+                dirMap = new int[15][19];
+                dirMap = alg.directionMap;
                 Room straightSpawn =x.findRoom("straightSpawn");
                 map.addRoomAt(straightSpawn, 9, 10);
          }
@@ -339,7 +344,9 @@ import java.io.File;
                 resetGame();
             }
             if (lPressed) {
-                panelActive=false;
+                pauseMenuActive = true;
+                panelActive = false;
+                lPressed = false;
             }
             if (dPressed) {
                 if(player.isGrounded){
@@ -534,7 +541,7 @@ import java.io.File;
             } else {
                 g2.setColor(Color.RED);
             }
-            g2.fillOval(player.x+camX, player.y+camY, player.width, player.height);
+            g2.fillRect(player.x+camX, player.y+camY, player.width, player.height);
 
             
         }

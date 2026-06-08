@@ -15,9 +15,11 @@ public class Game extends JFrame implements ActionListener  {
     MainMenuPanel menuPanel;
     GamePanel gamePanel;
     LeaderboardPanel leaderboardPanel;
+    PausePanel pausePanel;
     String[] leaderboardScores;
     Timer tick;
     int tickDelay = 10;
+    boolean lPressed;
 
     public static void main(String[] args) {
        SwingUtilities.invokeLater(new Runnable() {
@@ -86,6 +88,7 @@ public class Game extends JFrame implements ActionListener  {
         gamePanel = new GamePanel(getWidth(), getHeight(), leaderboardScores);
         menuPanel = new MainMenuPanel(getWidth(), getHeight());
         leaderboardPanel = new LeaderboardPanel(getWidth(), getHeight(), leaderboardScores); 
+        pausePanel = new PausePanel(getWidth(), getHeight(), gamePanel.map);
 
         switchTo(menuPanel);
         
@@ -106,7 +109,7 @@ public class Game extends JFrame implements ActionListener  {
                 switchTo(leaderboardPanel);
             }
         } else if (activePanel == gamePanel) {
-            if (!gamePanel.panelActive) {
+            if (!gamePanel.panelActive && !gamePanel.pauseMenuActive) {
                 gamePanel.tick.stop();
                 menuPanel.reset();
                 switchTo(menuPanel);
@@ -116,6 +119,41 @@ public class Game extends JFrame implements ActionListener  {
                 leaderboardPanel.tick.stop();
                 menuPanel.reset();
                 switchTo(menuPanel);
+            }
+        }
+        if (activePanel == gamePanel) {
+            if (gamePanel.pauseMenuActive) {
+                System.out.println("Switching to pause menu");
+                gamePanel.tick.stop();
+                pausePanel.reset();
+                pausePanel.map = gamePanel.map;
+                pausePanel.dirMap = gamePanel.dirMap;
+                pausePanel.playerLocation = gamePanel.player.getPlayerLocation(gamePanel.map);
+                switchTo(pausePanel);
+            }
+        }
+        else if (activePanel == pausePanel) {
+            if (gamePanel.pauseMenuActive && pausePanel.menuOption.equals("resume")) {
+                gamePanel.tick.start();
+                gamePanel.wPressed = false;
+                gamePanel.aPressed = false;
+                gamePanel.sPressed = false;
+                gamePanel.dPressed = false;
+                gamePanel.uPressed = false;
+                gamePanel.iPressed = false;
+                gamePanel.oPressed = false;
+                gamePanel.jPressed = false;
+                gamePanel.kPressed = false;
+                gamePanel.lPressed = false;
+                gamePanel.qPressed = false;
+                switchTo(gamePanel);
+                gamePanel.pauseMenuActive = false;
+                gamePanel.panelActive = true;
+            }
+            if (gamePanel.pauseMenuActive && pausePanel.menuOption.equals("menu")) {
+                menuPanel.reset();
+                switchTo(menuPanel);
+                gamePanel.pauseMenuActive = false;
             }
         }
     }
@@ -136,4 +174,23 @@ public class Game extends JFrame implements ActionListener  {
         // SwingUtilities.invokeLater(() -> activePanel.requestFocusInWindow());
     }
 
+private class KeyHandler extends KeyAdapter {
+    /**
+             * handle key presses
+             * @param e the key event triggered
+             */
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_L) {
+                    lPressed = true;
+                }
+            }
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_L) {
+                    lPressed = false;
+                }
+            }
+}    
 }
+
+

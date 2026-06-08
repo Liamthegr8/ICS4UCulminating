@@ -544,7 +544,8 @@ public class GeneralAlgorithim {
                     preDir=3;
                     dirReps=1;
                 }
-            }else{System.out.println("error");}
+            }else{System.out.println("error");
+            }
 
             booleanMap[posy][posx]=true;
             booleanToString("O ");
@@ -704,7 +705,9 @@ public class GeneralAlgorithim {
                 if(booleanMap[i][j]){
                     System.out.print(s);
                 }
-                else System.out.print("_ ");
+                else {
+                    System.out.print("_ ");
+                }
                 
             }
             System.out.println();
