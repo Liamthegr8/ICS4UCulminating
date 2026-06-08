@@ -18,7 +18,7 @@ public class BedrockTile extends PlatformTile {
     //  */
     public int[] returnParams() {
         int[] params = new int[6];
-        params[0] = 0;
+        params[0] = 06;
         params[1] = x;
         params[2] = y;
         params[3] = width;
