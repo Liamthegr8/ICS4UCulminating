@@ -98,6 +98,9 @@ public class FileHandle{
                     case 6:
                                 room.addTileAt(new BedrockTile(tileParameter(tileParam, 1), tileParameter(tileParam, 2), tileParameter(tileParam, 3), tileParameter(tileParam, 4), tileParameter(tileParam, 5)));
                                 break;
+                    case 97:
+                                room.setEnterRoomTransitionColor(tileParameter(tileParam, 1));
+                                break;      
                     case 98:
                                 room.addTileAt(new RelicTile(tileParameter(tileParam, 1), tileParameter(tileParam, 2), tileParameter(tileParam, 3), tileParameter(tileParam, 4), tileParameter(tileParam, 5), tileParameter(tileParam, 6)));
                                 break;

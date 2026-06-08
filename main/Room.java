@@ -70,6 +70,30 @@ public class Room {
         }
     }
 
+    void setEnterRoomTransitionColor(int index) {
+        //0 is star
+        //1 is tri
+        Color red = new Color(255,0,0);
+        Color brown = new Color(200,200,0);
+        Color DarkBrown = new Color(100,100,0);
+        switch (index){
+            case 0:
+                //border
+                setEnterRoomTransitionColor(0, Color.BLACK);
+                //floor
+                setEnterRoomTransitionColor(1, Color.GRAY);
+                //spike
+                setEnterRoomTransitionColor(2, Color.MAGENTA);
+            case 1:
+                //border
+                setEnterRoomTransitionColor(0, DarkBrown);
+                //floor
+                setEnterRoomTransitionColor(1, brown);
+                //spike
+                setEnterRoomTransitionColor(2, red);
+        }
+    }
+
     /**
      * change the assigned tile colors when player enters the room
      * @param map   reference to main map

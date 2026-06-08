@@ -12,7 +12,7 @@ public class Map {
     static final int mapHeight = 20;
     //int mapWidthSize = mapWidth*Room.roomWidth;
     //int mapHeightSize = mapHeight*Room.roomHeight;
-    static int assignedColorsLength = 10;
+    static int assignedColorsLength = 100;
     Color[] assignedTileColors = new Color[assignedColorsLength]; //max 10 for testing
     
     Map() {

@@ -101,7 +101,7 @@ import java.io.File;
          *resets main game variables upon e.g. death or by command, also allows for map to regenerate
         */
         void resetGame() {
-            boolean testingMap = false;
+            boolean testingMap = true;
             wPressed = false;
             aPressed = false;
             sPressed = false;
@@ -124,7 +124,7 @@ import java.io.File;
             
             //player = new Player(0,0,18,30);
             if(testingMap){
-            //player = new Player(0,500,18,30); //resets to constructors
+            player = new Player(0,500,18,18); //resets to constructors
             }else{
              //player = new Player(1200*9 + 600,500*10+250,18,30);
              player = new Player(11400 ,8670,18,30);
@@ -148,7 +148,7 @@ import java.io.File;
             Room Runway= x.findRoom("Runway");
             Room winning = x.findRoom("Win");
             Room test = x.findRoom("name");
-            Room straight =x.findRoom("straight");
+            Room straight =x.findRoom("movingCross");
 
             //create room to test
             //room2.setEnterRoomTransitionColor(0, Color.RED);

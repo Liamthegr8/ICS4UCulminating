@@ -148,6 +148,19 @@ public class LevelCreationTool extends JFrame {
                 }
                 write.write(">");
             }
+            Scanner s = new Scanner(System.in);
+            System.out.print("Colour pallete: ");
+            int colorIndex =s.nextInt();
+            s.close();
+            System.out.println("yes");
+                write.write("_");
+                write.write("97"); //to make sure tileID is 2 digits for reading purposes
+                write.write("<");
+                //System.out.println("tile start");
+                
+            write.write(String.valueOf(colorIndex));
+            write.write(">");
+
             write.write(";");
             write.newLine();
             write.close();
@@ -583,6 +596,28 @@ public class LevelCreationTool extends JFrame {
                     
                     System.out.println("Enter mapColorIndex:");
                     int assignedMapColorIndex = sc.nextInt();
+                    
+                    if(assignedMapColorIndex==99){ //defaults based on object chosen
+                        if (objectChosen==1){
+                            assignedMapColorIndex=1;
+                        } else if (objectChosen==2) {
+                            assignedMapColorIndex=2;
+                        } else if (objectChosen==3) {
+                            assignedMapColorIndex=3;
+                        } else if (objectChosen==4) {
+                            assignedMapColorIndex=4;
+                        } else if (objectChosen==5) {
+                            assignedMapColorIndex=5;
+                        } else if (objectChosen==98) {
+                            assignedMapColorIndex=98;
+                        } else if (objectChosen==99) {
+                            assignedMapColorIndex=99;
+                        } else {
+                            System.out.println("object chosen has no default color. Assuming 0");
+                            assignedMapColorIndex=0;
+                        }
+                    }
+                    
                     if (objectChosen == 1) {
                         roomData.addTileAt(new BedrockTile(boxDimensions[0], boxDimensions[1], boxDimensions[2], boxDimensions[3], assignedMapColorIndex));
                     }
