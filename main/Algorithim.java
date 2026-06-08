@@ -738,6 +738,8 @@ public class Algorithim {
         direction.findDirection(dotAlgFB.r3y ,dotAlgFB.r3x ,hashAlgF.booleanMap,true);
         direction.merge(hashAlgF.booleanMap,dotAlgFB.r3y,dotAlgFB.r3x,true);
         direction.printOutDir();
+
+        direction.findDirection(dotAlgFB.r3y-1 ,dotAlgFB.r3x,dotAlgFB.booleanMap ,hashAlgF.booleanMap,true);
         //r3 is just going to be left as corner due to unique behavior of it's relic room
 
         //if(direction.roomDir[hashAlgF.r3y][hashAlgF.r3x]==8){
@@ -773,10 +775,12 @@ public class Algorithim {
             direction.roomDir[hashAlgF.by][hashAlgF.bx]=3;
             direction.roomDir[hashAlgF.by-1][hashAlgF.bx]=5;
             direction.roomDir[hashAlgF.by-2][hashAlgF.bx]=9;
+            direction.roomDir[hashAlgF.r3y][hashAlgF.r3x]=13;
         }else{
             direction.roomDir[hashAlgF.by][hashAlgF.bx]=5;
             direction.roomDir[hashAlgF.by-1][hashAlgF.bx]=3;
             direction.roomDir[hashAlgF.by-2][hashAlgF.bx]=10;
+            direction.roomDir[hashAlgF.r3y][hashAlgF.r3x]=15;
         }
         direction.findDirection(7, 9,dotAlgFB.booleanMap,starAlgF.booleanMap, false);
         //direction.roomDir[10][9]=7;

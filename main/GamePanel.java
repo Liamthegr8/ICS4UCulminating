@@ -125,7 +125,7 @@ import java.io.File;
             //player = new Player(0,500,18,30); //resets to constructors
             }else{
              //player = new Player(1200*9 + 600,500*10+250,18,30);
-             player = new Player(11400 ,8670,18,30);
+             player = new Player(11400 ,8670,18,18);
             }
             //Tanush Mock Collision Setup
             map = new Map();
@@ -534,7 +534,7 @@ import java.io.File;
             } else {
                 g2.setColor(Color.RED);
             }
-            g2.fillRect(player.x+camX, player.y+camY, player.width, player.height);
+            g2.fillOval(player.x+camX, player.y+camY, player.width, player.height);
 
             
         }
