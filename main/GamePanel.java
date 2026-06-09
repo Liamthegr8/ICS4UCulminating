@@ -28,7 +28,7 @@ import java.io.File;
         boolean panelActive;
         boolean inMenu;
         boolean pauseMenuActive = false;
-        LeaderboardEntry[] tempLeaderboard;
+        String[] tempLeaderboard;
         int[][] dirMap;
 
         //debugging (labels for various statistics)
@@ -46,7 +46,7 @@ import java.io.File;
         JLabel isPlayerWalledRLabel;
         JLabel isPlayerWalledLLabel;
 
-        GamePanel(int windowWidth, int windowHeight, LeaderboardEntry[] leaderboard) {
+        GamePanel(int windowWidth, int windowHeight, String[] leaderboard) {
             windowX = windowWidth;
             windowY = windowHeight;
             tempLeaderboard = leaderboard;
@@ -403,8 +403,7 @@ import java.io.File;
             //check death
             if (player.isDead) {
                 //resetGame();
-                tempLeaderboard[0].name = "score ahh:";
-                tempLeaderboard[0].score = runtime;
+                tempLeaderboard[0] = "score ahh:" + String.valueOf(runtime);
                 panelActive = false;
             }
 

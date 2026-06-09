@@ -15,10 +15,10 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
     Button[] buttons;
     int selectedButton;
     boolean selectButton;
-    LeaderboardEntry[] tempLeaderboard;
+    String[] tempLeaderboard;
 
 
-    LeaderboardPanel(int windowWidth, int windowHeight, LeaderboardEntry[] leaderboard) {
+    LeaderboardPanel(int windowWidth, int windowHeight, String[] leaderboard) {
         windowX = windowWidth;
         windowY = windowHeight;
         tempLeaderboard = leaderboard;
@@ -195,24 +195,13 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
         //render leaderboard
         g2.setColor(Color.BLACK);
         g2.setFont(new Font("Arial", Font.BOLD, 40));
-        g2.drawString("#", (windowX/2)-300+20, 150);
-        g2.drawString("Name", (windowX/2)-200+20, 150);
-        g2.drawString("Score", (windowX/2)+50, 150);
         int yOffset = 0;
-        // int ySteps = 100;
-        int colheight = 70;
+        int ySteps = 20;
         for (int i=0; i<tempLeaderboard.length; i++) {
-            Rectangle column = new Rectangle((windowX/2)-300, 150+yOffset, 600, colheight);
-            g2.drawRect(column.x, column.y, column.width, column.height);
-            //place
             if (tempLeaderboard[i] != null) {
-                g2.drawString(String.valueOf(i),(windowX/2)-300+20, Math.round(150+yOffset+colheight*0.75));
-                g2.drawString(tempLeaderboard[i].name,(windowX/2)-200+20, Math.round(150+yOffset+colheight*0.75));
-                g2.drawString(String.valueOf(tempLeaderboard[i].score),(windowX/2)+50, Math.round(150+yOffset+colheight*0.75));
+                g2.drawString(tempLeaderboard[i],windowX/2, 100+yOffset);
             }
-            
-
-            yOffset += colheight;
+            yOffset += ySteps;
         }
 
         //button render
