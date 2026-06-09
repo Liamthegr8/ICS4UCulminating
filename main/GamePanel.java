@@ -194,7 +194,7 @@ import java.io.File;
                 dirMap = alg.directionMap;
                 Room straightSpawn =x.findRoom("straightSpawn");
                 map.addRoomAt(straightSpawn, 9, 10);
-                Room test =x.findRoom("pit");
+                Room test =x.findRoom("funnyRoom");
                 map.addRoomAt(test, 10, 10);
          }
         
