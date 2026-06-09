@@ -12,6 +12,7 @@ public class MovingPlatformTile extends Tile{
     boolean playerOnTile;
     MovingPlatformTile(int iniX, int iniY,  int width, int height, int assignedMapColorIndex, int endX, int endY, int moveSpeed) {
         super(iniX, iniY, width, height, assignedMapColorIndex);
+        tileID = 03;
         this.iniX = iniX;
         this.iniY = iniY;
         this.endX = endX;

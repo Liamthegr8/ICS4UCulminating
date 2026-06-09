@@ -8,6 +8,7 @@ import java.util.*;
 
 public class Player extends Rectangle {
     ArrayList<Tile> surroundingTiles;
+    ArrayList<Tile> drawnTiles;
     int[] playerLocation;
     int[] lastSafeLocation;
     double xx, yy, vx, vy, gravity;
@@ -51,6 +52,7 @@ public class Player extends Rectangle {
     Player(int x, int y, int width, int height) {
         super(x, y, width, height);
         surroundingTiles = new ArrayList<Tile>();
+        drawnTiles = new ArrayList<Tile>();
         vx = 0;
         vy = 0;
         gravity = 1;
@@ -211,6 +213,36 @@ public class Player extends Rectangle {
                             if (collisionArea.intersects(tileArea)) {
                                 // Keep OG tiles in room-local coordinates, use edited copy tile for collision
                                 surroundingTiles.add(reaLocationTile);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    void getDrawnTiles(Map map) {
+        drawnTiles.clear();
+
+        for (int i=0; i<map.mapRooms.length; i++) {
+            for (int j=0; j<map.mapRooms.length; j++) {
+                Room r = map.mapRooms[i][j];
+                if (r != null) {
+                    for (int k=0; k<r.roomTiles.size(); k++) {
+                        Tile t = r.roomTiles.get(k);
+                        if (t != null) {
+                            
+                            //proximity checks
+                            Rectangle collisionArea = new Rectangle (x+(width/2)-Game.windowX, y+(height/2)-Game.windowY, Game.windowX*2, Game.windowY*2);
+                            
+                            Tile reaLocationTile = new GhostTile(t);
+                            reaLocationTile.x += i*Room.roomWidth;
+                            reaLocationTile.y += j*Room.roomHeight;
+
+                            Rectangle tileArea = new Rectangle(reaLocationTile.x, reaLocationTile.y, reaLocationTile.width, reaLocationTile.height);
+
+                            if (collisionArea.intersects(tileArea)) {
+                                // Keep OG tiles in room-local coordinates, use edited copy tile for collision
+                                drawnTiles.add(reaLocationTile);
                             }
                         }
                     }
@@ -417,6 +449,7 @@ public class Player extends Rectangle {
         }
         gravityUpdate();
         getSurroundingTiles(map);
+        getDrawnTiles(map);
         playerLocation = getPlayerLocation(map);
         // System.out.println(xx);
         // System.out.println(yy);
