@@ -295,8 +295,7 @@ public class LevelCreationTool extends JFrame {
                 System.out.println("8: Left Up Down T Junction");
                 System.out.println("9: Up Down Right T Junction");
                 System.out.println("0: Cross Junction");
-                int variation = sc.nextInt();
-                switch (variation) {
+                switch (digSelected) {
                     case 1:
                         roomData.addTileAt(new BedrockTile(0, Room.roomHeight - 50, Room.roomWidth, 50, 0));
                         roomData.addTileAt(new BedrockTile(0, 0, Room.roomWidth, 50, 0));
