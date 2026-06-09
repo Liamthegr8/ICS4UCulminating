@@ -17,7 +17,7 @@ public class Game extends JFrame implements ActionListener  {
     LeaderboardPanel leaderboardPanel;
     PausePanel pausePanel;
     InfoPanel infoPanel;
-    String[] leaderboardScores;
+    LeaderboardEntry[] leaderboardEntries;
     Timer tick;
     int tickDelay = 10;
     boolean lPressed;
@@ -69,32 +69,30 @@ public class Game extends JFrame implements ActionListener  {
         // panel.add(isPlayerGroundedLabel);
         // panel.add(playerLocLabel);
 
-        //switchTo(menuPanel);
-        //setupGamePanel(); //this adds game panel
-
-        tick = new Timer(tickDelay, this);
-        tick.start();
-
         //pack(); //important to understand size of window is size of panel
 
         setLocationRelativeTo(null);
         setVisible(true);
 
-        leaderboardScores = new String[10];
-        leaderboardScores[0] = "Player 1: 67";
-        leaderboardScores[1] = "Player 2: 67";
-        leaderboardScores[3] = "Player 4: 67";
-        leaderboardScores[4] = "Player 5: 67";
-        leaderboardScores[5] = "Player 6: 67";
+        // create and populate leaderboard entries
+        leaderboardEntries = new LeaderboardEntry[10];
+        for (int i=0; i<leaderboardEntries.length; i++) {
+            leaderboardEntries[i] = new LeaderboardEntry(String.valueOf(i), i*10);
+        }
 
-        gamePanel = new GamePanel(getWidth(), getHeight(), leaderboardScores);
+        // create panels after frame is visible so getWidth()/getHeight() return meaningful values
+        gamePanel = new GamePanel(getWidth(), getHeight(), leaderboardEntries);
         menuPanel = new MainMenuPanel(getWidth(), getHeight());
-        leaderboardPanel = new LeaderboardPanel(getWidth(), getHeight(), leaderboardScores); 
+        leaderboardPanel = new LeaderboardPanel(getWidth(), getHeight(), leaderboardEntries); 
         pausePanel = new PausePanel(getWidth(), getHeight(), gamePanel.map);
         infoPanel = new InfoPanel(getWidth(), getHeight());
 
         switchTo(menuPanel);
-        
+
+        // start main timer after panels exist to avoid actionPerformed running on null panels
+        tick = new Timer(tickDelay, this);
+        tick.start();
+
         // end of setup
     }
 
