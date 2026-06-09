@@ -105,7 +105,7 @@ public class LevelCreationTool extends JFrame {
         map.setMapTileColor(1, Color.RED);
 
         roomData = new Room("NONAME");
-        roomData = x.findRoom("funnyRoom");
+        //roomData = x.findRoom("pit");
         map.addRoomAt(roomData, 0, 0);
         player = new Player(-100, -10000, 1, 1);
         
@@ -321,6 +321,7 @@ public class LevelCreationTool extends JFrame {
                         break;
                     case 5:
                         roomData.addTileAt(new BedrockTile(0, 0, Room.roomWidth, 50, 0));
+                        roomData.addTileAt(new BedrockTile(0, Room.roomHeight - 50, 100, 50, 0));
                         roomData.addTileAt(new BedrockTile(Room.roomWidth-100, Room.roomHeight - 50, 100,50, 0));
                         roomData.addTileAt(new BedrockTile(0, 0, 50, Room.roomHeight, 0));
                         break;
@@ -806,6 +807,7 @@ public class LevelCreationTool extends JFrame {
 
             //Tanush Code Render Tiles
                         for (Tile tile: roomData.roomTiles) {
+                            System.out.println("a");
                             Tile t = tile;
                             if (t != null) {
                                 g2.setColor(Color.BLACK);
