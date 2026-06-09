@@ -105,7 +105,7 @@ public class LevelCreationTool extends JFrame {
         map.setMapTileColor(1, Color.RED);
 
         roomData = new Room("NONAME");
-        //roomData = x.findRoom("vertNeoJ");
+        //roomData = x.findRoom("pit");
         map.addRoomAt(roomData, 0, 0);
         player = new Player(-100, -10000, 1, 1);
         
@@ -327,28 +327,28 @@ public class LevelCreationTool extends JFrame {
                         roomData.addTileAt(new BedrockTile(0, 0, 50, Room.roomHeight, 0));
                         break;
                     case 6:
-                        roomData.addTileAt(new BedrockTile(0, Room.roomHeight - 100, Room.roomWidth, 100, 0));
-                        roomData.addTileAt(new BedrockTile(0, 0, Room.roomWidth/3, 100, 0));
-                        roomData.addTileAt(new BedrockTile(Room.roomWidth/3 * 2, 0, Room.roomWidth/3, 100, 0));
+                        roomData.addTileAt(new BedrockTile(0, Room.roomHeight - 50, Room.roomWidth, 50, 0));
+                        roomData.addTileAt(new BedrockTile(0, 0, 100, 50, 0));
+                        roomData.addTileAt(new BedrockTile(Room.roomWidth-100, 0, 100, 50, 0));
                         break;
                     case 7:
-                        roomData.addTileAt(new BedrockTile(0, 0, Room.roomWidth, 100, 0));
-                        roomData.addTileAt(new BedrockTile(0, Room.roomHeight - 100, Room.roomWidth/3, 100, 0));
-                        roomData.addTileAt(new BedrockTile(Room.roomWidth/3 * 2, Room.roomHeight - 100, Room.roomWidth/3, 100, 0));
+                        roomData.addTileAt(new BedrockTile(0, 0, Room.roomWidth, 50, 0));
+                        roomData.addTileAt(new BedrockTile(0, Room.roomHeight - 50, 100, 50, 0));
+                        roomData.addTileAt(new BedrockTile(Room.roomWidth-100, Room.roomHeight - 50, 100, 50, 0));
                         break;
                     case 8:
-                        roomData.addTileAt(new BedrockTile(Room.roomWidth/3 * 2, 0, Room.roomWidth/3, Room.roomHeight, 0));
-                        roomData.addTileAt(new BedrockTile(0, 0, Room.roomWidth/3, 100, 0));
-                        roomData.addTileAt(new BedrockTile(Room.roomWidth/3 * 2, 0, Room.roomWidth/3, 100, 0));
-                        roomData.addTileAt(new BedrockTile(0, Room.roomHeight - 100, Room.roomWidth/3, 100, 0));
-                        roomData.addTileAt(new BedrockTile(Room.roomWidth/3 * 2, Room.roomHeight - 100, Room.roomWidth/3, 100, 0));
+                        roomData.addTileAt(new BedrockTile(Room.roomWidth-100, 0, 100, Room.roomHeight, 0));
+                        roomData.addTileAt(new BedrockTile(0, 0, 100, 50, 0));
+                        roomData.addTileAt(new BedrockTile(Room.roomWidth-100, 0, 100, 50, 0));
+                        roomData.addTileAt(new BedrockTile(0, Room.roomHeight - 50, 100, 50, 0));
+                        roomData.addTileAt(new BedrockTile(Room.roomWidth-100, Room.roomHeight - 50, 100, 50, 0));
                         break;
                     case 9:
-                        roomData.addTileAt(new BedrockTile(0, 0, Room.roomWidth/3, Room.roomHeight, 0));
-                        roomData.addTileAt(new BedrockTile(0, 0, Room.roomWidth/3, 100, 0));
-                        roomData.addTileAt(new BedrockTile(Room.roomWidth/3 * 2, 0, Room.roomWidth/3, 100, 0));
-                        roomData.addTileAt(new BedrockTile(0, Room.roomHeight - 100, Room.roomWidth/3, 100, 0));
-                        roomData.addTileAt(new BedrockTile(Room.roomWidth/3 * 2, Room.roomHeight - 100, Room.roomWidth/3, 100, 0));
+                        roomData.addTileAt(new BedrockTile(0, 0, 100, Room.roomHeight, 0));
+                        roomData.addTileAt(new BedrockTile(0, 0,100, 50, 0));
+                        roomData.addTileAt(new BedrockTile(Room.roomWidth-100, 0, 100, 50, 0));
+                        roomData.addTileAt(new BedrockTile(0, Room.roomHeight - 50, 100, 50, 0));
+                        roomData.addTileAt(new BedrockTile(Room.roomWidth-100, Room.roomHeight - 50, 100, 50, 0));
                         break;
                     case 0:
                         roomData.addTileAt(new BedrockTile(0, 0, 100, 50, 0));

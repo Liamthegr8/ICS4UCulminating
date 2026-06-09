@@ -93,7 +93,7 @@ import java.io.File;
             this.addKeyListener(new KeyHandler());
             this.addMouseMotionListener(new MouseMotionHandler());
             //this.addMouseListener(new MouseMotionHandler());
-
+            this.setBackground(Color.BLACK);
         
         }
 
@@ -194,7 +194,7 @@ import java.io.File;
                 dirMap = alg.directionMap;
                 Room straightSpawn =x.findRoom("straightSpawn");
                 map.addRoomAt(straightSpawn, 9, 10);
-                Room test =x.findRoom("WallJumpStraight");
+                Room test =x.findRoom("pit");
                 map.addRoomAt(test, 10, 10);
          }
         
@@ -462,6 +462,7 @@ import java.io.File;
             Graphics2D g2 = (Graphics2D) g;
             //Turn on antialiasing
 		    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            
 
             
 

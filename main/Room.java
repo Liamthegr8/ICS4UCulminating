@@ -79,7 +79,7 @@ public class Room {
         switch (index){
             case 0 -> {
                 //border
-                setEnterRoomTransitionColor(0, Color.BLACK);
+                setEnterRoomTransitionColor(0, Color.darkGray);
                 //floor
                 setEnterRoomTransitionColor(1, Color.GRAY);
                 //spike
@@ -93,7 +93,7 @@ public class Room {
                 setEnterRoomTransitionColor(2, red);}
             default -> {
                 //border
-                setEnterRoomTransitionColor(0, Color.BLACK);
+                setEnterRoomTransitionColor(0, Color.darkGray);
                 //floor
                 setEnterRoomTransitionColor(1, Color.GRAY);
                 //spike
