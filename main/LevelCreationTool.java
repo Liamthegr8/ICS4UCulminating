@@ -25,7 +25,7 @@ public class LevelCreationTool extends JFrame {
     Player player;
     Map map;
     Room roomData;
-    boolean qPressed, wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed, mPressed; //removed pPressed
+    boolean qPressed, wPressed, aPressed, sPressed, dPressed, uPressed, iPressed, oPressed, jPressed, kPressed, lPressed, mPressed, shiftPressed; //removed pPressed
     boolean snapToGrid = false;
 
     //debugging
@@ -383,6 +383,9 @@ public class LevelCreationTool extends JFrame {
             if (e.getKeyCode() == KeyEvent.VK_Q) {
                 qPressed = true;
             } 
+            if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                shiftPressed = true;
+            }
         }
         /**
          * handle key releases
@@ -425,6 +428,9 @@ public class LevelCreationTool extends JFrame {
             }
             if (e.getKeyCode() == KeyEvent.VK_Q) {
                 qPressed = false;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                shiftPressed = false;
             }
         }
     }
@@ -569,6 +575,47 @@ public class LevelCreationTool extends JFrame {
             for (Tile t: roomData.roomTiles) {
                 if (new Rectangle(t.x, t.y, t.width, t.height).contains(windowMouseX, windowMouseY) && rightMouseHeld) {
                     roomData.roomTiles.remove(t);
+                    break;
+                }
+                if (new Rectangle(t.x, t.y, t.width, t.height).contains(windowMouseX, windowMouseY) && leftMouseHeld && shiftPressed) {
+                    System.out.println("Enter x position:");
+                    int newX = sc.nextInt();
+                    if (newX != -1) {
+                        t.x = newX;
+                    }
+                    System.out.println("Enter y position:");
+                    int newY = sc.nextInt();
+                    if (newY != -1) {
+                        t.y = newY;
+                    }
+                    System.out.println("Enter width:");
+                    int newWidth = sc.nextInt();    
+                    if (newWidth != -1) {
+                        t.width = newWidth;
+                    }
+                    System.out.println("Enter height:");
+                    int newHeight = sc.nextInt();
+                    if (newHeight != -1) {
+                        t.height = newHeight;
+                    }
+                    if (t instanceof MovingPlatformTile) {
+                        MovingPlatformTile mpt = (MovingPlatformTile) t;
+                        System.out.println("Enter end x position:");
+                        int newEndX = sc.nextInt();
+                        if (newEndX != -1) {
+                            mpt.endX = newEndX;
+                        }
+                        System.out.println("Enter end y position:");
+                        int newEndY = sc.nextInt();
+                        if (newEndY != -1) {
+                            mpt.endY = newEndY;
+                        }
+                        System.out.println("Enter move speed:");
+                        int newMoveSpeed = sc.nextInt();
+                        if (newMoveSpeed != -1) {
+                            mpt.moveSpeed = newMoveSpeed;
+                        }
+                    }
                     break;
                 }
             }
