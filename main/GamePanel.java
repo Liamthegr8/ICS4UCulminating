@@ -13,8 +13,8 @@ import javax.imageio.ImageIO;
 import java.io.File;
 
     class GamePanel extends JPanel implements ActionListener {
-        int windowX = 900; //not accurate anymore, uses window ref now
-        int windowY = 500;
+        static int windowX; //not accurate anymore, uses window ref now
+        static int windowY;
         int tickDelay = 10;
         int camX;
         int camY;
@@ -141,7 +141,7 @@ import java.io.File;
             Room algTest = x.findRoom(directionMap.generate(7,0));
             Room room1 = x.findRoom("RoomTest1");
             //Room room2 = new Room("Room2");
-            Room room2 = x.findRoom("RoomTest2");
+            Room room2 = x.findRoom("middleCrossPillar");
             Room room3= x.findRoom("RoomTest3");
             Room room4= x.findRoom("RoomTest4");
             Room hole= x.findRoom("FloorOpenTest");
@@ -462,54 +462,82 @@ import java.io.File;
             Graphics2D g2 = (Graphics2D) g;
             //Turn on antialiasing
 		    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            
 
             
 
             //Tanush Code Render Tiles
-            for (int i=0; i<map.mapRooms.length; i++) {
-                for (int j=0; j<map.mapRooms.length; j++) {
-                    Room r = map.mapRooms[i][j];
-                    if (r != null) {
-                        for (Tile tile: r.roomTiles) {
-                                Tile t = tile;
-                                if (t != null) {
+            // for (int i=0; i<map.mapRooms.length; i++) {
+            //     for (int j=0; j<map.mapRooms.length; j++) {
+            //         Room r = map.mapRooms[i][j];
+            //         if (r != null) {
+            //             for (Tile tile: player.drawnTiles) {
+            //                     Tile t = tile;
+            //                     if (t != null) {
+            //                         g2.setColor(Color.BLACK);
+            //                         g2.setStroke(new BasicStroke(1));
+
+            //                         if (!(t instanceof SpikeTile) && t.assignedMapColorIndex >= 0 && t.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[t.assignedMapColorIndex] != null) {    
+            //                             Color tileColor = map.assignedTileColors[t.assignedMapColorIndex];
+            //                             g2.setColor(tileColor);
+            //                             g2.fillRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
+                                          
+            //                         } else {
+            //                             if (t instanceof SpikeTile) { //for SPIKES tiles
+            //                                 Color tileColor = map.assignedTileColors[t.assignedMapColorIndex];
+            //                                 g2.setColor(tileColor);
+            //                                 Polygon triangle = new Polygon();
+            //                                 triangle.addPoint(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY) + t.height);
+            //                                 triangle.addPoint(i*Room.roomWidth + (t.x+camX) + t.width, j*Room.roomHeight + (t.y+camY) + t.height);
+            //                                 triangle.addPoint(i*Room.roomWidth + (t.x+camX) + t.width/2, j*Room.roomHeight + (t.y+camY));
+            //                                 g2.fillPolygon(triangle); 
+            //                             } else { //assumes black
+            //                                 g2.setColor(Color.BLACK);
+            //                                 g2.fillRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height); 
+            //                             }
+            //                         }
+                                    
+                                    
+                                    
+            //                         //Images
+            //                         // if (t.getScaledImage() == null) {
+            //                         //     g2.drawRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
+            //                         // }
+            //                         // else {
+            //                         // g2.drawImage(t.scaledImage, i*Room.roomWidth + t.x + t.imageXOffset + camX, j*Room.roomHeight + t.y + t.imageYOffset + camY, null);
+            //                         // }
+            //                     }
+            //             }
+            //         }
+            //     }
+            // }
+
+            for (Tile tile: player.drawnTiles) {
+                                if (tile != null) {
                                     g2.setColor(Color.BLACK);
                                     g2.setStroke(new BasicStroke(1));
 
-                                    if (!(t instanceof SpikeTile) && t.assignedMapColorIndex >= 0 && t.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[t.assignedMapColorIndex] != null) {    
-                                        Color tileColor = map.assignedTileColors[t.assignedMapColorIndex];
+                                    if (!(tile.tileID == 02) && tile.assignedMapColorIndex >= 0 && tile.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[tile.assignedMapColorIndex] != null) {    
+                                        Color tileColor = map.assignedTileColors[tile.assignedMapColorIndex];
                                         g2.setColor(tileColor);
-                                        g2.fillRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
+                                        g2.fillRect((tile.x+camX), (tile.y+camY), tile.width, tile.height);
                                           
                                     } else {
-                                        if (t instanceof SpikeTile) { //for SPIKES tiles
-                                            Color tileColor = map.assignedTileColors[t.assignedMapColorIndex];
+                                        if (tile.tileID == 02) { //for SPIKES tiles
+                                            Color tileColor = map.assignedTileColors[tile.assignedMapColorIndex];
                                             g2.setColor(tileColor);
                                             Polygon triangle = new Polygon();
-                                            triangle.addPoint(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY) + t.height);
-                                            triangle.addPoint(i*Room.roomWidth + (t.x+camX) + t.width, j*Room.roomHeight + (t.y+camY) + t.height);
-                                            triangle.addPoint(i*Room.roomWidth + (t.x+camX) + t.width/2, j*Room.roomHeight + (t.y+camY));
+                                            triangle.addPoint((tile.x+camX), (tile.y+camY) + tile.height);
+                                            triangle.addPoint((tile.x+camX) + tile.width, (tile.y+camY) + tile.height);
+                                            triangle.addPoint((tile.x+camX) + tile.width/2, (tile.y+camY));
                                             g2.fillPolygon(triangle); 
                                         } else { //assumes black
                                             g2.setColor(Color.BLACK);
-                                            g2.fillRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height); 
+                                            g2.fillRect((tile.x+camX), (tile.y+camY), tile.width, tile.height); 
                                         }
                                     }
-                                    
-                                    
-                                    
-                                    //Images
-                                    // if (t.getScaledImage() == null) {
-                                    //     g2.drawRect(i*Room.roomWidth + (t.x+camX), j*Room.roomHeight + (t.y+camY), t.width, t.height);
-                                    // }
-                                    // else {
-                                    // g2.drawImage(t.scaledImage, i*Room.roomWidth + t.x + t.imageXOffset + camX, j*Room.roomHeight + t.y + t.imageYOffset + camY, null);
-                                    // }
                                 }
                         }
-                    }
-                }
-            }
 
             //DEBUG
             //Render Map bounds
@@ -558,7 +586,7 @@ import java.io.File;
             }
                 */
                 if (player.isDash){
-                g2.setColor(Color.pink);
+                g2.setColor(Color.blue);
             }else if(player.canDash){
                 g2.setColor(Color.red);
             }else if(!player.canDash){

@@ -676,7 +676,7 @@ public class LevelCreationTool extends JFrame {
                     }
                     
                     if (objectChosen == 1) {
-                        roomData.addTileAt(new BedrockTile(boxDimensions[0], boxDimensions[1], boxDimensions[2], boxDimensions[3], assignedMapColorIndex));
+                        roomData.addTileAt(new PlatformTile(boxDimensions[0], boxDimensions[1], boxDimensions[2], boxDimensions[3], assignedMapColorIndex));
                     }
                     else if (objectChosen == 2) {
                         roomData.addTileAt(new SpikeTile(boxDimensions[0], boxDimensions[1], boxDimensions[2], boxDimensions[3], assignedMapColorIndex));
