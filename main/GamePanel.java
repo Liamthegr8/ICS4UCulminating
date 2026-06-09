@@ -141,7 +141,7 @@ import java.io.File;
             Room algTest = x.findRoom(directionMap.generate(7,0));
             Room room1 = x.findRoom("RoomTest1");
             //Room room2 = new Room("Room2");
-            Room room2 = x.findRoom("middleCrossPillar");
+            Room room2 = x.findRoom("RoomTest2");
             Room room3= x.findRoom("RoomTest3");
             Room room4= x.findRoom("RoomTest4");
             Room hole= x.findRoom("FloorOpenTest");
@@ -462,7 +462,6 @@ import java.io.File;
             Graphics2D g2 = (Graphics2D) g;
             //Turn on antialiasing
 		    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            
 
             
 
@@ -559,7 +558,7 @@ import java.io.File;
             }
                 */
                 if (player.isDash){
-                g2.setColor(Color.blue);
+                g2.setColor(Color.pink);
             }else if(player.canDash){
                 g2.setColor(Color.red);
             }else if(!player.canDash){
