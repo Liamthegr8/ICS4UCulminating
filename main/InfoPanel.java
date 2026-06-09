@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.util.*;
 import javax.swing.Timer;
 
-public class LeaderboardPanel extends JPanel implements ActionListener {
+public class InfoPanel extends JPanel implements ActionListener {
     int windowX;
     int windowY;
     boolean panelActive;
@@ -15,13 +15,11 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
     Button[] buttons;
     int selectedButton;
     boolean selectButton;
-    String[] tempLeaderboard;
 
 
-    LeaderboardPanel(int windowWidth, int windowHeight, String[] leaderboard) {
+    InfoPanel(int windowWidth, int windowHeight) {
         windowX = windowWidth;
         windowY = windowHeight;
-        tempLeaderboard = leaderboard;
         initialSetup();
     }
 
@@ -189,20 +187,45 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
         //title text render
         g2.setColor(Color.BLACK);
         g2.setFont(new Font("Arial", Font.BOLD, 70));
-        g2.drawString("Leaderboard", windowX/2-200, 100);
+        g2.drawString("How to Play", windowX/2-170, 100);
 
-
-        //render leaderboard
+        //controls
         g2.setColor(Color.BLACK);
-        g2.setFont(new Font("Arial", Font.BOLD, 40));
-        int yOffset = 0;
-        int ySteps = 20;
-        for (int i=0; i<tempLeaderboard.length; i++) {
-            if (tempLeaderboard[i] != null) {
-                g2.drawString(tempLeaderboard[i],windowX/2, 100+yOffset);
-            }
-            yOffset += ySteps;
-        }
+        g2.setFont(new Font("Arial", Font.BOLD, 50));
+        g2.drawString("Controls", (windowX/2), 250);
+        g2.setFont(new Font("Arial", Font.BOLD, 30));
+        g2.drawString("WASD to move and navigate menu", (windowX/2), 300);
+        g2.drawString("U to Jump/Select", (windowX/2), 350);
+        g2.drawString("I to Dash", (windowX/2), 400);
+        g2.drawString("J to Dash through walls", (windowX/2), 450);
+        g2.drawString("L to Pause Game", (windowX/2), 500);
+        g2.drawString("K to Gravity Flip", (windowX/2), 550);
+        g2.drawString("O to Parachute", (windowX/2), 600);
+
+        
+        // g2.drawString("WASD to move", (windowX/2), 450);
+        // g2.drawString("U to Jump", (windowX/2), 550);
+        // g2.drawString("I to Dash", (windowX/2), 650);
+        // g2.drawString("J to Dash through walls", (windowX/2), 750);
+
+
+        //rules scheme
+        g2.setColor(Color.BLACK);
+        g2.setFont(new Font("Arial", Font.BOLD, 50));
+        g2.drawString("Rules", (windowX/2)-800, 250);
+        g2.setFont(new Font("Arial", Font.BOLD, 30));
+        g2.drawString("You have 4 lives. Your goal is to collect a set", (windowX/2)-800, 300);
+        g2.drawString("of relics that unlocks special abilities that help", (windowX/2)-800, 325);
+        g2.drawString("you navigate through the course. To win the game,", (windowX/2)-800, 350);
+        g2.drawString("you aim to reach the end game room in the", (windowX/2)-800, 375);
+        g2.drawString("lowest amount of time possible, which is at", (windowX/2)-800, 400);
+        g2.drawString("the top of the map.", (windowX/2)-800, 425);
+        g2.drawString("GOOD LUCK!", (windowX/2)-800, 500);
+
+
+        g2.setColor(Color.BLACK);
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
+
 
         //button render
         for (Button button : buttons) {

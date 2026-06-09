@@ -16,6 +16,7 @@ public class Game extends JFrame implements ActionListener  {
     GamePanel gamePanel;
     LeaderboardPanel leaderboardPanel;
     PausePanel pausePanel;
+    InfoPanel infoPanel;
     String[] leaderboardScores;
     Timer tick;
     int tickDelay = 10;
@@ -88,7 +89,9 @@ public class Game extends JFrame implements ActionListener  {
 
         gamePanel = new GamePanel(getWidth(), getHeight(), leaderboardScores);
         menuPanel = new MainMenuPanel(getWidth(), getHeight());
-        leaderboardPanel = new LeaderboardPanel(getWidth(), getHeight(), leaderboardScores); 
+        leaderboardPanel = new LeaderboardPanel(getWidth(), getHeight(), leaderboardScores);
+        infoPanel = new InfoPanel(getWidth(), getHeight());
+
         pausePanel = new PausePanel(getWidth(), getHeight(), gamePanel.map);
 
         switchTo(menuPanel);
@@ -108,6 +111,10 @@ public class Game extends JFrame implements ActionListener  {
                 menuPanel.tick.stop();
                 leaderboardPanel.reset();
                 switchTo(leaderboardPanel);
+            } else if (menuPanel.menuOption.equals("info")) {
+                menuPanel.tick.stop();
+                infoPanel.reset();
+                switchTo(infoPanel);
             }
         } else if (activePanel == gamePanel) {
             if (!gamePanel.panelActive && !gamePanel.pauseMenuActive) {
@@ -118,6 +125,12 @@ public class Game extends JFrame implements ActionListener  {
         } else if (activePanel == leaderboardPanel) {
             if (!leaderboardPanel.panelActive) {
                 leaderboardPanel.tick.stop();
+                menuPanel.reset();
+                switchTo(menuPanel);
+            }
+        } else if (activePanel == infoPanel) {
+            if (!infoPanel.panelActive) {
+                infoPanel.tick.stop();
                 menuPanel.reset();
                 switchTo(menuPanel);
             }

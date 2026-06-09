@@ -40,10 +40,11 @@ public class MainMenuPanel extends JPanel implements ActionListener {
         tick.start();
         addKeyListener(new KeyHandler());
 
-        buttons = new Button[3];
-        buttons[0] = new Button(windowX/2, 100, 200, 50, "Play", "play");
-        buttons[1] = new Button(windowX/2, 200, 200, 50, "Leaderboard", "leaderboard");
-        buttons[2] = new Button(windowX/2, 300, 200, 50, "Quit", "quit");
+        buttons = new Button[4];
+        buttons[0] = new Button((windowX/2)-200, 300, 400, 100, "Play", "play");
+        buttons[1] = new Button((windowX/2)-200, 500, 400, 100, "How to Play", "info");
+        buttons[2] = new Button((windowX/2)-200, 700, 400, 100, "Leaderboard", "leaderboard");
+        buttons[3] = new Button((windowX/2)-200, 900, 400, 100, "Quit", "quit");
 
     }
 
@@ -168,6 +169,10 @@ public class MainMenuPanel extends JPanel implements ActionListener {
                         //System.out.println("Quit button pressed");
                         menuOption = "leaderboard";
                         break;
+                    case "info":
+                        //System.out.println("Quit button pressed");
+                        menuOption = "info";
+                        break;
                     default:
                         //System.out.println("No action designated to button");
                         break;
@@ -203,9 +208,8 @@ public class MainMenuPanel extends JPanel implements ActionListener {
 
         //title text render
         g2.setColor(Color.BLACK);
-        g2.setFont(new Font("Arial", Font.BOLD, 36));
-        g2.drawString("Main Menu", windowX/2, 50);
-
+        g2.setFont(new Font("Arial", Font.BOLD, 120));
+        g2.drawString("NEON TOWER", (windowX/2)-400, 200);
 
         //button render
         for (Button button : buttons) {
@@ -214,7 +218,7 @@ public class MainMenuPanel extends JPanel implements ActionListener {
                 g2.fill(button);
                 g2.setColor(Color.BLACK);
                 g2.draw(button);
-                g2.setFont(new Font("Arial", Font.BOLD, 20));
+                g2.setFont(new Font("Arial", Font.BOLD, 40));
                 FontMetrics fm = g2.getFontMetrics();
                 int textX = button.x + (button.width - fm.stringWidth(button.text)) / 2;
                 int textY = button.y + ((button.height - fm.getHeight()) / 2) + fm.getAscent();
