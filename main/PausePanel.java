@@ -203,7 +203,7 @@ public class PausePanel extends JPanel implements ActionListener {
         //title text render
         g2.setColor(Color.BLACK);
         g2.setFont(new Font("Arial", Font.BOLD, 36));
-        g2.drawString("Paused", windowX/2, 50);
+        g2.drawString("Paused", (windowX/2)-100, 50);
 
 
         //button render

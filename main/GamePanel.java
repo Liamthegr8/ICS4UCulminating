@@ -194,7 +194,7 @@ import java.io.File;
                 dirMap = alg.directionMap;
                 Room straightSpawn =x.findRoom("straightSpawn");
                 map.addRoomAt(straightSpawn, 9, 10);
-                Room test =x.findRoom("vertNeoJ");
+                Room test =x.findRoom("WallJumpStraight");
                 map.addRoomAt(test, 10, 10);
          }
         
@@ -339,9 +339,11 @@ import java.io.File;
                 
             }
             if (sPressed) {
-                player.fastFall=true;
+                player.fastFall = true;
             }
-            else {player.fastFall=false;}
+            else {
+                player.fastFall = false;
+            }
             if (qPressed) {
                 resetGame();
             }

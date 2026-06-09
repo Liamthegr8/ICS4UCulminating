@@ -42,7 +42,7 @@ public class Player extends Rectangle {
 
     boolean isWin=false;
 
-    boolean fastFall =false;
+    boolean fastFall = false;
     boolean reverseGravity = false;
     boolean floating = false;
 
@@ -631,10 +631,6 @@ public class Player extends Rectangle {
         }    
     }
     }
-    void parachute() {
-    }
-    void grapplingHook() {   
-    }
     void gravityShift() {
         gravity *= -1;
         jumpStrength *= -1;
@@ -653,7 +649,9 @@ public class Player extends Rectangle {
             }else gravity = .8;
         }
         if (floating) {
-            gravity *= 0.3;
+            if (vy > 0) {
+                gravity *= 0.3;
+            }
         }
     }
 

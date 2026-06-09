@@ -40,11 +40,24 @@ public class MainMenuPanel extends JPanel implements ActionListener {
         tick.start();
         addKeyListener(new KeyHandler());
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+>>>>>>> Stashed changes
         buttons = new Button[4];
         buttons[0] = new Button((windowX/2)-200, 300, 400, 100, "Play", "play");
         buttons[1] = new Button((windowX/2)-200, 500, 400, 100, "How to Play", "info");
         buttons[2] = new Button((windowX/2)-200, 700, 400, 100, "Leaderboard", "leaderboard");
         buttons[3] = new Button((windowX/2)-200, 900, 400, 100, "Quit", "quit");
+<<<<<<< Updated upstream
+=======
+=======
+        buttons = new Button[3];
+        buttons[0] = new Button((windowX/2)-100, 100, 200, 50, "Play", "play");
+        buttons[1] = new Button((windowX/2)-100, 200, 200, 50, "Leaderboard", "leaderboard");
+        buttons[2] = new Button((windowX/2)-100, 300, 200, 50, "Quit", "quit");
+>>>>>>> 9294899c365b80321684c0274898f75f8c42a66f
+>>>>>>> Stashed changes
 
     }
 
