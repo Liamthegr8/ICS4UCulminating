@@ -371,6 +371,12 @@ import java.io.File;
                 player.gravityShift();
                 kPressed = false;
              }
+            if (oPressed) {
+                player.floating = true;
+             }
+            else {  
+                player.floating = false;
+            }
 
             //insert death on out of bounds below: (future)
             
@@ -558,7 +564,13 @@ import java.io.File;
             }
             g2.fillOval(player.x+camX, player.y+camY, player.width, player.height);
 
-            
+            //healthbar
+            for (int i = 0; i < player.playerHealth; i += 25) {
+                g2.setColor(Color.RED);
+                g2.fillRect(i, 25, 20, 20);
+                g2.setColor(Color.BLACK);
+                g2.drawRect(i, 25, 20, 20);
+            }
         }
     }
 

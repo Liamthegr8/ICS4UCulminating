@@ -9,6 +9,7 @@ import java.util.*;
 public class Player extends Rectangle {
     ArrayList<Tile> surroundingTiles;
     int[] playerLocation;
+    int[] lastSafeLocation;
     double xx, yy, vx, vy, gravity;
     //checks to see if the player is able to control the player character(Depricated, was intended for room transitions)
     //repurposed for dashes
@@ -18,6 +19,7 @@ public class Player extends Rectangle {
     int maxvx = 40;
     int maxvy = 40;
     int collisionRadiusCheck = width*3;
+    boolean damageImmunity = false;
 
     double jumpStrength = 20;
     double dashSpeed=15;
@@ -42,6 +44,7 @@ public class Player extends Rectangle {
 
     boolean fastFall =false;
     boolean reverseGravity = false;
+    boolean floating = false;
 
 
     Player(int x, int y, int width, int height) {
@@ -58,12 +61,13 @@ public class Player extends Rectangle {
         isTouchingRightWall = false;
         isTouchingLeftWall = false;
         playerLocation = null;
+        lastSafeLocation = new int[2];
         isPlayerCollidable = true;    
     }
 
-    // void applyDamage(int dmg) {
-    //     playerHealth -= dmg;
-    // }
+    void applyDamage(int dmg) {
+        playerHealth -= dmg;
+    }
 
     /**
      * set players global coordinates
@@ -231,10 +235,13 @@ public class Player extends Rectangle {
                             isWin = true;
                         }
                     
-                    if (t.killPlayer) {
-                        
-                        isDead = true;
-                       
+                    if (t.killPlayer && !damageImmunity) {
+                        applyDamage(25);
+                        this.x = lastSafeLocation[0];
+                        this.y = lastSafeLocation[1];
+                        this.vx = 0;
+                        this.vy = 0;
+                        this.damageImmunity = true;
                     }
                     if (xAmount > 0) {
                         //from right
@@ -300,11 +307,20 @@ public class Player extends Rectangle {
                     if (t.ability4) abilities[3] = true;
                     if (t.ability5) abilities[4] = true;
                     
-                    if (t.killPlayer) {
-                        isDead = true;
+                    if (t.killPlayer && !damageImmunity) {
+                        applyDamage(25);
+                        this.x = lastSafeLocation[0];
+                        this.y = lastSafeLocation[1];
+                        this.vx = 0;
+                        this.vy = 0;
+                        this.damageImmunity = true;
                     }   
                         if (yAmount > 0) {
                             //from top
+                            if (!t.killPlayer) {
+                                lastSafeLocation[0] = this.x;
+                                lastSafeLocation[1] = this.y;
+                            }
                             this.y = tile.y - this.height;
                             isGrounded = true;
                             lastSurfaceTouched = 1;
@@ -435,6 +451,7 @@ public class Player extends Rectangle {
             isDead = true;
         } // else dont force to dead, as we might manually set it dead true
         applyVelocity();
+        this.damageImmunity = false;
     }
 
     //ability methods
@@ -634,6 +651,9 @@ public class Player extends Rectangle {
             if(fastFall){
                 gravity = 1.1;
             }else gravity = .8;
+        }
+        if (floating) {
+            gravity *= 0.3;
         }
     }
 
