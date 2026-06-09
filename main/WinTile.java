@@ -11,6 +11,7 @@ public class WinTile extends Tile{
 
     WinTile(int x, int y, int width, int height, int assignedMapColorIndex) {
         super(x,y, width, height, assignedMapColorIndex);
+        tileID = 99;
         isCollidable = true;
         killPlayer = false;
         winCondition = true;

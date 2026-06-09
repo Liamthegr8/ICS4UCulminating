@@ -8,6 +8,7 @@ public class RelicTile extends Tile{
 
     RelicTile(int x, int y, int width, int height, int ability, int assignedMapColorIndex) {
         super(x, y, width, height, assignedMapColorIndex);
+        tileID = 98;    
         killPlayer = false;
         isCollidable = true;
         this.ability = ability;
