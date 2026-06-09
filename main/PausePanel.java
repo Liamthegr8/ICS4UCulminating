@@ -45,8 +45,8 @@ public class PausePanel extends JPanel implements ActionListener {
         addKeyListener(new KeyHandler());
 
         buttons = new Button[2];
-        buttons[0] = new Button(windowX/2-100, 100, 200, 50, "Resume", "resume");
-        buttons[1] = new Button(windowX/2-100, 200, 200, 50, "Main Menu", "menu");
+        buttons[0] = new Button((windowX/2)-100, 100, 200, 50, "Resume", "resume");
+        buttons[1] = new Button((windowX/2)-100, 200, 200, 50, "Main Menu", "menu");
 
     }
 
