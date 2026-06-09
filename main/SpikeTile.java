@@ -16,7 +16,6 @@ public class SpikeTile extends Tile{
 
     SpikeTile(int x, int y, int width, int height, int assignedMapColorIndex) {
         super(x,y, width, height, assignedMapColorIndex);
-        tileID = 02;
         isCollidable = true;
         killPlayer = true;
     }

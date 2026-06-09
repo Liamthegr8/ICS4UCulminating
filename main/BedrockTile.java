@@ -9,7 +9,6 @@ public class BedrockTile extends PlatformTile {
     
     BedrockTile(int x, int y, int width, int height, int assignedMapColorIndex) {
         super(x, y, width, height, assignedMapColorIndex);
-        tileID = 06;
         overideDisabledCollisions = true;
     }
 

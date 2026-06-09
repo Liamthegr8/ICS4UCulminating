@@ -21,8 +21,6 @@ public class Game extends JFrame implements ActionListener  {
     Timer tick;
     int tickDelay = 10;
     boolean lPressed;
-    static int windowX;
-    static int windowY;
 
     public static void main(String[] args) {
        SwingUtilities.invokeLater(new Runnable() {

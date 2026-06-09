@@ -6,7 +6,6 @@ public class LaserTile extends Tile{
         super(x, y, width, height, assignedMapColorIndex);
         killPlayer = true;
         isCollidable = true;
-        tileID = 05;
         enabled = false;
         this.startDelay = startDelay;
         this.duration = duration;

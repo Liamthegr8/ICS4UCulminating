@@ -32,6 +32,7 @@ public abstract class Tile {
 
     Tile(int x, int y,int width,int height, int assignedMapColorIndex) { //current tileID randomized, only manually set in 2nd contsructor
         Random r = new Random();
+        this.tileID = r.nextInt(10000);
         this.x = x;
         this.y = y;
         this.width = width;
@@ -77,7 +78,6 @@ public abstract class Tile {
         this.duration = tileData.duration;
         this.frequency = tileData.frequency;
         this.overideDisabledCollisions = tileData.overideDisabledCollisions;
-        this.assignedMapColorIndex = tileData.assignedMapColorIndex;
         // this.winCondition = tileData.winCondition;
     }
 
