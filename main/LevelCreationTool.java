@@ -437,8 +437,8 @@ public class LevelCreationTool extends JFrame {
          */
         @Override
         public void mouseMoved(MouseEvent e) {
-            windowMouseX = e.getX()-8;
-            windowMouseY = e.getY()-31;
+            windowMouseX = e.getX();
+            windowMouseY = e.getY();
         }
         /**
          * handle mouse dragging
@@ -446,8 +446,8 @@ public class LevelCreationTool extends JFrame {
          */
         @Override
         public void mouseDragged(MouseEvent e) {
-            windowMouseX = e.getX()-8;
-            windowMouseY = e.getY()-31;
+            windowMouseX = e.getX();
+            windowMouseY = e.getY();
         }
         /**
          * handle mouse clicks
@@ -565,6 +565,13 @@ public class LevelCreationTool extends JFrame {
             if (mPressed) {
                 objectChosen = 98;
             }
+            
+            for (Tile t: roomData.roomTiles) {
+                if (new Rectangle(t.x, t.y, t.width, t.height).contains(windowMouseX, windowMouseY) && rightMouseHeld) {
+                    roomData.roomTiles.remove(t);
+                    break;
+                }
+            }
 
             if (leftMouseHeld) {
                 if (rectStartX < 0) { //start box corner
@@ -675,8 +682,17 @@ public class LevelCreationTool extends JFrame {
             
 
 
-            mouseXLabel.setText("mx:" + windowMouseX);
-            mouseYLabel.setText("my:" + windowMouseY);
+            
+            if (snapToGrid) {
+                windowMouseX -= (windowMouseX%10);
+                windowMouseY -= (windowMouseY%10);
+                mouseXLabel.setText("mx:" + windowMouseX);
+                mouseYLabel.setText("my:" + windowMouseY);
+            }
+            else {
+                mouseXLabel.setText("mx:" + windowMouseX);
+                mouseYLabel.setText("my:" + windowMouseY);
+            }
             if (objectChosen == 1) {
                 objLabel.setText("Platform");
             }

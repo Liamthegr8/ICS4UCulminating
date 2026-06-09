@@ -19,7 +19,7 @@ public class Player extends Rectangle {
     int maxvy = 40;
     int collisionRadiusCheck = width*3;
 
-    double dashSpeed=25;
+    double dashSpeed=15;
     double dashSpeedDiag=(dashSpeed * Math.sqrt(0.5));
    //double dashSpeedDiag= dashSpeed*.7;
     double dashx=0;
