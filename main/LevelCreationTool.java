@@ -577,6 +577,11 @@ public class LevelCreationTool extends JFrame {
                     break;
                 }
                 if (new Rectangle(t.x, t.y, t.width, t.height).contains(windowMouseX, windowMouseY) && leftMouseHeld && shiftPressed) {
+                    System.out.println("Enter color index:");
+                    int colorIndex = sc.nextInt();
+                    if (colorIndex != -1) {
+                        t.assignedMapColorIndex = colorIndex;
+                    }
                     System.out.println("Enter x position:");
                     int newX = sc.nextInt();
                     if (newX != -1) {
