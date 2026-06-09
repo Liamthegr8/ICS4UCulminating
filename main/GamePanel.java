@@ -101,7 +101,7 @@ import java.io.File;
          *resets main game variables upon e.g. death or by command, also allows for map to regenerate
         */
         void resetGame() {
-            boolean testingMap = true;
+            boolean testingMap = false;
             wPressed = false;
             aPressed = false;
             sPressed = false;
@@ -127,7 +127,7 @@ import java.io.File;
             player = new Player(0,500,18,18); //resets to constructors
             }else{
              //player = new Player(1200*9 + 600,500*10+250,18,30);
-             player = new Player(11400 ,8670,18,30);
+             player = new Player(11400 ,8670,18,18);
             }
             //Tanush Mock Collision Setup
             map = new Map();
@@ -187,7 +187,7 @@ import java.io.File;
                 Algorithim alg = new Algorithim();
                 for(int i =0; i<alg.directionMap.length; i++){
                      for (int j =0; j<alg.directionMap[i].length; j++){
-                        map.addRoomAt(x.findRoom(directionMap.generate(alg.directionMap[i][j],0)),j,i);
+                        map.addRoomAt(x.findRoom(directionMap.generate(alg.directionMap[i][j],alg.roomTypeMap[i][j])),j,i);
                      }
                 }
                 dirMap = new int[15][19];
@@ -530,6 +530,7 @@ import java.io.File;
             }
 
             //Player
+            /* 
             if (!player.canControl){
                 g2.setColor(Color.blue);
             } else if (player.isTouchingRightWall) {
@@ -541,7 +542,15 @@ import java.io.File;
             } else {
                 g2.setColor(Color.RED);
             }
-            g2.fillRect(player.x+camX, player.y+camY, player.width, player.height);
+                */
+                if (player.isDash){
+                g2.setColor(Color.blue);
+            }else if(player.canDash){
+                g2.setColor(Color.red);
+            }else if(!player.canDash){
+                g2.setColor(Color.cyan);
+            }
+            g2.fillOval(player.x+camX, player.y+camY, player.width, player.height);
 
             
         }

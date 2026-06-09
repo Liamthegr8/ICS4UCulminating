@@ -1,5 +1,6 @@
 public class Algorithim {
     int[][] directionMap;
+    int[][] roomTypeMap;
     Algorithim() {
         //DotAlgorithim dotAlg = new DotAlgorithim();
         //boolean ifrun=false;
@@ -776,11 +777,13 @@ public class Algorithim {
             direction.roomDir[hashAlgF.by-1][hashAlgF.bx]=5;
             direction.roomDir[hashAlgF.by-2][hashAlgF.bx]=9;
             direction.roomDir[hashAlgF.r3y][hashAlgF.r3x]=13;
+            direction.roomDir[hashAlgF.r3y-1][dotAlgFB.r4x]=11;
         }else{
             direction.roomDir[hashAlgF.by][hashAlgF.bx]=5;
             direction.roomDir[hashAlgF.by-1][hashAlgF.bx]=3;
             direction.roomDir[hashAlgF.by-2][hashAlgF.bx]=10;
             direction.roomDir[hashAlgF.r3y][hashAlgF.r3x]=15;
+            direction.roomDir[hashAlgF.r3y-1][dotAlgFB.r4x]=8;
         }
         direction.findDirection(7, 9,dotAlgFB.booleanMap,starAlgF.booleanMap, false);
         //direction.roomDir[10][9]=7;
@@ -788,7 +791,43 @@ public class Algorithim {
         direction.printOutDir();
 
         directionMap=direction.roomDir;
+        roomTypeMap= new int[15][19];
+
+         for(int i =0; i<15; i++){
+            for (int j =0; j<19; j++){
+
+                    roomTypeMap[i][j]=0;
+            }
+
+        }
         
+        //abilMapAdd(triAlgF.booleanMap,1);
+        //abilMapAdd(starAlgF.booleanMap,2);
+        //abilMapAdd(hashAlgF.booleanMap,3);
+        //abilMapAdd(balg.booleanMap,6);
+        //abilMapAdd(tilAlgF.booleanMap,4);
+        //abilMapAdd(atAlgF.booleanMap,5);
+        abilMapAdd(pillarAlg.booleanMap,1);
+        abilMapAdd(emptyAlg.booleanMap,2);
+        
+
+        for (int[] i : roomTypeMap) {
+            for (int j : i) {
+                System.out.print(j);
+            }
+            System.out.println();
+        }
+    }
+    public void abilMapAdd(boolean[][] map, int key){
+        for(int i =0; i<15; i++){
+            for (int j =0; j<19; j++){
+                if(map[i][j]){
+                    roomTypeMap[i][j]=key;
+                }
+                
+            }
+
+        }
     }
 }
 
