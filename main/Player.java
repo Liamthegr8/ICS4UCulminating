@@ -14,6 +14,7 @@ public class Player extends Rectangle {
     //checks to see if the player is able to control the player character(Depricated, was intended for room transitions)
     //repurposed for dashes
     boolean canControl, isDead, canDash, isGrounded, isTouchingRightWall, isTouchingLeftWall, isPlayerCollidable;
+    int numDashes = 1;
     boolean[] abilities = new boolean[5];
     int playerHealth, lastSurfaceTouched;
     int maxvx = 40;
@@ -63,6 +64,12 @@ public class Player extends Rectangle {
         playerLocation = null;
         lastSafeLocation = new int[2];
         isPlayerCollidable = true;    
+        //testing
+        abilities[0] = true;
+        abilities[1] = true;
+        abilities[2] = true;
+        abilities[3] = true;
+        abilities[4] = true;
     }
 
     void applyDamage(int dmg) {
@@ -326,6 +333,12 @@ public class Player extends Rectangle {
                             lastSurfaceTouched = 1;
                             coyoteTime = 20;
                             canDash = true;
+                            if (abilities[4]) {
+                                numDashes = 2;
+                            }
+                            else {
+                                numDashes = 1;
+                            }
 
                             //movingPlatformTile Script
                             /* if (surroundingTiles.get(i) instanceof MovingPlatformTile) {
@@ -345,6 +358,12 @@ public class Player extends Rectangle {
                                 lastSurfaceTouched = 1;
                                 coyoteTime = 20;
                                 canDash = true;
+                                if (abilities[4]) {
+                                    numDashes = 2;
+                                }
+                                else {
+                                    numDashes = 1;
+                                }
                             }
                         }
 
@@ -512,7 +531,10 @@ public class Player extends Rectangle {
     void dash(boolean w, boolean a, boolean s, boolean d) {
         
         if (canDash) {
-            canDash = false;
+            numDashes--;
+            if(numDashes<=0){
+                canDash=false;
+            }
             noGravityTime = dashTime;
             noControlTime = dashTime;
             isDash=true;
@@ -573,7 +595,10 @@ public class Player extends Rectangle {
     }
     void dashPastWall(boolean w, boolean a, boolean s, boolean d) { // just teleport x and y, and then apply some velocity in that dir
         if (canDash) {
-        canDash = false;
+        numDashes--;
+        if(numDashes<=0){
+            canDash=false;
+        }
         noGravityTime = dashTime;
         noControlTime = dashTime;
         noCollisionTime = dashTime;
