@@ -93,6 +93,7 @@ import java.io.File;
             this.addKeyListener(new KeyHandler());
             this.addMouseMotionListener(new MouseMotionHandler());
             //this.addMouseListener(new MouseMotionHandler());
+            this.setBackground(Color.BLACK);
 
         
         }
