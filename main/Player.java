@@ -29,7 +29,7 @@ public class Player extends Rectangle {
     boolean directionFaced=true;
     boolean isDash=false;
     final double airFriction = 0.03;
-    final double friction = 0.2;
+    final double friction = 0.1;
     int noControlTime=0;
     int noGravityTime=0;
     int noCollisionTime=0;
@@ -627,13 +627,13 @@ public class Player extends Rectangle {
     void gravityUpdate() {
         if (reverseGravity) {
             if(fastFall){
-            gravity = -1.3;
-        }else gravity = -1;
+            gravity = -1.1;
+        }else gravity = -.8;
         }
         else {
             if(fastFall){
-                gravity = 1.3;
-            }else gravity = 1;
+                gravity = 1.1;
+            }else gravity = .8;
         }
     }
 

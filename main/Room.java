@@ -77,20 +77,27 @@ public class Room {
         Color brown = new Color(200,200,0);
         Color DarkBrown = new Color(100,100,0);
         switch (index){
-            case 0:
+            case 0 -> {
                 //border
                 setEnterRoomTransitionColor(0, Color.BLACK);
                 //floor
                 setEnterRoomTransitionColor(1, Color.GRAY);
                 //spike
-                setEnterRoomTransitionColor(2, Color.MAGENTA);
-            case 1:
+                setEnterRoomTransitionColor(2, Color.MAGENTA);}
+            case 1 ->{
                 //border
                 setEnterRoomTransitionColor(0, DarkBrown);
                 //floor
                 setEnterRoomTransitionColor(1, brown);
                 //spike
-                setEnterRoomTransitionColor(2, red);
+                setEnterRoomTransitionColor(2, red);}
+            default -> {
+                //border
+                setEnterRoomTransitionColor(0, Color.BLACK);
+                //floor
+                setEnterRoomTransitionColor(1, Color.GRAY);
+                //spike
+                setEnterRoomTransitionColor(2, Color.MAGENTA);}
         }
     }
 

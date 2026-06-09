@@ -141,7 +141,7 @@ import java.io.File;
             Room algTest = x.findRoom(directionMap.generate(7,0));
             Room room1 = x.findRoom("RoomTest1");
             //Room room2 = new Room("Room2");
-            Room room2 = x.findRoom("RoomTest2");
+            Room room2 = x.findRoom("middleCrossPillar");
             Room room3= x.findRoom("RoomTest3");
             Room room4= x.findRoom("RoomTest4");
             Room hole= x.findRoom("FloorOpenTest");
@@ -194,6 +194,8 @@ import java.io.File;
                 dirMap = alg.directionMap;
                 Room straightSpawn =x.findRoom("straightSpawn");
                 map.addRoomAt(straightSpawn, 9, 10);
+                Room test =x.findRoom("vertNeoJ");
+                map.addRoomAt(test, 10, 10);
          }
         
         }

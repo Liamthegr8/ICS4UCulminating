@@ -117,7 +117,7 @@ public class MovingPlatformTile extends Tile{
      * @return  int array that contains all the object's relevant information
      */
     public int[] returnParams() {
-        int[] params = new int[8];
+        int[] params = new int[9];
         params[0] = 03;
         params[1] = iniX;
         params[2] = iniY;
@@ -126,6 +126,7 @@ public class MovingPlatformTile extends Tile{
         params[5] = assignedMapColorIndex;
         params[6] = endX;
         params[7] = endY;
+        params[8] = moveSpeed;
         return params;
     }
 }
