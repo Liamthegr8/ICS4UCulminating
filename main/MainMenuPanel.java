@@ -41,9 +41,9 @@ public class MainMenuPanel extends JPanel implements ActionListener {
         addKeyListener(new KeyHandler());
 
         buttons = new Button[3];
-        buttons[0] = new Button(windowX/2, 100, 200, 50, "Play", "play");
-        buttons[1] = new Button(windowX/2, 200, 200, 50, "Leaderboard", "leaderboard");
-        buttons[2] = new Button(windowX/2, 300, 200, 50, "Quit", "quit");
+        buttons[0] = new Button((windowX/2)-100, 100, 200, 50, "Play", "play");
+        buttons[1] = new Button((windowX/2)-100, 200, 200, 50, "Leaderboard", "leaderboard");
+        buttons[2] = new Button((windowX/2)-100, 300, 200, 50, "Quit", "quit");
 
     }
 

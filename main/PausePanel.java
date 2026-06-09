@@ -45,8 +45,8 @@ public class PausePanel extends JPanel implements ActionListener {
         addKeyListener(new KeyHandler());
 
         buttons = new Button[2];
-        buttons[0] = new Button(windowX/2, 100, 200, 50, "Resume", "resume");
-        buttons[1] = new Button(windowX/2, 200, 200, 50, "Main Menu", "menu");
+        buttons[0] = new Button(windowX/2-100, 100, 200, 50, "Resume", "resume");
+        buttons[1] = new Button(windowX/2-100, 200, 200, 50, "Main Menu", "menu");
 
     }
 
@@ -203,7 +203,7 @@ public class PausePanel extends JPanel implements ActionListener {
         //title text render
         g2.setColor(Color.BLACK);
         g2.setFont(new Font("Arial", Font.BOLD, 36));
-        g2.drawString("Paused", windowX/2, 50);
+        g2.drawString("Paused", (windowX/2)-100, 50);
 
 
         //button render

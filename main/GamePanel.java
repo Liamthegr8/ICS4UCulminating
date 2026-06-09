@@ -339,9 +339,11 @@ import java.io.File;
                 
             }
             if (sPressed) {
-                player.fastFall=true;
+                player.fastFall = true;
             }
-            else {player.fastFall=false;}
+            else {
+                player.fastFall = false;
+            }
             if (qPressed) {
                 resetGame();
             }

@@ -42,7 +42,7 @@ public class Player extends Rectangle {
 
     boolean isWin=false;
 
-    boolean fastFall =false;
+    boolean fastFall = false;
     boolean reverseGravity = false;
     boolean floating = false;
 
