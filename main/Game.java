@@ -21,6 +21,8 @@ public class Game extends JFrame implements ActionListener  {
     Timer tick;
     int tickDelay = 10;
     boolean lPressed;
+    static int windowX;
+    static int windowY;
 
     public static void main(String[] args) {
        SwingUtilities.invokeLater(new Runnable() {
@@ -88,6 +90,8 @@ public class Game extends JFrame implements ActionListener  {
         leaderboardScores[5] = "Player 6: 67";
 
         gamePanel = new GamePanel(getWidth(), getHeight(), leaderboardScores);
+        windowX = getWidth();
+        windowY = getHeight();
         menuPanel = new MainMenuPanel(getWidth(), getHeight());
         leaderboardPanel = new LeaderboardPanel(getWidth(), getHeight(), leaderboardScores); 
         pausePanel = new PausePanel(getWidth(), getHeight(), gamePanel.map);
