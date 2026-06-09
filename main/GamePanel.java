@@ -365,6 +365,10 @@ import java.io.File;
                 jPressed = false;
                 antiHoldDash = false;
             }
+            if (kPressed) {
+                player.gravityShift();
+                kPressed = false;
+             }
 
             //insert death on out of bounds below: (future)
             

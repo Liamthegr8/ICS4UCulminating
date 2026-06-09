@@ -35,6 +35,7 @@ public class Game extends JFrame implements ActionListener  {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Game");
         this.setResizable(true);
+        setUndecorated(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         
@@ -88,7 +89,7 @@ public class Game extends JFrame implements ActionListener  {
         gamePanel = new GamePanel(getWidth(), getHeight(), leaderboardScores);
         menuPanel = new MainMenuPanel(getWidth(), getHeight());
         leaderboardPanel = new LeaderboardPanel(getWidth(), getHeight(), leaderboardScores); 
-        //pausePanel = new PausePanel(getWidth(), getHeight(), gamePanel.map);
+        pausePanel = new PausePanel(getWidth(), getHeight(), gamePanel.map);
 
         switchTo(menuPanel);
         

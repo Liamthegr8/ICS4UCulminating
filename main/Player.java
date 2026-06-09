@@ -19,6 +19,7 @@ public class Player extends Rectangle {
     int maxvy = 40;
     int collisionRadiusCheck = width*3;
 
+    double jumpStrength = 20;
     double dashSpeed=15;
     double dashSpeedDiag=(dashSpeed * Math.sqrt(0.5));
    //double dashSpeedDiag= dashSpeed*.7;
@@ -40,6 +41,7 @@ public class Player extends Rectangle {
     boolean isWin=false;
 
     boolean fastFall =false;
+    boolean reverseGravity = false;
 
 
     Player(int x, int y, int width, int height) {
@@ -322,6 +324,12 @@ public class Player extends Rectangle {
                             //from bottom
                             this.y = tile.y + tile.height;
                             isGrounded = false;
+                            if (reverseGravity) {
+                                isGrounded = true;
+                                lastSurfaceTouched = 1;
+                                coyoteTime = 20;
+                                canDash = true;
+                            }
                         }
 
                         this.vy = 0;
@@ -445,7 +453,7 @@ public class Player extends Rectangle {
                 //setDashVelocity(vx, -20+vy); 
                 if(isDash){
                     setDashVelocity(vx, vy); 
-                }else{setDashVelocity(vx, -20); }
+                }else{setDashVelocity(vx, -jumpStrength); }
                 //System.out.println(vx);
                 coyoteTime=0;
                 bufferTime=0;
@@ -453,7 +461,7 @@ public class Player extends Rectangle {
             else if(lastSurfaceTouched == 2) {
                 if(isDash){
                     setDashVelocity(5, vy); 
-                }else{setDashVelocity(5, -25); }
+                }else{setDashVelocity(5, -jumpStrength * 1.25); }
                 isDash = false;
                 //System.out.println(vx);
                 
@@ -464,7 +472,7 @@ public class Player extends Rectangle {
             else if(lastSurfaceTouched == 3) {
                 if(isDash){
                     setDashVelocity(-5, vy); 
-                }else{setDashVelocity(-5, -25); }
+                }else{setDashVelocity(-5, -jumpStrength * 1.25); }
                 isDash = false; 
                 //System.out.println(vx);
                 coyoteTime=0;
@@ -610,10 +618,23 @@ public class Player extends Rectangle {
     }
     void grapplingHook() {   
     }
+    void gravityShift() {
+        gravity *= -1;
+        jumpStrength *= -1;
+        reverseGravity = !reverseGravity;
+
+    }
     void gravityUpdate() {
-        if(fastFall){
-            gravity = 1.3;
-        }else gravity =1;
+        if (reverseGravity) {
+            if(fastFall){
+            gravity = -1.3;
+        }else gravity = -1;
+        }
+        else {
+            if(fastFall){
+                gravity = 1.3;
+            }else gravity = 1;
+        }
     }
 
 }
