@@ -196,6 +196,8 @@ import java.io.File;
                 map.addRoomAt(straightSpawn, 9, 10);
                 Room test =x.findRoom("funnyRoom");
                 map.addRoomAt(test, 10, 10);
+                Room test2 = x.findRoom("MovingWallTJunction");
+                map.addRoomAt(test2, 8, 10);
          }
         
         }
