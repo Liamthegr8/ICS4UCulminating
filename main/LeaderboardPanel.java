@@ -39,7 +39,7 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
         buttons = new Button[1];
         // buttons[0] = new Button(windowX/2, 100, 200, 50, "Play", "play");
         // buttons[1] = new Button(windowX/2, 200, 200, 50, "Leaderboard", "leaderboard");
-        buttons[0] = new Button((windowX/2)-100, 900, 200, 50, "Back to menu", "menu");
+        buttons[0] = new Button(windowX/2, 300, 200, 50, "Back to menu", "menu");
 
     }
 
@@ -188,13 +188,13 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
 
         //title text render
         g2.setColor(Color.BLACK);
-        g2.setFont(new Font("Arial", Font.BOLD, 70));
-        g2.drawString("Leaderboard", windowX/2-200, 100);
+        g2.setFont(new Font("Arial", Font.BOLD, 36));
+        g2.drawString("Leaderboard", windowX/2, 50);
 
 
         //render leaderboard
         g2.setColor(Color.BLACK);
-        g2.setFont(new Font("Arial", Font.BOLD, 40));
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
         int yOffset = 0;
         int ySteps = 20;
         for (int i=0; i<tempLeaderboard.length; i++) {
