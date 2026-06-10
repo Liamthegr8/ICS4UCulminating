@@ -17,7 +17,7 @@ public class Game extends JFrame implements ActionListener  {
     LeaderboardPanel leaderboardPanel;
     PausePanel pausePanel;
     InfoPanel infoPanel;
-    String[] leaderboardScores;
+    double[] leaderboardScores;
     Timer tick;
     int tickDelay = 10;
     boolean lPressed;
@@ -82,12 +82,11 @@ public class Game extends JFrame implements ActionListener  {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        leaderboardScores = new String[10];
-        leaderboardScores[0] = "Player 1: 67";
-        leaderboardScores[1] = "Player 2: 67";
-        leaderboardScores[3] = "Player 4: 67";
-        leaderboardScores[4] = "Player 5: 67";
-        leaderboardScores[5] = "Player 6: 67";
+        leaderboardScores = new double[10];
+        // for (int i=0; i<leaderboardScores.length; i++) {
+        //     leaderboardScores[i] = 100000;
+        // }
+        
 
         gamePanel = new GamePanel(getWidth(), getHeight(), leaderboardScores);
         windowX = getWidth();
@@ -96,6 +95,10 @@ public class Game extends JFrame implements ActionListener  {
         leaderboardPanel = new LeaderboardPanel(getWidth(), getHeight(), leaderboardScores); 
         pausePanel = new PausePanel(getWidth(), getHeight(), gamePanel.map);
         infoPanel = new InfoPanel(getWidth(), getHeight());
+
+        gamePanel.readLeaderboard();
+        leaderboardScores = gamePanel.tempLeaderboard;
+        leaderboardPanel.tempLeaderboard = leaderboardScores;
 
         switchTo(menuPanel);
         
@@ -111,8 +114,13 @@ public class Game extends JFrame implements ActionListener  {
                 switchTo(gamePanel);
                 
             } else if (menuPanel.menuOption.equals("leaderboard")) {
+                System.out.println("Switching to leaderboard");
                 menuPanel.tick.stop();
                 leaderboardPanel.reset();
+                leaderboardScores = gamePanel.tempLeaderboard; //pass leaderboard
+                leaderboardPanel.tempLeaderboard = leaderboardScores;
+                
+
                 switchTo(leaderboardPanel);
             } else if (menuPanel.menuOption.equals("info")) {
                 menuPanel.tick.stop();

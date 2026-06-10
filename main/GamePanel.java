@@ -10,14 +10,15 @@ import java.util.*;
 import javax.swing.Timer;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-import java.io.File;
+
+import java.io.*;
 
     class GamePanel extends JPanel implements ActionListener {
         static int windowX; //not accurate anymore, uses window ref now
         static int windowY;
         int tickDelay = 10;
-        int camX;
-        int camY;
+        int camX, camY;
+        double camTransitionSpeed;
         Timer tick;
         Player player;
         Map map;
@@ -28,7 +29,7 @@ import java.io.File;
         boolean panelActive;
         boolean inMenu;
         boolean pauseMenuActive = false;
-        String[] tempLeaderboard;
+        double[] tempLeaderboard;
         int[][] dirMap;
 
         //debugging (labels for various statistics)
@@ -46,7 +47,7 @@ import java.io.File;
         JLabel isPlayerWalledRLabel;
         JLabel isPlayerWalledLLabel;
 
-        GamePanel(int windowWidth, int windowHeight, String[] leaderboard) {
+        GamePanel(int windowWidth, int windowHeight, double[] leaderboard) {
             windowX = windowWidth;
             windowY = windowHeight;
             tempLeaderboard = leaderboard;
@@ -94,7 +95,95 @@ import java.io.File;
             this.addMouseMotionListener(new MouseMotionHandler());
             //this.addMouseListener(new MouseMotionHandler());
             this.setBackground(Color.BLACK);
+
+        }
+
+        void addToLeaderboard(double score) {
+            readLeaderboard();
+
+            for (int i=0; i<tempLeaderboard.length; i++) {
+                if (score < tempLeaderboard[i]) {
+                    for (int j=tempLeaderboard.length-1; j>i; j--) {
+                        tempLeaderboard[j] = tempLeaderboard[j-1];
+                    }
+                    tempLeaderboard[i] = score;
+                    break;
+                }
+            }
+            saveLeaderboard();
+            readLeaderboard(); //this line for debug
+        }
+
+        void readLeaderboard() {
+            double[] leaderboardData = new double[tempLeaderboard.length];
+            //setup file reader
+            File leaderboardFile = new File("main\\assets\\leaderboard.txt");
+            FileReader in;
+            BufferedReader readFile;
+            String lineOfText;
+
+            try {
+                in = new FileReader(leaderboardFile);
+                readFile = new BufferedReader(in);
+
+                for (int i=0; i<leaderboardData.length; i++) {
+                    lineOfText = readFile.readLine();
+                    if (lineOfText != null) {
+                        leaderboardData[i] = Double.parseDouble(lineOfText);
+                        System.out.println("Read from file: " + lineOfText);
+                    } else {
+                        leaderboardData[i] = 100000; //default value if file has less entries than expected
+                    }
+                }
+                // while ((lineOfText = readFile.readLine()) != null){
+                //     System.out.println(lineOfText);
+                // }
+                readFile.close();
+                in.close();
+                tempLeaderboard = leaderboardData; //doesent update game leaderboard for some reason!!!
+
+            } catch (FileNotFoundException e) {
+                System.out.println("File does not exist or could not be found.");
+                System.err.println("FileNotFoundException: " + e.getMessage());
+            } catch (IOException e) {
+                System.out.println("Problem reading file.");
+                System.err.println("IOException: " + e.getMessage());
+            }
+        }
+
+        void clearFile(String filePath) {
+                // Instantiating with append=false (or leaving it blank) wipes the file
+            try (FileWriter fw = new FileWriter(filePath, false)) {
+                // No need to write anything; opening it already cleared the file
+                System.out.println("File contents successfully deleted.");
+            } catch (IOException e) {
+                System.err.println("An error occurred: " + e.getMessage());
+            }
+        }
         
+
+        void saveLeaderboard() {
+            //uses tempLeaderboard data
+            File leaderboardFile = new File("main\\assets\\leaderboard.txt");
+            FileWriter out;
+            BufferedWriter writeFile;
+            clearFile("main\\assets\\leaderboard.txt");
+            try {
+                out = new FileWriter(leaderboardFile);
+                writeFile = new BufferedWriter(out);
+                for (int i=0; i<tempLeaderboard.length; i++) {
+                    String data = String.valueOf(tempLeaderboard[i]);
+                    writeFile.write(data);
+                    writeFile.newLine();
+                }
+
+                writeFile.close();
+                out.close();
+                System.out.println("Data written to file.");
+            } catch (IOException e) {
+                System.out.println("Problem reading file.");
+                System.err.println("IOException: " + e.getMessage());
+            }
         }
 
         /**
@@ -121,7 +210,8 @@ import java.io.File;
             inMenu = false;
             camX = 0;
             camY = 0;
-            
+            camTransitionSpeed = 0.1;
+
             //player = new Player(0,0,18,30);
             if(testingMap){
             player = new Player(0,500,18,18); //resets to constructors
@@ -403,7 +493,7 @@ import java.io.File;
             //check death
             if (player.isDead) {
                 //resetGame();
-                tempLeaderboard[0] = "score ahh:" + String.valueOf(runtime);
+                addToLeaderboard(runtime);
                 panelActive = false;
             }
 
@@ -447,8 +537,10 @@ import java.io.File;
          */
         void updateCamera() {
             //based on window vars
-            camX = -player.x + (windowX/2) - (player.width/2);
-            camY = -player.y + (windowY/2) - (player.height/2);
+            int targetCamX = -player.x + (windowX/2) - (player.width/2);
+            int targetCamY = -player.y + (windowY/2) - (player.height/2);
+            camX += (targetCamX - camX) * camTransitionSpeed;
+            camY += (targetCamY - camY) * camTransitionSpeed;
         }
 
         /**

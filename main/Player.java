@@ -48,6 +48,7 @@ public class Player extends Rectangle {
     boolean reverseGravity = false;
     boolean floating = false;
 
+    Sound dashSound;
 
     Player(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -72,6 +73,9 @@ public class Player extends Rectangle {
         abilities[2] = true;
         abilities[3] = true;
         abilities[4] = true;
+
+        dashSound = new Sound();
+        dashSound.load("/assets/dash.wav");
     }
 
     void applyDamage(int dmg) {
@@ -562,8 +566,8 @@ public class Player extends Rectangle {
      * @param d bool that is true if player is pressing d
      */
     void dash(boolean w, boolean a, boolean s, boolean d) {
-        
         if (canDash) {
+            dashSound.play();
             numDashes--;
             if(numDashes<=0){
                 canDash=false;

@@ -15,10 +15,10 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
     Button[] buttons;
     int selectedButton;
     boolean selectButton;
-    String[] tempLeaderboard;
+    double[] tempLeaderboard;
 
 
-    LeaderboardPanel(int windowWidth, int windowHeight, String[] leaderboard) {
+    LeaderboardPanel(int windowWidth, int windowHeight, double[] leaderboard) {
         windowX = windowWidth;
         windowY = windowHeight;
         tempLeaderboard = leaderboard;
@@ -196,11 +196,9 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
         g2.setColor(Color.BLACK);
         g2.setFont(new Font("Arial", Font.BOLD, 40));
         int yOffset = 0;
-        int ySteps = 20;
+        int ySteps = 50;
         for (int i=0; i<tempLeaderboard.length; i++) {
-            if (tempLeaderboard[i] != null) {
-                g2.drawString(tempLeaderboard[i],windowX/2, 100+yOffset);
-            }
+                g2.drawString((i+1)+". " + tempLeaderboard[i],windowX/2-100, 300+yOffset);
             yOffset += ySteps;
         }
 
