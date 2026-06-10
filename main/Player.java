@@ -530,9 +530,12 @@ public class Player extends Rectangle {
                 isDash = false;
                 //System.out.println(vx);
                 //setDashVelocity(vx, -20+vy); 
-                if(isDash){
+                if(isDash) {
                     setDashVelocity(vx, vy); 
-                }else{setDashVelocity(vx, -jumpStrength); }
+                }
+                else{
+                    setDashVelocity(vx, -jumpStrength); 
+                }
                 //System.out.println(vx);
                 coyoteTime=0;
                 bufferTime=0;
@@ -540,7 +543,10 @@ public class Player extends Rectangle {
             else if(lastSurfaceTouched == 2) {
                 if(isDash){
                     setDashVelocity(5, vy); 
-                }else{setDashVelocity(5, -jumpStrength * 1.25); }
+                }
+                else {
+                    setDashVelocity(5, -jumpStrength); 
+                }
                 isDash = false;
                 //System.out.println(vx);
                 
@@ -549,9 +555,12 @@ public class Player extends Rectangle {
                 bufferTime=0;
             }
             else if(lastSurfaceTouched == 3) {
-                if(isDash){
+                if(isDash) {
                     setDashVelocity(-5, vy); 
-                }else{setDashVelocity(-5, -jumpStrength * 1.25); }
+                }
+                else {
+                    setDashVelocity(-5, -jumpStrength); 
+                }
                 isDash = false; 
                 //System.out.println(vx);
                 coyoteTime=0;
