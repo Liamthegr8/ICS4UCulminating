@@ -277,8 +277,10 @@ public class Player extends Rectangle {
                     if(t.winCondition){
                             isWin = true;
                         }
-                    
-                    if (t.killPlayer && !damageImmunity) {
+                    if (t.tileID == 05 && !t.enabled) {
+                        continue;
+                    }
+                    else if (t.killPlayer && !damageImmunity) {
                         applyDamage(25);
                         this.x = lastSafeLocation[0];
                         this.y = lastSafeLocation[1];
@@ -339,17 +341,21 @@ public class Player extends Rectangle {
             if (t != null) {
                 Rectangle tile = new Rectangle(t.x, t.y, t.width, t.height);
                 Rectangle testground = new Rectangle(t.x, t.y-1, t.width, t.height);
+                
                 if (this.intersects(tile) && t.isCollidable && (isPlayerCollidable || t.overideDisabledCollisions)) { //tanush edited for dash past wall
-                    if(t.winCondition){
-                            isWin = true;
-                        }  
+                    if (t.tileID == 05 && !t.enabled) {
+                        continue;
+                    }
+                    if (t.winCondition) {
+                        isWin = true;
+                    }
 
                     if (t.ability1) abilities[0] = true;
                     if (t.ability2) abilities[1] = true;
                     if (t.ability3) abilities[2] = true;
                     if (t.ability4) abilities[3] = true;
                     if (t.ability5) abilities[4] = true;
-                    
+
                     if (t.killPlayer && !damageImmunity) {
                         applyDamage(25);
                         this.x = lastSafeLocation[0];
@@ -357,8 +363,8 @@ public class Player extends Rectangle {
                         this.vx = 0;
                         this.vy = 0;
                         this.damageImmunity = true;
-                    }   
-                        if (yAmount > 0) {
+                    }
+                    if (yAmount > 0) {
                             //from top
                             if (!t.killPlayer) {
                                 lastSafeLocation[0] = this.x;
