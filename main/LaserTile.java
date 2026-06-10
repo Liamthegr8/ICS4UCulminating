@@ -7,6 +7,7 @@ public class LaserTile extends Tile{
         isCollidable = true;
         tileID = 05;
         enabled = false;
+        this.startDelay = startDelay;
         this.duration = duration;
         this.frequency = frequency;
         counter = 0 - startDelay;
