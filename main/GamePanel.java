@@ -284,7 +284,7 @@ import java.io.*;
                 dirMap = alg.directionMap;
                 Room straightSpawn =x.findRoom("straightSpawn");
                 map.addRoomAt(straightSpawn, 9, 10);
-                Room test =x.findRoom("LeftUpLaserBend");
+                Room test =x.findRoom("ElevatorDodgeLeftUp");
                 map.addRoomAt(test, 10, 10);
                 Room test2 = x.findRoom("LaserWallClimbRightDown");
                 map.addRoomAt(test2, 8, 10);
