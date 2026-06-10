@@ -79,6 +79,7 @@ public abstract class Tile {
         this.overideDisabledCollisions = tileData.overideDisabledCollisions;
         this.assignedMapColorIndex = tileData.assignedMapColorIndex;
         this.counter = tileData.counter;
+        this.texture = tileData.texture;
         // this.winCondition = tileData.winCondition;
     }
 
