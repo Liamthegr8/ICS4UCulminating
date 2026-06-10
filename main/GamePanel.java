@@ -194,9 +194,9 @@ import java.io.File;
                 dirMap = alg.directionMap;
                 Room straightSpawn =x.findRoom("straightSpawn");
                 map.addRoomAt(straightSpawn, 9, 10);
-                Room test =x.findRoom("funnyRoom");
+                Room test =x.findRoom("vertNeoJ");
                 map.addRoomAt(test, 10, 10);
-                Room test2 = x.findRoom("MovingWallTJunction");
+                Room test2 = x.findRoom("LaserGate");
                 map.addRoomAt(test2, 8, 10);
          }
         
@@ -518,13 +518,7 @@ import java.io.File;
                                 if (tile != null) {
                                     g2.setColor(Color.BLACK);
                                     g2.setStroke(new BasicStroke(1));
-
-                                    if (!(tile.tileID == 02) && tile.assignedMapColorIndex >= 0 && tile.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[tile.assignedMapColorIndex] != null) {    
-                                        Color tileColor = map.assignedTileColors[tile.assignedMapColorIndex];
-                                        g2.setColor(tileColor);
-                                        g2.fillRect((tile.x+camX), (tile.y+camY), tile.width, tile.height);
-                                          
-                                    } else {
+ 
                                         if (tile.tileID == 02) { //for SPIKES tiles
                                             Color tileColor = map.assignedTileColors[tile.assignedMapColorIndex];
                                             g2.setColor(tileColor);
@@ -533,13 +527,31 @@ import java.io.File;
                                             triangle.addPoint((tile.x+camX) + tile.width, (tile.y+camY) + tile.height);
                                             triangle.addPoint((tile.x+camX) + tile.width/2, (tile.y+camY));
                                             g2.fillPolygon(triangle); 
-                                        } else { //assumes black
+                                        } 
+                                        else if (tile.tileID == 05) {
+                                            if (tile.enabled) {
+                                                Color tileColor = map.assignedTileColors[tile.assignedMapColorIndex];
+                                                g2.setColor(tileColor);
+                                                g2.fillRect((tile.x+camX), (tile.y+camY), tile.width, tile.height);
+                                            }
+                                        }
+                                        else if (tile.assignedMapColorIndex >= 0 && tile.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[tile.assignedMapColorIndex] != null) {    
+                                            Color tileColor = map.assignedTileColors[tile.assignedMapColorIndex];
+                                            g2.setColor(tileColor);
+                                            g2.fillRect((tile.x+camX), (tile.y+camY), tile.width, tile.height);
+                                        }
+                                        else if (!(tile.tileID == 02) && !(tile.tileID == 05) && tile.assignedMapColorIndex >= 0 && tile.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[tile.assignedMapColorIndex] != null) {    
+                                        Color tileColor = map.assignedTileColors[tile.assignedMapColorIndex];
+                                        g2.setColor(tileColor);
+                                        g2.fillRect((tile.x+camX), (tile.y+camY), tile.width, tile.height);
+                                          
+                                        }
+                                        else { //assumes black
                                             g2.setColor(Color.BLACK);
                                             g2.fillRect((tile.x+camX), (tile.y+camY), tile.width, tile.height); 
                                         }
                                     }
                                 }
-                        }
 
             //DEBUG
             //Render Map bounds

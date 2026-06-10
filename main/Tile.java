@@ -25,7 +25,7 @@ public abstract class Tile {
     Image scaledImage;
     URL url;
     int imageXOffset, imageYOffset;
-    int startDelay, duration, frequency;
+    int startDelay, duration, frequency, counter;
     int assignedMapColorIndex;
     int tileID;
     int ability;
@@ -78,6 +78,7 @@ public abstract class Tile {
         this.frequency = tileData.frequency;
         this.overideDisabledCollisions = tileData.overideDisabledCollisions;
         this.assignedMapColorIndex = tileData.assignedMapColorIndex;
+        this.counter = tileData.counter;
         // this.winCondition = tileData.winCondition;
     }
 

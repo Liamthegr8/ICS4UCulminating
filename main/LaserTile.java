@@ -1,6 +1,5 @@
 
 public class LaserTile extends Tile{
-    int counter;
     
     LaserTile(int x, int y, int width, int height, int assignedMapColorIndex, int startDelay, int duration, int frequency) {
         super(x, y, width, height, assignedMapColorIndex);
@@ -8,25 +7,26 @@ public class LaserTile extends Tile{
         isCollidable = true;
         tileID = 05;
         enabled = false;
-        this.startDelay = startDelay;
         this.duration = duration;
         this.frequency = frequency;
-        counter = 0 - startDelay; //so that it starts with the delay
-
+        counter = 0 - startDelay;
     }
 
-    public void tick() {
-        if (enabled == false) {
+    public void tick(Player player, int roomX, int roomY) {
+        if (!enabled) {
             counter++;
-            if (counter >= frequency) {
+            if (counter == frequency) {
                 enabled = true;
+                counter = 0;
+                //System.out.println("laser enabled");
             }
-        }
-        if (enabled == true) {
+        } 
+        else {
             counter++;
-            if (counter >= duration + frequency) {
+            if (counter == duration) {
                 enabled = false;
                 counter = 0;
+                //System.out.println("laser disabled");
             }
         }
     }

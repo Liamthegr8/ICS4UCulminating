@@ -105,7 +105,7 @@ public class LevelCreationTool extends JFrame {
         map.setMapTileColor(1, Color.RED);
 
         roomData = new Room("NONAME");
-        //roomData = x.findRoom("MovingWallTJunction");
+        roomData = x.findRoom("LeftDownBend1");
         map.addRoomAt(roomData, 0, 0);
         player = new Player(-100, -10000, 1, 1);
         
@@ -810,12 +810,17 @@ public class LevelCreationTool extends JFrame {
                             if (t != null) {
                                 g2.setColor(Color.BLACK);
                                 g2.setStroke(new BasicStroke(1));
-
-                                if (t.assignedMapColorIndex >= 0 && t.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[t.assignedMapColorIndex] != null) {    
+                                if (t.tileID == 05 && t.enabled) {
+                                    Color tileColor = map.assignedTileColors[t.assignedMapColorIndex];
+                                    g2.setColor(tileColor);
+                                    g2.fillRect(t.x, t.y, t.width, t.height);
+                                }
+                                else if (t.assignedMapColorIndex >= 0 && t.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[t.assignedMapColorIndex] != null) {    
                                     Color tileColor = map.assignedTileColors[t.assignedMapColorIndex];
                                     g2.setColor(tileColor);
                                     g2.fillRect(t.x, t.y, t.width, t.height);  
-                                } else {
+                                } 
+                                else {
                                     if (t.assignedMapColorIndex == -2) { //for transparent tiles
                                         //no fill or draw
                                     } else { //assumes -1 - black
