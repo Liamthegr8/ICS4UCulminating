@@ -56,26 +56,26 @@ import java.io.*;
             // this.setSize(windowX,windowY); //IGNORED DUE TO JPANELPACK
 
             //debugging elements
-            windowXLabel = new JLabel();
-            windowYLabel = new JLabel();
-            playerXLabel = new JLabel();
-            playerYLabel = new JLabel();
-            playervxLabel = new JLabel();
-            playervyLabel = new JLabel();
-            isPlayerGroundedLabel = new JLabel();
-            isPlayerWalledRLabel = new JLabel();
-            isPlayerWalledLLabel = new JLabel();
-            playerLocLabel = new JLabel();
-            // this.add(windowXLabel);
-            // this.add(windowYLabel);
-            this.add(playerXLabel);
-            this.add(playerYLabel);
-            this.add(playervxLabel);
-            this.add(playervyLabel);
-            this.add(isPlayerWalledRLabel);
-            this.add(isPlayerWalledLLabel);
-            this.add(isPlayerGroundedLabel);
-            this.add(playerLocLabel);
+            // windowXLabel = new JLabel();
+            // windowYLabel = new JLabel();
+            // playerXLabel = new JLabel();
+            // playerYLabel = new JLabel();
+            // playervxLabel = new JLabel();
+            // playervyLabel = new JLabel();
+            // isPlayerGroundedLabel = new JLabel();
+            // isPlayerWalledRLabel = new JLabel();
+            // isPlayerWalledLLabel = new JLabel();
+            // playerLocLabel = new JLabel();
+            // // this.add(windowXLabel);
+            // // this.add(windowYLabel);
+            // this.add(playerXLabel);
+            // this.add(playerYLabel);
+            // this.add(playervxLabel);
+            // this.add(playervyLabel);
+            // this.add(isPlayerWalledRLabel);
+            // this.add(isPlayerWalledLLabel);
+            // this.add(isPlayerGroundedLabel);
+            // this.add(playerLocLabel);
             
             gameSetup();
         }
@@ -529,23 +529,23 @@ import java.io.*;
             updateCamera();      
 
             //debugging
-            windowXLabel.setText("Window MouseX: " + String.valueOf(windowMouseX));
-            windowYLabel.setText("Window MouseY: " + String.valueOf(windowMouseY));
-            playerXLabel.setText("Player x: " + String.valueOf(player.x));
-            playerYLabel.setText("Player y: " + String.valueOf(player.y));
-            String roundedvx = String.format("%.1f", player.vx);
-            String roundedvy = String.format("%.1f", player.vy);
-            playervxLabel.setText("Player vx: " + roundedvx);
-            playervyLabel.setText("Player vy: " + roundedvy);
-            //isPlayerGroundedLabel.setText("Player Grounded: " + String.valueOf(player.isGrounded));
-            isPlayerGroundedLabel.setText("runtime: " + String.valueOf(runtime));
-            isPlayerWalledRLabel.setText("Player R Walled: " + String.valueOf(player.isTouchingRightWall));
-            isPlayerWalledLLabel.setText("Player L Walled: " + String.valueOf(player.isTouchingLeftWall));
-            if (player.playerLocation != null) {
-                playerLocLabel.setText("Location:" + "[" + player.playerLocation[0] + " , " + player.playerLocation[1] + "]");
-            } else {
-                playerLocLabel.setText("Location: null");
-            }
+            // windowXLabel.setText("Window MouseX: " + String.valueOf(windowMouseX));
+            // windowYLabel.setText("Window MouseY: " + String.valueOf(windowMouseY));
+            // playerXLabel.setText("Player x: " + String.valueOf(player.x));
+            // playerYLabel.setText("Player y: " + String.valueOf(player.y));
+            // String roundedvx = String.format("%.1f", player.vx);
+            // String roundedvy = String.format("%.1f", player.vy);
+            // playervxLabel.setText("Player vx: " + roundedvx);
+            // playervyLabel.setText("Player vy: " + roundedvy);
+            // //isPlayerGroundedLabel.setText("Player Grounded: " + String.valueOf(player.isGrounded));
+            // isPlayerGroundedLabel.setText("runtime: " + String.valueOf(runtime));
+            // isPlayerWalledRLabel.setText("Player R Walled: " + String.valueOf(player.isTouchingRightWall));
+            // isPlayerWalledLLabel.setText("Player L Walled: " + String.valueOf(player.isTouchingLeftWall));
+            // if (player.playerLocation != null) {
+            //     playerLocLabel.setText("Location:" + "[" + player.playerLocation[0] + " , " + player.playerLocation[1] + "]");
+            // } else {
+            //     playerLocLabel.setText("Location: null");
+            // }
             
             //refresh graphics
             this.repaint();	
@@ -669,35 +669,35 @@ import java.io.*;
 
             //DEBUG
             //Render Map bounds
-            for (int i=0; i<map.mapRooms.length; i++) {
-                for (int j=0; j<map.mapRooms.length; j++) {
-                    Room r = map.mapRooms[i][j];
-                    if (r != null) {
-                        g2.setColor(Color.GRAY);
-                        g2.setStroke(new BasicStroke(5));
-                        g2.drawRect(i*Room.roomWidth + camX, j*Room.roomHeight + camY, Room.roomWidth, Room.roomHeight);
-                    }
-                }
-            }
+            // for (int i=0; i<map.mapRooms.length; i++) {
+            //     for (int j=0; j<map.mapRooms.length; j++) {
+            //         Room r = map.mapRooms[i][j];
+            //         if (r != null) {
+            //             g2.setColor(Color.GRAY);
+            //             g2.setStroke(new BasicStroke(5));
+            //             g2.drawRect(i*Room.roomWidth + camX, j*Room.roomHeight + camY, Room.roomWidth, Room.roomHeight);
+            //         }
+            //     }
+            // }
             //Render surroundingTiles
-            ArrayList<Tile> tiles = player.surroundingTiles;
-            for (Tile tile: tiles) {
-                Tile t = tile;
-                if (t != null) {
-                    g2.setColor(Color.BLUE);
-                    //g2.fillRect(t.x+camX, t.y+camY, t.width, t.height);
-                    g2.setColor(Color.RED);
-                    g2.setStroke(new BasicStroke(3));
-                    g2.drawRect(t.x+camX, t.y+camY, t.width, t.height);
-                }
-            }
+            // ArrayList<Tile> tiles = player.surroundingTiles;
+            // for (Tile tile: tiles) {
+            //     Tile t = tile;
+            //     if (t != null) {
+            //         g2.setColor(Color.BLUE);
+            //         //g2.fillRect(t.x+camX, t.y+camY, t.width, t.height);
+            //         g2.setColor(Color.RED);
+            //         g2.setStroke(new BasicStroke(3));
+            //         g2.drawRect(t.x+camX, t.y+camY, t.width, t.height);
+            //     }
+            // }
 
             //Render currentRoom
-            if (player.playerLocation != null) {
-                g2.setColor(Color.CYAN);
-                g2.setStroke(new BasicStroke(3));
-                g2.drawRect(player.playerLocation[0]*Room.roomWidth + camX, player.playerLocation[1]*Room.roomHeight + camY, Room.roomWidth, Room.roomHeight);
-            }
+            // if (player.playerLocation != null) {
+            //     g2.setColor(Color.CYAN);
+            //     g2.setStroke(new BasicStroke(3));
+            //     g2.drawRect(player.playerLocation[0]*Room.roomWidth + camX, player.playerLocation[1]*Room.roomHeight + camY, Room.roomWidth, Room.roomHeight);
+            // }
 
             //Player
             /* 
