@@ -15,15 +15,15 @@ public class RelicTile extends Tile{
         switch (ability) {
             case 1:
                 ability1 = true;
-                texture = loadImage("parachute.png");
+                texture = loadImage("walljump.png");
                 break;
             case 2:
                 ability2 = true;
-                texture = loadImage("parachute.png");
+                texture = loadImage("walldash.png");
                 break;
             case 3:
                 ability3 = true;
-                texture = loadImage("parachute.png");
+                texture = loadImage("doubledash.png");
                 break;
             case 4:
                 ability4 = true;
@@ -31,7 +31,7 @@ public class RelicTile extends Tile{
                 break;
             case 5:
                 ability5 = true;
-                texture = loadImage("parachute.png");
+                texture = loadImage("gravityflip.png");
                 break;
             default:
                 System.out.println("Invalid ability for relic tile: " + ability);

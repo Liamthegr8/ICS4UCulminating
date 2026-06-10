@@ -194,13 +194,13 @@ public class InfoPanel extends JPanel implements ActionListener {
         g2.setFont(new Font("Arial", Font.BOLD, 50));
         g2.drawString("Controls", (windowX/2), 250);
         g2.setFont(new Font("Arial", Font.BOLD, 30));
-        g2.drawString("WASD to move and navigate menu", (windowX/2), 300);
-        g2.drawString("U to Jump/Select", (windowX/2), 350);
-        g2.drawString("I to Dash", (windowX/2), 400);
-        g2.drawString("O to Parachute", (windowX/2), 450);
-        g2.drawString("J to Dash through walls", (windowX/2), 500);
-        g2.drawString("K to Gravity Flip", (windowX/2), 550);
-        g2.drawString("L to Pause Game", (windowX/2), 600);
+        g2.drawString("Stick to move and navigate menu", (windowX/2), 300);
+        g2.drawString("A to Jump/Select", (windowX/2), 350);
+        g2.drawString("B to Dash", (windowX/2), 400);
+        g2.drawString("C to Parachute", (windowX/2), 450);
+        g2.drawString("X to Dash through walls", (windowX/2), 500);
+        g2.drawString("Y to Gravity Flip", (windowX/2), 550);
+        g2.drawString("Z to Pause Game", (windowX/2), 600);
 
 
         // g2.drawString("WASD to move", (windowX/2), 450);
@@ -214,7 +214,7 @@ public class InfoPanel extends JPanel implements ActionListener {
         g2.setFont(new Font("Arial", Font.BOLD, 50));
         g2.drawString("Rules", (windowX/2)-800, 250);
         g2.setFont(new Font("Arial", Font.BOLD, 30));
-        g2.drawString("You have 4 lives. Your goal is to collect a set", (windowX/2)-800, 300);
+        g2.drawString("You have 8 lives. Your goal is to collect a set", (windowX/2)-800, 300);
         g2.drawString("of relics that unlocks special abilities that help", (windowX/2)-800, 325);
         g2.drawString("you navigate through the course. To win the game,", (windowX/2)-800, 350);
         g2.drawString("you aim to reach the end game room in the", (windowX/2)-800, 375);

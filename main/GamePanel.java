@@ -345,6 +345,23 @@ import java.io.*;
                 if (e.getKeyCode() == KeyEvent.VK_Q) {
                     qPressed = true;
                 } 
+                if (e.getKeyCode() == KeyEvent.VK_B) {
+                    if (!player.abilities[0]) {
+                        player.abilities[0] = true;
+                        player.abilities[1] = true;
+                        player.abilities[2] = true;
+                        player.abilities[3] = true;
+                        player.abilities[4] = true;
+                    }
+                    else {
+                        player.abilities[0] = false;
+                        player.abilities[1] = false;
+                        player.abilities[2] = false;
+                        player.abilities[3] = false;
+                        player.abilities[4] = false;
+                    }
+                
+                }
             }
             /**
              * handle key releases

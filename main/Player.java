@@ -68,11 +68,11 @@ public class Player extends Rectangle {
         lastSafeLocation = new int[2];
         isPlayerCollidable = true;    
         //testing
-        abilities[0] = true;
-        abilities[1] = true;
-        abilities[2] = true;
-        abilities[3] = true;
-        abilities[4] = true;
+        // abilities[0] = true;
+        // abilities[1] = true;
+        // abilities[2] = true;
+        // abilities[3] = true;
+        // abilities[4] = true;
 
         dashSound = new Sound();
         dashSound.load("/assets/dash.wav");
@@ -281,12 +281,13 @@ public class Player extends Rectangle {
                         continue;
                     }
                     else if (t.killPlayer && !damageImmunity) {
+                        this.damageImmunity = true;
                         applyDamage(25);
-                        this.x = lastSafeLocation[0];
-                        this.y = lastSafeLocation[1];
+                        this.x = 11400;
+                        this.y = 8670;
                         this.vx = 0;
                         this.vy = 0;
-                        this.damageImmunity = true;
+                        break;
                     }
                     if (xAmount > 0) {
                         //from right
@@ -307,17 +308,23 @@ public class Player extends Rectangle {
                     if (playerShiftedRight.intersects(tile)) {
                         //from right
                         isTouchingRightWall = true;
-                        lastSurfaceTouched = 3;
-                        coyoteTime = 20;
-                    } else {
+                        if (abilities[0]) {
+                            lastSurfaceTouched = 3;
+                            coyoteTime = 20;
+                        }
+                    } 
+                    else {
                         isTouchingRightWall = false;
                     }
                     if (playerShiftedLeft.intersects(tile)) {
                         //from left
                         isTouchingLeftWall = true;
-                        lastSurfaceTouched = 2;
-                        coyoteTime = 20;
-                    } else {
+                        if (abilities[0]) {
+                            lastSurfaceTouched = 2;
+                            coyoteTime = 20;
+                        }
+                    } 
+                    else {
                         isTouchingLeftWall = false;
                     }
                 }
@@ -350,26 +357,27 @@ public class Player extends Rectangle {
                         isWin = true;
                     }
 
-                    if (t.ability1) abilities[0] = true;
-                    if (t.ability2) abilities[1] = true;
-                    if (t.ability3) abilities[2] = true;
-                    if (t.ability4) abilities[3] = true;
-                    if (t.ability5) abilities[4] = true;
+                    if (t.ability1) abilities[0] = true; //wall jump
+                    if (t.ability2) abilities[1] = true; //phase dash
+                    if (t.ability3) abilities[2] = true; //double dash
+                    if (t.ability4) abilities[3] = true; //parachute
+                    if (t.ability5) abilities[4] = true; //grav flip
 
                     if (t.killPlayer && !damageImmunity) {
+                        this.damageImmunity = true;
                         applyDamage(25);
-                        this.x = lastSafeLocation[0];
-                        this.y = lastSafeLocation[1];
+                        this.x = 11400;
+                        this.y = 8670;
                         this.vx = 0;
                         this.vy = 0;
-                        this.damageImmunity = true;
+                        break;
                     }
                     if (yAmount > 0) {
                             //from top
-                            if (!t.killPlayer) {
-                                lastSafeLocation[0] = this.x;
-                                lastSafeLocation[1] = this.y;
-                            }
+                            // if (!t.killPlayer && t.tileID != 03 && isGrounded) {
+                            //     lastSafeLocation[0] = this.x;
+                            //     lastSafeLocation[1] = this.y;
+                            // }
                             this.y = tile.y - this.height;
                             isGrounded = true;
                             lastSurfaceTouched = 1;
@@ -400,7 +408,7 @@ public class Player extends Rectangle {
                                 lastSurfaceTouched = 1;
                                 coyoteTime = 20;
                                 canDash = true;
-                                if (abilities[4]) {
+                                if (abilities[2]) {
                                     numDashes = 2;
                                 }
                                 else {
@@ -540,37 +548,35 @@ public class Player extends Rectangle {
                 coyoteTime=0;
                 bufferTime=0;
             }
-            else if(lastSurfaceTouched == 2) {
-                if(isDash){
-                    setDashVelocity(5, vy); 
-                }
-                else {
-                    setDashVelocity(5, -jumpStrength); 
-                }
-                isDash = false;
-                //System.out.println(vx);
+            else if (abilities[0]) {
+                if (lastSurfaceTouched == 2) {
+                    if (isDash){
+                        setDashVelocity(5, vy); 
+                    }
+                    else {
+                        setDashVelocity(5, -jumpStrength); 
+                    }
+                    isDash = false;
+                    //System.out.println(vx);
                 
-                //System.out.println(vx);
-                coyoteTime=0;
-                bufferTime=0;
-            }
-            else if(lastSurfaceTouched == 3) {
-                if(isDash) {
-                    setDashVelocity(-5, vy); 
+                    //System.out.println(vx);
+                    coyoteTime=0;
+                    bufferTime=0;
                 }
-                else {
-                    setDashVelocity(-5, -jumpStrength); 
+                else if(lastSurfaceTouched == 3) {
+                    if (isDash) {
+                        setDashVelocity(-5, vy); 
+                    }
+                    else {
+                        setDashVelocity(-5, -jumpStrength); 
+                    }
+                    isDash = false; 
+                    //System.out.println(vx);
+                    coyoteTime=0;
+                    bufferTime=0;
                 }
-                isDash = false; 
-                //System.out.println(vx);
-                coyoteTime=0;
-                bufferTime=0;
-            }
-            
-            
-        }
-        
-            
+            }   
+        }   
     }
     
     /**
@@ -646,7 +652,8 @@ public class Player extends Rectangle {
         //not used methods yet, for future    
     }
     void dashPastWall(boolean w, boolean a, boolean s, boolean d) { // just teleport x and y, and then apply some velocity in that dir
-        if (canDash) {
+        if (abilities[1]) {
+            if (canDash) {
         numDashes--;
         if(numDashes<=0){
             canDash=false;
@@ -707,12 +714,14 @@ public class Player extends Rectangle {
             dashy = 0;
         }    
     }
+        }
     }
     void gravityShift() {
-        gravity *= -1;
-        jumpStrength *= -1;
-        reverseGravity = !reverseGravity;
-
+        if (abilities[4]) {
+            gravity *= -1;
+            jumpStrength *= -1;
+            reverseGravity = !reverseGravity;
+        }
     }
     void gravityUpdate() {
         if (reverseGravity) {
@@ -726,8 +735,10 @@ public class Player extends Rectangle {
             }else gravity = .8;
         }
         if (floating) {
-            if (vy > 0) {
-                gravity *= 0.3;
+            if (abilities[3]) {
+                if (vy > 0) {
+                    gravity *= 0.3;
+                }
             }
         }
     }
