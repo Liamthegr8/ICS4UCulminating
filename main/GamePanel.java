@@ -286,7 +286,7 @@ import java.io.*;
                 map.addRoomAt(straightSpawn, 9, 10);
                 Room test =x.findRoom("LeftUpLaserBend");
                 map.addRoomAt(test, 10, 10);
-                Room test2 = x.findRoom("WallJumpClimbUpRight");
+                Room test2 = x.findRoom("LaserWallClimbRightDown");
                 map.addRoomAt(test2, 8, 10);
          }
         
