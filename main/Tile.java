@@ -67,6 +67,7 @@ public abstract class Tile {
         this.isCollidable = tileData.isCollidable;
         this.winCondition = tileData.winCondition;
         //new
+        this.ability = tileData.ability;
         this.ability1 = tileData.ability1;
         this.ability2 = tileData.ability2;
         this.ability3 = tileData.ability3;

@@ -16,6 +16,7 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
     int selectedButton;
     boolean selectButton;
     double[] tempLeaderboard;
+    GradientPaint redPinkGP;
 
 
     LeaderboardPanel(int windowWidth, int windowHeight, double[] leaderboard) {
@@ -29,6 +30,7 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
         selectedButton = 0;
         selectButton = false;
         panelActive = false;
+        redPinkGP = new GradientPaint(0, 0, Color.RED, windowX, windowY, Color.PINK);
 
         //this.setPreferredSize(new Dimension(windowX,windowY));
 
@@ -185,6 +187,8 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
         Graphics2D g2 = (Graphics2D) g;
         //Turn on antialiasing
 	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setPaint(redPinkGP);
+        g2.fillRect(0, 0, windowX, windowY);
 
         //title text render
         g2.setColor(Color.BLACK);
