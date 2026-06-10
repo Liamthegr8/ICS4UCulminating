@@ -721,9 +721,10 @@ public class Player extends Rectangle {
     }
     void gravityShift() {
         if (abilities[4]) {
+            if(isGrounded){
             gravity *= -1;
             jumpStrength *= -1;
-            reverseGravity = !reverseGravity;
+            reverseGravity = !reverseGravity;}
         }
     }
     void gravityUpdate() {
