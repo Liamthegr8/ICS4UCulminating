@@ -13,7 +13,7 @@ import java.awt.event.*;
 public class Game extends JFrame implements ActionListener  {
     JPanel activePanel;
     MainMenuPanel menuPanel;
-    GamePanel gamePanel;
+    static GamePanel gamePanel;
     LeaderboardPanel leaderboardPanel;
     PausePanel pausePanel;
     InfoPanel infoPanel;

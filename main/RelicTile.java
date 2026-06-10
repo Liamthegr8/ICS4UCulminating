@@ -18,7 +18,7 @@ public class RelicTile extends Tile{
                 texture = loadImage("walljump.png");
                 break;
             case 2:
-                ability2 = true;
+                ability2=true;
                 texture = loadImage("walldash.png");
                 break;
             case 3:

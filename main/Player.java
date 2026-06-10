@@ -48,6 +48,8 @@ public class Player extends Rectangle {
     boolean reverseGravity = false;
     boolean floating = false;
 
+    boolean godMode = false;
+
     Sound dashSound;
 
     Player(int x, int y, int width, int height) {
@@ -522,6 +524,7 @@ public class Player extends Rectangle {
         } // else dont force to dead, as we might manually set it dead true
         applyVelocity();
         this.damageImmunity = false;
+        if (godMode) this.damageImmunity=true;
     }
 
     //ability methods

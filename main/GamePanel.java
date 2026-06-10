@@ -362,6 +362,11 @@ import java.io.*;
                     }
                 
                 }
+                if (e.getKeyCode() == KeyEvent.VK_V) {
+                    if(!player.godMode){
+                    player.godMode =true;}
+                    else player.godMode=false;
+                }
             }
             /**
              * handle key releases
