@@ -809,6 +809,7 @@ public class Algorithim {
         //abilMapAdd(atAlgF.booleanMap,5);
         abilMapAdd(pillarAlg.booleanMap,1);
         abilMapAdd(emptyAlg.booleanMap,2);
+        roomTypeMap[pillarAlg.alg1y][pillarAlg.alg1x]=0;
         roomTypeMap[pillarAlg.r1y][pillarAlg.r1x]=71;
         roomTypeMap[pillarAlg.r2y][pillarAlg.r2x]=72;
         roomTypeMap[pillarAlg.r3y][pillarAlg.r3x]=73;
