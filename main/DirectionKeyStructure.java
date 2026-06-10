@@ -18,9 +18,11 @@ public class DirectionKeyStructure {
     }
     public String generate(){
         Random r = new Random();
+        System.out.println(roomNameList.size());
         return get(r.nextInt(roomNameList.size()));
     }
     public String generate(int dirKey, int roomType){
+        System.out.printf("\nkey: %d, roomType: %d\n",dirKey,roomType);
         DirectionKeyStructure roomsAvailType = new DirectionKeyStructure();
         roomsAvailType = checkRoomType(roomType);
         DirectionKeyStructure roomsAvail = new DirectionKeyStructure();
