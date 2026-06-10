@@ -626,6 +626,11 @@ import java.io.*;
                                                 g2.setColor(tileColor);
                                                 g2.fillRect((tile.x+camX), (tile.y+camY), tile.width, tile.height);
                                             }
+                                        } else if (tile.tileID == 98) { //RELICS render
+                                            g2.drawImage(tile.texture, (tile.x+camX), (tile.y+camY), null);
+                                                // g2.setColor(tileColor);
+                                                // g2.fillRect((tile.x+camX), (tile.y+camY), tile.width, tile.height);
+                                            
                                         }
                                         else if (tile.assignedMapColorIndex >= 0 && tile.assignedMapColorIndex<map.assignedTileColors.length && map.assignedTileColors[tile.assignedMapColorIndex] != null) {    
                                             Color tileColor = map.assignedTileColors[tile.assignedMapColorIndex];
@@ -639,7 +644,7 @@ import java.io.*;
                                           
                                         }
                                         else { //assumes black
-                                            g2.setColor(Color.BLACK);
+                                            g2.setColor(Color.WHITE);
                                             g2.fillRect((tile.x+camX), (tile.y+camY), tile.width, tile.height); 
                                         }
                                     }
@@ -703,9 +708,9 @@ import java.io.*;
             //healthbar
             for (int i = 0; i < player.playerHealth; i += 25) {
                 g2.setColor(Color.RED);
-                g2.fillRect(i, 25, 20, 20);
+                g2.fillOval(i+20, 25, 20, 20);
                 g2.setColor(Color.BLACK);
-                g2.drawRect(i, 25, 20, 20);
+                g2.drawOval(i+20, 25, 20, 20);
             }
         }
     }
