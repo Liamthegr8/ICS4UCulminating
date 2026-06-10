@@ -58,7 +58,7 @@ public class Player extends Rectangle {
         vy = 0;
         gravity = 1;
         isDead = false;
-        playerHealth = 100;
+        playerHealth = 200;
         canControl = true;
         canDash = false;
         isGrounded = false;
