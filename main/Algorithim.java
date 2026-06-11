@@ -803,9 +803,9 @@ public class Algorithim {
         
         abilMapAdd(triAlgF.booleanMap,1);
         abilMapAdd(starAlgF.booleanMap,1);
-        //abilMapAdd(hashAlgF.booleanMap,3);
+        abilMapAdd(hashAlgF.booleanMap,3);
         //abilMapAdd(balg.booleanMap,6);
-        //abilMapAdd(tilAlgF.booleanMap,4);
+        abilMapAdd(tilAlgF.booleanMap,2);
         //abilMapAdd(atAlgF.booleanMap,5);
         abilMapAdd(pillarAlg.booleanMap,1);
         abilMapAdd(emptyAlg.booleanMap,2);

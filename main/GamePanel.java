@@ -16,7 +16,7 @@ import java.io.*;
     class GamePanel extends JPanel implements ActionListener {
         static int windowX; //not accurate anymore, uses window ref now
         static int windowY;
-        int tickDelay = 10;
+        int tickDelay = 15;
         int camX, camY;
         double camTransitionSpeed;
         Timer tick;
@@ -284,8 +284,8 @@ import java.io.*;
                 dirMap = alg.directionMap;
                 Room straightSpawn =x.findRoom("straightSpawn");
                 map.addRoomAt(straightSpawn, 9, 10);
-                // Room test =x.findRoom("ElevatorDodgeLeftUp");
-                // map.addRoomAt(test, 10, 10);
+                 Room test =x.findRoom("WallJumpStraight");
+                 map.addRoomAt(test, 10, 10);
                 // Room test2 = x.findRoom("LaserWallClimbRightDown");
                 // map.addRoomAt(test2, 8, 10);
          }
