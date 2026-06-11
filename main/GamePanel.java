@@ -542,6 +542,9 @@ import java.net.URL;
                 addToLeaderboard(runtime);
                 panelActive = false;
             }
+            if (player.isWin) {
+                player.isDead = true;
+            }
 
             //room tick
             for (int i=0; i<map.mapRooms.length; i++) {

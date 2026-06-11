@@ -364,13 +364,13 @@ public class Player extends Rectangle {
                     if (t.ability3) this.abilities[2] = true; //double dash
                     if (t.ability4) this.abilities[3] = true; //parachute
                     if (t.ability5) this.abilities[4] = true; //grav flip
-                    if (abilities[0] || abilities[1] || abilities[2] || abilities[3] || abilities[4]) {
-                        System.out.println(String.valueOf(abilities[0])); 
-                        System.out.println(String.valueOf(abilities[1])); 
-                        System.out.println(String.valueOf(abilities[2])); 
-                        System.out.println(String.valueOf(abilities[3])); 
-                        System.out.println(String.valueOf(abilities[4])); 
-                    }
+                    // if (abilities[0] || abilities[1] || abilities[2] || abilities[3] || abilities[4]) {
+                    //     System.out.println(String.valueOf(abilities[0])); 
+                    //     System.out.println(String.valueOf(abilities[1])); 
+                    //     System.out.println(String.valueOf(abilities[2])); 
+                    //     System.out.println(String.valueOf(abilities[3])); 
+                    //     System.out.println(String.valueOf(abilities[4])); 
+                    // }
 
                     if (t.killPlayer && !damageImmunity) {
                         this.damageImmunity = true;
