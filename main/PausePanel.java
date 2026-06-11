@@ -3,6 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.Timer;
+import java.awt.image.BufferedImage;
 
 public class PausePanel extends JPanel implements ActionListener {
     int windowX = 900;
@@ -21,6 +22,8 @@ public class PausePanel extends JPanel implements ActionListener {
     Map map;
     int[] playerLocation;
     int[][] dirMap;
+    int[][] abilMap;
+    boolean[] abilities;
     GradientPaint redPinkGP;
 
 
@@ -208,7 +211,6 @@ public class PausePanel extends JPanel implements ActionListener {
         g2.setFont(new Font("Arial", Font.BOLD, 60));
         g2.drawString("Paused", (windowX/2)-100, 150);
 
-
         //button render
         for (Button button : buttons) {
             if (button != null) {
@@ -242,6 +244,9 @@ public class PausePanel extends JPanel implements ActionListener {
                 }
                 if (dirMap[j][k] == 12 || dirMap[j][k] == 13 || dirMap[j][k] == 14 || dirMap[j][k] == 15) {
                     g2.setColor(Color.BLUE);
+                    if (dirMap[j][k] == 14 && abilMap[j][k] == 0) {
+                        g2.setColor(Color.GREEN);
+                    }
                     if (j == playerLocation[1] && k == playerLocation[0]) {
                     g2.setColor(Color.YELLOW);
                 }

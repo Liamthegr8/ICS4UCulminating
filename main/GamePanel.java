@@ -13,6 +13,15 @@ import javax.imageio.ImageIO;
 
 import java.io.*;
 
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+
+import java.awt.*;
+import javax.swing.*;
+import java.io.*;
+import java.net.URL;
+
+
     class GamePanel extends JPanel implements ActionListener {
         static int windowX; //not accurate anymore, uses window ref now
         static int windowY;
@@ -31,6 +40,12 @@ import java.io.*;
         boolean pauseMenuActive = false;
         double[] tempLeaderboard;
         int[][] dirMap;
+        int[][] abilMap;
+        BufferedImage walljump;
+        BufferedImage doubledash;
+        BufferedImage parachute;
+        BufferedImage gravityflip;
+        BufferedImage walldash;
 
         //debugging (labels for various statistics)
         int windowMouseX = 0;
@@ -190,6 +205,11 @@ import java.io.*;
          *resets main game variables upon e.g. death or by command, also allows for map to regenerate
         */
         void resetGame() {
+            walljump = loadImage("walljump.png");
+            walldash = loadImage("walldash.png");
+            doubledash = loadImage("doubledash.png");
+            parachute = loadImage("parachute.png");
+            gravityflip = loadImage("gravityflip.png");
             boolean testingMap = false;
             wPressed = false;
             aPressed = false;
@@ -282,6 +302,8 @@ import java.io.*;
                 }
                 dirMap = new int[15][19];
                 dirMap = alg.directionMap;
+                abilMap = new int[15][19];
+                abilMap = alg.roomTypeMap;
                 Room straightSpawn =x.findRoom("straightSpawn");
                 map.addRoomAt(straightSpawn, 9, 10);
                  Room test =x.findRoom("WallJumpStraight");
@@ -567,6 +589,24 @@ import java.io.*;
             camY += (targetCamY - camY) * camTransitionSpeed;
         }
 
+        BufferedImage loadImage(String filename) {
+            Image scaledImage;
+            URL url;
+
+            url = this.getClass().getResource("/assets/" + filename);
+            BufferedImage img = null;
+        if (url != null) {
+        try {
+            img = ImageIO.read(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        } else {
+            JOptionPane.showMessageDialog(null, "An image failed to load: " + filename , "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+            return img;
+        }
+
         /**
          * render graphics, tiles, and mouse selection box
          * @param g the Graphics object
@@ -733,6 +773,44 @@ import java.io.*;
                 g2.fillOval(i+20, 25, 20, 20);
                 g2.setColor(Color.BLACK);
                 g2.drawOval(i+20, 25, 20, 20);
+            }
+
+            //relics bar render
+            int xOffset = 30;
+            int yOffset = 60;
+            int xSteps = 50;
+            //render abilities
+            for (int i=0; i<player.abilities.length; i++) {
+                BufferedImage tempTexture = null;
+                // BufferedImage texture;
+
+                if (player.abilities[i]) {
+                        switch (i+1) {
+                    case 1:
+                        tempTexture = walljump;
+                        break;
+                    case 2:
+                        tempTexture = walldash;
+                        break;
+                    case 3:
+                        tempTexture = doubledash;
+                        break;
+                    case 4:
+                        tempTexture = parachute;
+                        break;
+                    case 5:
+                        tempTexture = gravityflip;
+                        break;
+                    default:
+                        System.out.println("Invalid ability for relic tile: ");
+                        break;
+                }
+                    g2.drawImage(tempTexture, xOffset,yOffset, null);
+                } else {
+                    g2.setColor(Color.gray);
+                    g2.fillOval(xOffset,yOffset,30,30);
+                }
+                xOffset += xSteps;
             }
         }
     }

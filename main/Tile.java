@@ -89,7 +89,7 @@ public abstract class Tile {
      * @param filename  the name of the file with its relative location to main on pc
      * @return  the loaded image
      */
-    BufferedImage loadImage(String filename) { //UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED
+    BufferedImage loadImage(String filename) {
         url = this.getClass().getResource("/assets/" + filename);
         BufferedImage img = null;
        if (url != null) {
@@ -101,10 +101,6 @@ public abstract class Tile {
     } else {
         JOptionPane.showMessageDialog(null, "An image failed to load: " + filename , "ERROR", JOptionPane.ERROR_MESSAGE);
     }
-
-        //DEBUG
-        //if (img == null) System.out.println("null");
-        //else System.out.printf("w=%d, h=%d%n",img.getWidth(), img.getHeight());
         return img;
     }
 

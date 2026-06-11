@@ -153,7 +153,9 @@ public class Game extends JFrame implements ActionListener  {
                 pausePanel.reset();
                 pausePanel.map = gamePanel.map;
                 pausePanel.dirMap = gamePanel.dirMap;
+                pausePanel.abilMap = gamePanel.abilMap;
                 pausePanel.playerLocation = gamePanel.player.getPlayerLocation(gamePanel.map);
+                pausePanel.abilities = gamePanel.player.abilities;
                 switchTo(pausePanel);
             }
         }
