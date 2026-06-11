@@ -359,11 +359,18 @@ public class Player extends Rectangle {
                         isWin = true;
                     }
 
-                    if (t.ability1) abilities[0] = true; //wall jump
-                    if (t.ability2) abilities[1] = true; //phase dash
-                    if (t.ability3) abilities[2] = true; //double dash
-                    if (t.ability4) abilities[3] = true; //parachute
-                    if (t.ability5) abilities[4] = true; //grav flip
+                    if (t.ability1) this.abilities[0] = true; //wall jump
+                    if (t.ability2) this.abilities[1] = true; //phase dash
+                    if (t.ability3) this.abilities[2] = true; //double dash
+                    if (t.ability4) this.abilities[3] = true; //parachute
+                    if (t.ability5) this.abilities[4] = true; //grav flip
+                    if (abilities[0] || abilities[1] || abilities[2] || abilities[3] || abilities[4]) {
+                        System.out.println(String.valueOf(abilities[0])); 
+                        System.out.println(String.valueOf(abilities[1])); 
+                        System.out.println(String.valueOf(abilities[2])); 
+                        System.out.println(String.valueOf(abilities[3])); 
+                        System.out.println(String.valueOf(abilities[4])); 
+                    }
 
                     if (t.killPlayer && !damageImmunity) {
                         this.damageImmunity = true;
@@ -385,7 +392,7 @@ public class Player extends Rectangle {
                             lastSurfaceTouched = 1;
                             coyoteTime = 20;
                             canDash = true;
-                            if (abilities[4]) {
+                            if (abilities[2]) {
                                 numDashes = 2;
                             }
                             else {
