@@ -747,7 +747,7 @@ public class Player extends Rectangle {
         }
         if (floating) {
             if (abilities[3]) {
-                if (vy > 0) {
+                if (vy*gravity > 0) {
                     gravity *= 0.3;
                 }
             }
