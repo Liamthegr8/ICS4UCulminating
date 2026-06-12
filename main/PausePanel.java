@@ -244,7 +244,7 @@ public class PausePanel extends JPanel implements ActionListener {
                 }
                 if (dirMap[j][k] == 12 || dirMap[j][k] == 13 || dirMap[j][k] == 14 || dirMap[j][k] == 15) {
                     g2.setColor(Color.BLUE);
-                    if (dirMap[j][k] == 14 && abilMap[j][k] == 0) {
+                    if (dirMap[j][k] == 14 && abilMap[j][k] == 9) {
                         g2.setColor(Color.GREEN);
                     }
                     if (j == playerLocation[1] && k == playerLocation[0]) {
