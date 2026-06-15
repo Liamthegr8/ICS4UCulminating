@@ -10,6 +10,7 @@ import javax.swing.Timer;
 import java.awt.event.*;
 
 
+
 public class Game extends JFrame implements ActionListener  {
     JPanel activePanel;
     MainMenuPanel menuPanel;
@@ -23,6 +24,7 @@ public class Game extends JFrame implements ActionListener  {
     boolean lPressed;
     static int windowX;
     static int windowY;
+    Sound bgMusic;
 
     public static void main(String[] args) {
        SwingUtilities.invokeLater(new Runnable() {
@@ -40,6 +42,10 @@ public class Game extends JFrame implements ActionListener  {
         this.setResizable(true);
         setUndecorated(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        bgMusic = new Sound();
+        bgMusic.load("/assets/backgroundMusic.wav");
+        bgMusic.loop();
+        bgMusic.play();
         
         
 
@@ -219,5 +225,6 @@ private class KeyHandler extends KeyAdapter {
             }
 }    
 }
+
 
 

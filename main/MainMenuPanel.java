@@ -252,7 +252,4 @@ class Button extends Rectangle {
         this.action = action;
     }
 
-    // void action() {
-        
-    // }
 }

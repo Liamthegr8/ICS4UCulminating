@@ -668,6 +668,7 @@ public class Player extends Rectangle {
         if(numDashes<=0){
             canDash=false;
         }
+        dashSound.play();
         noGravityTime = dashTime;
         noControlTime = dashTime;
         noCollisionTime = dashTime;

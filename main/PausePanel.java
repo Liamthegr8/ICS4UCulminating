@@ -232,7 +232,7 @@ public class PausePanel extends JPanel implements ActionListener {
             }
         }
 
-        if (map != null && playerLocation != null && dirMap != null) {
+        if (playerLocation != null && dirMap != null) {
             for (int j = 0; j < dirMap.length; j++) {
             for (int k = 0; k < dirMap[j].length; k++) {
                 
@@ -251,11 +251,9 @@ public class PausePanel extends JPanel implements ActionListener {
                     g2.setColor(Color.YELLOW);
                 }
                 }
-                if (map.mapRooms[j][k] != null) {
                     if (dirMap[j][k] != 0) {
                         g2.fillRoundRect(100 + k*40, 150 + j*40, 40, 40, 16, 16);
                     }
-                }
             }
         }
         }
