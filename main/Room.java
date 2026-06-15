@@ -91,6 +91,20 @@ public class Room {
                 setEnterRoomTransitionColor(1, brown);
                 //spike
                 setEnterRoomTransitionColor(2, red);}
+            case 2 ->{
+                //border
+                setEnterRoomTransitionColor(0, new Color(60, 8, 110));
+                //floor
+                setEnterRoomTransitionColor(1, new Color(3, 69, 252));
+                //spike
+                setEnterRoomTransitionColor(2, new Color(3, 207, 252));}
+            case 3 ->{
+                //border
+                setEnterRoomTransitionColor(0, new Color(26, 19, 33));
+                //floor
+                setEnterRoomTransitionColor(1, new Color(51, 17, 97));
+                //spike
+                setEnterRoomTransitionColor(2, new Color(108, 144, 168));}
             default -> {
                 //border
                 setEnterRoomTransitionColor(0, Color.darkGray);
