@@ -202,7 +202,12 @@ public class LeaderboardPanel extends JPanel implements ActionListener {
         int yOffset = 0;
         int ySteps = 50;
         for (int i=0; i<tempLeaderboard.length; i++) {
+            if (tempLeaderboard[i] == 100000.0) {
+                g2.drawString((i+1)+". " + "N/A",windowX/2-100, 300+yOffset);
+            }
+            else {
                 g2.drawString((i+1)+". " + tempLeaderboard[i],windowX/2-100, 300+yOffset);
+            }
             yOffset += ySteps;
         }
 
