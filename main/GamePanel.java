@@ -306,8 +306,8 @@ import java.net.URL;
                 abilMap = alg.roomTypeMap;
                 Room straightSpawn =x.findRoom("straightSpawn");
                 map.addRoomAt(straightSpawn, 9, 10);
-                //  Room test =x.findRoom("WallJumpStraight");
-                //  map.addRoomAt(test, 10, 10);
+                Room gravBlock =x.findRoom("roadBlock5");
+                 map.addRoomAt(gravBlock, 9, 5);
                 // Room test2 = x.findRoom("LaserWallClimbRightDown");
                 // map.addRoomAt(test2, 8, 10);
          }
