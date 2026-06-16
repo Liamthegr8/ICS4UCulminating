@@ -128,21 +128,21 @@ public static void hideCursor(JPanel panel) {
     public void actionPerformed(ActionEvent e) {
         if (activePanel == menuPanel) {
             if (menuPanel.menuOption.equals("play")) {
-                menuPanel.tick.stop();
                 gamePanel.resetGame();
                 switchTo(gamePanel);
+                //menuPanel.tick.stop();
                 
             } else if (menuPanel.menuOption.equals("leaderboard")) {
                 System.out.println("Switching to leaderboard");
-                menuPanel.tick.stop();
                 leaderboardPanel.reset();
                 leaderboardScores = gamePanel.tempLeaderboard; //pass leaderboard
                 leaderboardPanel.tempLeaderboard = leaderboardScores;
+                //menuPanel.tick.stop();
                 
 
                 switchTo(leaderboardPanel);
             } else if (menuPanel.menuOption.equals("info")) {
-                menuPanel.tick.stop();
+                //menuPanel.tick.stop();
                 infoPanel.reset();
                 switchTo(infoPanel);
             }

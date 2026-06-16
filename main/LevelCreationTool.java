@@ -105,7 +105,7 @@ public class LevelCreationTool extends JFrame {
         map.setMapTileColor(1, Color.RED);
 
         roomData = new Room("NONAME");
-        roomData = x.findRoom("pillar");
+        roomData = x.findRoom("rightRelic4");
         map.addRoomAt(roomData, 0, 0);
         player = new Player(-100, -10000, 1, 1);
         

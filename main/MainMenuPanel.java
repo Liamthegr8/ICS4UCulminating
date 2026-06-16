@@ -56,6 +56,7 @@ public class MainMenuPanel extends JPanel implements ActionListener {
     }
 
     void reset() {
+        
         tick.restart();
         tick.start();
         
@@ -148,6 +149,8 @@ public class MainMenuPanel extends JPanel implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        this.repaint();
+        buttons[0].text = "Play";
         if (uPressed) {
             selectButton = true;
         }
@@ -167,6 +170,8 @@ public class MainMenuPanel extends JPanel implements ActionListener {
                     case "play":
                         //System.out.println("Start button pressed");
                         menuOption = "play";
+                        buttons[0].text="loading..";
+                        this.repaint();
                         break;
                     case "quit":
                         //System.out.println("Quit button pressed");
@@ -230,7 +235,11 @@ public class MainMenuPanel extends JPanel implements ActionListener {
                 FontMetrics fm = g2.getFontMetrics();
                 int textX = button.x + (button.width - fm.stringWidth(button.text)) / 2;
                 int textY = button.y + ((button.height - fm.getHeight()) / 2) + fm.getAscent();
+                
+                
                 g2.drawString(button.text, textX, textY);
+                
+                
 
                 if (button == buttons[selectedButton]) {
                     g2.setColor(Color.YELLOW);

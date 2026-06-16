@@ -205,6 +205,7 @@ import java.net.URL;
          *resets main game variables upon e.g. death or by command, also allows for map to regenerate
         */
         void resetGame() {
+            try{
             walljump = loadImage("walljump.png");
             walldash = loadImage("walldash.png");
             doubledash = loadImage("doubledash.png");
@@ -310,7 +311,14 @@ import java.net.URL;
                  map.addRoomAt(gravBlock, 9, 5);
                 // Room test2 = x.findRoom("LaserWallClimbRightDown");
                 // map.addRoomAt(test2, 8, 10);
+
+                //loading end
          }
+        }catch(Exception e){
+            System.out.println("invalid map gen");
+            System.err.println(e.getMessage());
+            resetGame();
+        }
         
         }
 
