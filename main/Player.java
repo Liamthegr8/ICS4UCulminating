@@ -532,6 +532,11 @@ public class Player extends Rectangle {
         applyVelocity();
         this.damageImmunity = false;
         if (godMode) this.damageImmunity=true;
+        if (y >= 20*Room.roomHeight || y <= 0) {
+            applyDamage(25);
+                this.x = 11400;
+                this.y = 8670;
+        }
     }
 
     //ability methods
