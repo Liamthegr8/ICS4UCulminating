@@ -537,14 +537,17 @@ import java.net.URL;
             //System.out.printf("Rels: %b,%b,%b,%b,%b", player.abilities[0],player.abilities[1],player.abilities[2],player.abilities[3],player.abilities[4]);
             //System.out.println();
             //check death
-            if (player.isDead) {
-                //resetGame();
-                addToLeaderboard(runtime);
-                panelActive = false;
-            }
             if (player.isWin) {
                 player.isDead = true;
             }
+            if (player.isDead) {
+                //resetGame();
+                if (player.isWin) {
+                    addToLeaderboard(runtime);
+                }
+                panelActive = false;
+            }
+            
 
             //room tick
             for (int i=0; i<map.mapRooms.length; i++) {

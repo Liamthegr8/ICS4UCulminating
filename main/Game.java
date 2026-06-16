@@ -8,7 +8,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.event.*;
-
+import java.awt.image.*;
 
 
 public class Game extends JFrame implements ActionListener  {
@@ -107,9 +107,22 @@ public class Game extends JFrame implements ActionListener  {
         leaderboardPanel.tempLeaderboard = leaderboardScores;
 
         switchTo(menuPanel);
+        hideCursor(gamePanel);
+        hideCursor(pausePanel);
+        hideCursor(menuPanel);
+        hideCursor(infoPanel);
+        hideCursor(leaderboardPanel);
         
         // end of setup
     }
+    
+/**
+ * Hides the cursor in the given JPanel
+ * @param panel	JPanel to hide the cursor in
+ */
+public static void hideCursor(JPanel panel) {
+    panel.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0,0), "null"));
+}
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -206,6 +219,7 @@ public class Game extends JFrame implements ActionListener  {
         activePanel.requestFocusInWindow();
         // SwingUtilities.invokeLater(() -> activePanel.requestFocusInWindow());
     }
+    
 
 private class KeyHandler extends KeyAdapter {
     /**
@@ -225,6 +239,7 @@ private class KeyHandler extends KeyAdapter {
             }
 }    
 }
+
 
 
 
