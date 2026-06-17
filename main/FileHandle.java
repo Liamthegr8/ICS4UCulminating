@@ -4,6 +4,7 @@
  * Created by Tanush, Liam, Erik
  */
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.awt.*;
 public class FileHandle{
     String words;
@@ -26,13 +27,46 @@ public class FileHandle{
         return roomStringToRoomObject(roomName, findRoomString(roomName));
     }
 
+    public String findRoomString(String roomName) {
+        // Use a leading slash to search from the root of the JAR / Classpath
+        String resourcePath = "/assets/roomData.txt"; 
+        
+        // 1. Get the file as an InputStream relative to the ClassLoader
+        try (InputStream is = getClass().getResourceAsStream(resourcePath)) {
+            
+            if (is == null) {
+                throw new IllegalArgumentException("File not found in JAR: " + resourcePath);
+            }
+
+            // 2. Wrap the stream in a Reader and specify the character encoding
+            try (InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
+                 BufferedReader reader = new BufferedReader(isr)) {
+                
+                String line;
+                // 3. Read the text file line by line
+                
+                while((line = reader.readLine()) != null){
+               String name = line.substring(line.indexOf('(')+1,line.indexOf(')'));
+               //System.out.println(name);
+               if(name.contentEquals(roomName)){
+                    return line.substring(line.indexOf(')')+1);
+               }
+
+            }
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     //Given room name, finds room data as a string
     /**
      * given room name, finds room data as a string
      * @param roomName  the name of the room in format (roomName)roomData
      * @return  room data as a string in format roomData
      */
-    public String findRoomString(String roomName) {
+    public String findRoomString1(String roomName) {
         try {
             room = new File("main\\assets\\roomData.txt");
             readStream = new FileReader(room);
