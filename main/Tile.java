@@ -31,7 +31,7 @@ public abstract class Tile {
     int ability;
 
     Tile(int x, int y,int width,int height, int assignedMapColorIndex) { //current tileID randomized, only manually set in 2nd contsructor
-        Random r = new Random();
+        //Random r = new Random();
         this.x = x;
         this.y = y;
         this.width = width;

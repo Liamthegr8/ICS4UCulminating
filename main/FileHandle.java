@@ -27,9 +27,10 @@ public class FileHandle{
         return roomStringToRoomObject(roomName, findRoomString(roomName));
     }
 
+    //courtesy of Gemini
     public String findRoomString(String roomName) {
         // Use a leading slash to search from the root of the JAR / Classpath
-        String resourcePath = "/assets/roomData.txt"; 
+        String resourcePath = "\\assets\\roomData.txt"; 
         
         // 1. Get the file as an InputStream relative to the ClassLoader
         try (InputStream is = getClass().getResourceAsStream(resourcePath)) {
@@ -61,6 +62,7 @@ public class FileHandle{
         return null;
     }
     //Given room name, finds room data as a string
+    //one that works unless in jar on arcade machine
     /**
      * given room name, finds room data as a string
      * @param roomName  the name of the room in format (roomName)roomData
@@ -173,8 +175,40 @@ public class FileHandle{
         return Integer.parseInt(tileString.substring(start,end));
         
     }
+     public DirectionKeyStructure findDirectionStructure() {
+        // Use a leading slash to search from the root of the JAR / Classpath
+        String resourcePath = "\\assets\\roomData.txt"; 
+        
+        // 1. Get the file as an InputStream relative to the ClassLoader
+        try (InputStream is = getClass().getResourceAsStream(resourcePath)) {
+            
+            if (is == null) {
+                throw new IllegalArgumentException("File not found in JAR: " + resourcePath);
+            }
 
-    public DirectionKeyStructure findDirectionStructure() {
+            // 2. Wrap the stream in a Reader and specify the character encoding
+            try (InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
+                 BufferedReader reader = new BufferedReader(isr)) {
+                
+                String line;
+                // 3. Read the text file line by line
+                DirectionKeyStructure originalDirectionKeys = new DirectionKeyStructure();
+                while((line = reader.readLine()) != null &&!line.contentEquals("-")){
+                    String name = line.substring(line.indexOf('(')+1,line.indexOf(')'));
+               int dirKey = Integer.parseInt(line.substring(0,line.indexOf('|')));
+               String roomTypeString = line.substring(line.indexOf('|')+1,line.indexOf('('));
+                originalDirectionKeys.add(dirKey,name,roomTypeString);
+
+            }
+            return originalDirectionKeys;
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public DirectionKeyStructure findDirectionStructure1() {
         try {
             room = new File("main\\assets\\roomData.txt");
             readStream = new FileReader(room);
